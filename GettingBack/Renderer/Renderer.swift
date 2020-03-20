@@ -23,8 +23,10 @@ enum RendererError: Error {
 
 class Renderer: NSObject {
     
-    public let device: MTLDevice
-    let commandQueue: MTLCommandQueue
+    static var device: MTLDevice!
+    static var commandQueue: MTLCommandQueue!
+    static var colorPixelFormat: MTLPixelFormat!
+    static var library: MTLLibrary?
 //    var dynamicUniformBuffer: MTLBuffer
 //    var pipelineState: MTLRenderPipelineState
 //    var depthState: MTLDepthStencilState
@@ -33,8 +35,8 @@ class Renderer: NSObject {
     
     
     init?(metalKitView: MTKView) {
-        device = metalKitView.device!
-        commandQueue = device.makeCommandQueue()!
+        Renderer.device = metalKitView.device!
+        Renderer.commandQueue = Renderer.device.makeCommandQueue()!
      
         
     }
