@@ -18,7 +18,7 @@ using namespace metal;
 
 typedef struct
 {
-    float3 position [[attribute(VertexAttributePosition)]];
+    float4 position [[attribute(VertexAttributePosition)]];
     float3 normal   [[attribute(VertexAttributeNormal)]];
     
 } Vertex;
@@ -34,16 +34,13 @@ vertex VertexOut vertex_main(Vertex in [[stage_in]],
 {
     VertexOut out;
 
-    float4 position = float4(in.position, 1.0);
-    out.position = uniforms.projectionMatrix * uniforms.viewMatrix *  uniforms.modelMatrix * position;
-   
+    out.position = uniforms.projectionMatrix * uniforms.viewMatrix *  uniforms.modelMatrix * in.position;
+   out.normal = uniforms.normalMatrix * in.normal;
 
     return out;
 }
 
-fragment float4 fragment_main(VertexOut in [[stage_in]],
-                               constant Uniforms & uniforms [[ buffer(BufferIndexUniforms) ]]
-                             )
+fragment float4 fragment_main(VertexOut in [[stage_in]])
 {
     
     return float4(in.normal,1);

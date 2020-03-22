@@ -32,7 +32,7 @@ class Renderer: NSObject {
     var depthStencilState: MTLDepthStencilState!
     var uniforms = Uniforms()
     var fragmentUniforms = FragmentUniforms()
-    var sphere : Primitive!
+    var sphere, box : Primitive!
     // Camera holds view and projection matrices
     lazy var camera: Camera = {
         let camera = Camera()
@@ -63,6 +63,18 @@ class Renderer: NSObject {
         sphere.material.secondColor = [1.0,1.0,0.0]
         sphere.material.ambientOcclusion = [0,0,0]
         sphere.name = "sun"
+        
+        box = Primitive(shape: .cube, size: 1.0)
+        box.position = [-1.5,0.5,0]
+        box.rotation = [0, Float(45).degreesToRadians, 0]
+        box.material.baseColor = [0, 0.5, 0]
+        box.material.secondColor = [1.0,1.0,0.0]
+        box.material.metallic = 1.0
+        box.material.roughness = 0.0
+        box.material.shininess = 0.1
+        box.material.specularColor = [0,1.0,0.0]
+        box.material.ambientOcclusion = [1.0,1.0,1.0]
+        box.name = "cube"
         
         
     }
@@ -104,11 +116,11 @@ extension Renderer : MTKViewDelegate {
         }
         renderEncoder.setDepthStencilState(depthStencilState)
         
-        fragmentUniforms.cameraPosition = camera.position
+        //fragmentUniforms.cameraPosition = camera.position
         uniforms.projectionMatrix = camera.projectionMatrix
         uniforms.viewMatrix = camera.viewMatrix
-        uniforms.modelMatrix = sphere.modelMatrix
-        uniforms.normalMatrix = sphere.modelMatrix.upperLeft
+        uniforms.modelMatrix = box.modelMatrix
+        uniforms.normalMatrix = uniforms.modelMatrix.upperLeft
         
         
         
@@ -116,10 +128,17 @@ extension Renderer : MTKViewDelegate {
         renderEncoder.setVertexBuffer(sphere.vertexBuffer, offset: 0, index: 0)
         renderEncoder.setVertexBytes(&uniforms, length: MemoryLayout<Uniforms>.stride, index: 1)
         
-        renderEncoder.setRenderPipelineState(sphere.pipelineState)
-        for submesh in sphere.mesh.submeshes{
+        renderEncoder.setRenderPipelineState(box.pipelineState)
+        for submesh in box.mesh.submeshes{
             renderEncoder.drawIndexedPrimitives(type: .triangle, indexCount: submesh.indexCount, indexType: submesh.indexType, indexBuffer: submesh.indexBuffer.buffer, indexBufferOffset: submesh.indexBuffer.offset)
         }
+        
+        renderEncoder.endEncoding()
+        guard let drawable = view.currentDrawable else {
+            return
+        }
+        commandBuffer.present(drawable)
+        commandBuffer.commit()
         
         }
     
