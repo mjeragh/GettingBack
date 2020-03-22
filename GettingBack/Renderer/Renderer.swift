@@ -29,19 +29,39 @@ class Renderer: NSObject {
     static var library: MTLLibrary?
 //    var dynamicUniformBuffer: MTLBuffer
 //    var pipelineState: MTLRenderPipelineState
-//    var depthState: MTLDepthStencilState
+    var depthStencilState: MTLDepthStencilState!
 //    var colorMap: MTLTexture
     
-    
+    // Camera holds view and projection matrices
+    lazy var camera: Camera = {
+        let camera = Camera()
+        camera.position = [0, 2, -15]
+        camera.rotation = [0, 0, 0]
+        return camera
+    }()
     
     init?(metalKitView: MTKView) {
         Renderer.device = metalKitView.device!
         Renderer.commandQueue = Renderer.device.makeCommandQueue()!
-     
+        Renderer.colorPixelFormat = metalKitView.colorPixelFormat
+        Renderer.library = Renderer.device.makeDefaultLibrary()
+        metalKitView.depthStencilPixelFormat = .depth32Float
+        super.init()
         
+        buildDepthStencilState()
     }
     
-    
+    func buildDepthStencilState() {
+        // 1
+        let descriptor = MTLDepthStencilDescriptor()
+        // 2
+        descriptor.depthCompareFunction = .less
+        // 3
+        descriptor.isDepthWriteEnabled = true
+        depthStencilState =
+            Renderer.device.makeDepthStencilState(descriptor: descriptor)
+    }
+
     
     private func updateDynamicBufferState() {
         /// Update the state of our uniform buffers before rendering
@@ -68,8 +88,7 @@ extension Renderer : MTKViewDelegate {
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
         /// Respond to drawable size or orientation changes here
         
-//        let aspect = Float(size.width) / Float(size.height)
-//        projectionMatrix = matrix_perspective_right_hand(fovyRadians: radians_from_degrees(65), aspectRatio:aspect, nearZ: 0.1, farZ: 100.0)
+       camera.aspect = Float(view.bounds.width)/Float(view.bounds.height)
     }
 }
 

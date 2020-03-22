@@ -31,7 +31,7 @@ typedef NS_ENUM(NSInteger, BufferIndex)
 typedef NS_ENUM(NSInteger, VertexAttribute)
 {
     VertexAttributePosition  = 0,
-    VertexAttributeTexcoord  = 1,
+    VertexAttributeNormal  = 1,
 };
 
 typedef NS_ENUM(NSInteger, TextureIndex)
