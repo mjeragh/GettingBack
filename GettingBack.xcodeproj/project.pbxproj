@@ -79,10 +79,10 @@
 			children = (
 				B2236E94241AD3F80079C1A0 /* AppDelegate.swift */,
 				B2236E96241AD3F80079C1A0 /* ShaderTypes.h */,
+				B2236E9B241AD3F80079C1A0 /* Shaders.metal */,
 				B206E87E242538620019832E /* Camera.swift */,
 				B206E87924240B1C0019832E /* Renderer */,
 				B2236E99241AD3F80079C1A0 /* GameViewController.swift */,
-				B2236E9B241AD3F80079C1A0 /* Shaders.metal */,
 				B2236E9D241AD3F80079C1A0 /* Main.storyboard */,
 				B2236EA0241AD3FB0079C1A0 /* Assets.xcassets */,
 				B2236EA2241AD3FB0079C1A0 /* LaunchScreen.storyboard */,

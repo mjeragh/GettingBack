@@ -26,25 +26,25 @@ typedef struct
 typedef struct
 {
     float4 position [[position]];
-    
+    float3 normal;
 } VertexOut;
 
-vertex VertexOut vertexShader(Vertex in [[stage_in]],
+vertex VertexOut vertex_main(Vertex in [[stage_in]],
                                constant Uniforms & uniforms [[ buffer(BufferIndexUniforms) ]])
 {
     VertexOut out;
 
     float4 position = float4(in.position, 1.0);
-    out.position = uniforms.projectionMatrix * uniforms.modelViewMatrix * position;
+    out.position = uniforms.projectionMatrix * uniforms.viewMatrix *  uniforms.modelMatrix * position;
    
 
     return out;
 }
 
-fragment float4 fragmentShader(VertexOut in [[stage_in]],
+fragment float4 fragment_main(VertexOut in [[stage_in]],
                                constant Uniforms & uniforms [[ buffer(BufferIndexUniforms) ]]
                              )
 {
     
-    return float4(1,0,0,0);
+    return float4(in.normal,1);
 }

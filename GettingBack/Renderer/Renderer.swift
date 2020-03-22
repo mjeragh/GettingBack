@@ -30,8 +30,9 @@ class Renderer: NSObject {
 //    var dynamicUniformBuffer: MTLBuffer
 //    var pipelineState: MTLRenderPipelineState
     var depthStencilState: MTLDepthStencilState!
-//    var colorMap: MTLTexture
-    
+    var uniforms = Uniforms()
+    var fragmentUniforms = FragmentUniforms()
+    var sphere : Primitive!
     // Camera holds view and projection matrices
     lazy var camera: Camera = {
         let camera = Camera()
@@ -49,6 +50,21 @@ class Renderer: NSObject {
         super.init()
         
         buildDepthStencilState()
+        
+        //creat a sphere
+         sphere = Primitive(shape: .sphere, size: 1.0)
+        sphere.position = [0,0,0]
+        //sphere.pivotPosition = [1,2,0]
+        sphere.material.baseColor = [1.0, 0, 0]
+        sphere.material.metallic = 0.0
+        sphere.material.roughness = 0
+        sphere.material.shininess = 0.4
+        sphere.material.specularColor = [0,0,0]
+        sphere.material.secondColor = [1.0,1.0,0.0]
+        sphere.material.ambientOcclusion = [0,0,0]
+        sphere.name = "sun"
+        
+        
     }
     
     func buildDepthStencilState() {
@@ -80,7 +96,30 @@ extension Renderer : MTKViewDelegate {
     
     func draw(in view: MTKView) {
         /// Per frame updates hare
+        guard let descriptor = view.currentRenderPassDescriptor,
+            let commandBuffer = Renderer.commandQueue.makeCommandBuffer(),
+            let renderEncoder =
+            commandBuffer.makeRenderCommandEncoder(descriptor: descriptor) else {
+                return
+        }
+        renderEncoder.setDepthStencilState(depthStencilState)
         
+        fragmentUniforms.cameraPosition = camera.position
+        uniforms.projectionMatrix = camera.projectionMatrix
+        uniforms.viewMatrix = camera.viewMatrix
+        uniforms.modelMatrix = sphere.modelMatrix
+        uniforms.normalMatrix = sphere.modelMatrix.upperLeft
+        
+        
+        
+        
+        renderEncoder.setVertexBuffer(sphere.vertexBuffer, offset: 0, index: 0)
+        renderEncoder.setVertexBytes(&uniforms, length: MemoryLayout<Uniforms>.stride, index: 1)
+        
+        renderEncoder.setRenderPipelineState(sphere.pipelineState)
+        for submesh in sphere.mesh.submeshes{
+            renderEncoder.drawIndexedPrimitives(type: .triangle, indexCount: submesh.indexCount, indexType: submesh.indexType, indexBuffer: submesh.indexBuffer.buffer, indexBufferOffset: submesh.indexBuffer.offset)
+        }
         
         }
     
