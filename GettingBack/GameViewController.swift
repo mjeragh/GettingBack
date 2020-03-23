@@ -13,8 +13,7 @@ import MetalKit
 class GameViewController: UIViewController {
 
     var renderer: Renderer!
-    var mtkView: MTKView!
-
+   
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -23,24 +22,8 @@ class GameViewController: UIViewController {
             return
         }
 
-        // Select the device to render with.  We choose the default device
-        guard let defaultDevice = MTLCreateSystemDefaultDevice() else {
-            print("Metal is not supported")
-            return
-        }
-        
-        mtkView.device = defaultDevice
-//        mtkView.clearColor = MTLClearColor(red: 0.0, green: 0, blue: 0.2, alpha: 1)
+       
+        renderer = Renderer(metalKitView: mtkView)
 
-        guard let newRenderer = Renderer(metalKitView: mtkView) else {
-            print("Renderer cannot be initialized")
-            return
-        }
-
-        renderer = newRenderer
-
-        renderer.mtkView(mtkView, drawableSizeWillChange: mtkView.drawableSize)
-
-        mtkView.delegate = renderer
     }
 }

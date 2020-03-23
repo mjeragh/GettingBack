@@ -12,14 +12,6 @@ import Metal
 import MetalKit
 import simd
 
-// The 256 byte aligned size of our uniform structure
-let alignedUniformsSize = (MemoryLayout<Uniforms>.size + 0xFF) & -0x100
-
-let maxBuffersInFlight = 3
-
-enum RendererError: Error {
-    case badVertexDescriptor
-}
 
 class Renderer: NSObject {
     
@@ -27,12 +19,11 @@ class Renderer: NSObject {
     static var commandQueue: MTLCommandQueue!
     static var colorPixelFormat: MTLPixelFormat!
     static var library: MTLLibrary?
-//    var dynamicUniformBuffer: MTLBuffer
-//    var pipelineState: MTLRenderPipelineState
+
     var depthStencilState: MTLDepthStencilState!
     var uniforms = Uniforms()
-    var fragmentUniforms = FragmentUniforms()
     var sphere, box : Primitive!
+    
     // Camera holds view and projection matrices
     lazy var camera: Camera = {
         let camera = Camera()
@@ -41,13 +32,22 @@ class Renderer: NSObject {
         return camera
     }()
     
-    init?(metalKitView: MTKView) {
-        Renderer.device = metalKitView.device!
-        Renderer.commandQueue = Renderer.device.makeCommandQueue()!
-        Renderer.colorPixelFormat = metalKitView.colorPixelFormat
-        Renderer.library = Renderer.device.makeDefaultLibrary()
+    init(metalKitView: MTKView) {
+        guard let device = MTLCreateSystemDefaultDevice() else {
+            fatalError("GPU not available")
+        }
         metalKitView.depthStencilPixelFormat = .depth32Float
+        metalKitView.device = device
+        Renderer.device = device
+        Renderer.commandQueue = device.makeCommandQueue()!
+        Renderer.colorPixelFormat = metalKitView.colorPixelFormat
+        Renderer.library = device.makeDefaultLibrary()
+        
         super.init()
+        metalKitView.clearColor = MTLClearColor(red: 0, green: 0,
+                                             blue: 0.2, alpha: 1)
+        metalKitView.delegate = self
+        mtkView(metalKitView, drawableSizeWillChange: metalKitView.bounds.size)
         
         buildDepthStencilState()
         
@@ -64,17 +64,7 @@ class Renderer: NSObject {
         sphere.material.ambientOcclusion = [0,0,0]
         sphere.name = "sun"
         
-        box = Primitive(shape: .cube, size: 1.0)
-        box.position = [-1.5,0.5,0]
-        box.rotation = [0, Float(45).degreesToRadians, 0]
-        box.material.baseColor = [0, 0.5, 0]
-        box.material.secondColor = [1.0,1.0,0.0]
-        box.material.metallic = 1.0
-        box.material.roughness = 0.0
-        box.material.shininess = 0.1
-        box.material.specularColor = [0,1.0,0.0]
-        box.material.ambientOcclusion = [1.0,1.0,1.0]
-        box.name = "cube"
+       
         
         
     }
@@ -90,18 +80,6 @@ class Renderer: NSObject {
             Renderer.device.makeDepthStencilState(descriptor: descriptor)
     }
 
-    
-    private func updateDynamicBufferState() {
-        /// Update the state of our uniform buffers before rendering
-        
-        
-    }
-    
-    private func updateGameState() {
-        /// Update any game state before rendering
-        
-        
-    }
 }
 
 extension Renderer : MTKViewDelegate {
@@ -119,8 +97,8 @@ extension Renderer : MTKViewDelegate {
         //fragmentUniforms.cameraPosition = camera.position
         uniforms.projectionMatrix = camera.projectionMatrix
         uniforms.viewMatrix = camera.viewMatrix
-        uniforms.modelMatrix = box.modelMatrix
-        uniforms.normalMatrix = uniforms.modelMatrix.upperLeft
+        uniforms.modelMatrix = sphere.modelMatrix
+        uniforms.normalMatrix = float3x3(normalFrom4x4: sphere.modelMatrix)
         
         
         
@@ -128,8 +106,8 @@ extension Renderer : MTKViewDelegate {
         renderEncoder.setVertexBuffer(sphere.vertexBuffer, offset: 0, index: 0)
         renderEncoder.setVertexBytes(&uniforms, length: MemoryLayout<Uniforms>.stride, index: 1)
         
-        renderEncoder.setRenderPipelineState(box.pipelineState)
-        for submesh in box.mesh.submeshes{
+        renderEncoder.setRenderPipelineState(sphere.pipelineState)
+        for submesh in sphere.mesh.submeshes{
             renderEncoder.drawIndexedPrimitives(type: .triangle, indexCount: submesh.indexCount, indexType: submesh.indexType, indexBuffer: submesh.indexBuffer.buffer, indexBufferOffset: submesh.indexBuffer.offset)
         }
         

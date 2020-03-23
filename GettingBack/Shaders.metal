@@ -16,32 +16,32 @@
 
 using namespace metal;
 
-typedef struct
-{
-    float4 position [[attribute(VertexAttributePosition)]];
-    float3 normal   [[attribute(VertexAttributeNormal)]];
-    
-} Vertex;
+struct VertexIn {
+    float4 position [[ attribute(0) ]];
+    float3 normal [[ attribute(1) ]];
+    float2 uv [[ attribute(2)]];
+};
 
-typedef struct
-{
-    float4 position [[position]];
-    float3 normal;
-} VertexOut;
+struct VertexOut {
+    float4 position [[ position ]];
+    float3 worldPosition;
+    float3 worldNormal;
+    float2 uv;
+};
 
-vertex VertexOut vertex_main(Vertex in [[stage_in]],
-                               constant Uniforms & uniforms [[ buffer(BufferIndexUniforms) ]])
+vertex VertexOut vertex_main(const VertexIn vertexIn [[ stage_in ]],
+                             constant Uniforms &uniforms [[ buffer(1) ]])
 {
     VertexOut out;
-
-    out.position = uniforms.projectionMatrix * uniforms.viewMatrix *  uniforms.modelMatrix * in.position;
-   out.normal = uniforms.normalMatrix * in.normal;
-
+    out.position = uniforms.projectionMatrix * uniforms.viewMatrix
+    * uniforms.modelMatrix * vertexIn.position;
+    out.worldPosition = (uniforms.modelMatrix * vertexIn.position).xyz;
+    out.worldNormal = uniforms.normalMatrix * vertexIn.normal;
+    out.uv = vertexIn.uv;
     return out;
 }
 
-fragment float4 fragment_main(VertexOut in [[stage_in]])
-{
+fragment float4 fragment_normals(VertexOut in [[stage_in]]) {
+    return float4(in.worldNormal, 1);
     
-    return float4(in.normal,1);
 }
