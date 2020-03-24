@@ -23,7 +23,7 @@ class GameViewController: UIViewController {
         }
 
        
-        renderer = Renderer(metalKitView: mtkView)
+        renderer = Renderer(metalView: mtkView)
 
     }
 }

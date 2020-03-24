@@ -1,16 +1,4 @@
-//
-//  Renderer.swift
-//  GettingBack
-//
-//  Created by Mohammad Jeragh on 3/12/20.
-//  Copyright © 2020 Mohammad Jeragh. All rights reserved.
-//
-
-// Our platform independent renderer class
-
-import Metal
 import MetalKit
-import simd
 
 
 class Renderer: NSObject {
@@ -19,10 +7,9 @@ class Renderer: NSObject {
     static var commandQueue: MTLCommandQueue!
     static var colorPixelFormat: MTLPixelFormat!
     static var library: MTLLibrary?
-
     var depthStencilState: MTLDepthStencilState!
+    
     var uniforms = Uniforms()
-    var sphere, box : Primitive!
     
     // Camera holds view and projection matrices
     lazy var camera: Camera = {
@@ -32,27 +19,37 @@ class Renderer: NSObject {
         return camera
     }()
     
-    init(metalKitView: MTKView) {
+    // Array of Models allows for rendering multiple models
+   
+    var primitives: [Primitive] = []
+   
+   
+    
+    init(metalView: MTKView) {
         guard let device = MTLCreateSystemDefaultDevice() else {
             fatalError("GPU not available")
         }
-        metalKitView.depthStencilPixelFormat = .depth32Float
-        metalKitView.device = device
+        metalView.depthStencilPixelFormat = .depth32Float
+        metalView.device = device
         Renderer.device = device
         Renderer.commandQueue = device.makeCommandQueue()!
-        Renderer.colorPixelFormat = metalKitView.colorPixelFormat
+        Renderer.colorPixelFormat = metalView.colorPixelFormat
         Renderer.library = device.makeDefaultLibrary()
         
         super.init()
-        metalKitView.clearColor = MTLClearColor(red: 0, green: 0,
-                                             blue: 0.2, alpha: 1)
-        metalKitView.delegate = self
-        mtkView(metalKitView, drawableSizeWillChange: metalKitView.bounds.size)
+        metalView.backgroundColor = UIColor.brown
+      //  MTLClearColor(red: 0, green: 0, blue: 0.2, alpha: 1)
+        metalView.delegate = self
+        mtkView(metalView, drawableSizeWillChange: metalView.bounds.size)
+        
+      
         
         buildDepthStencilState()
         
+//
+        
         //creat a sphere
-         sphere = Primitive(shape: .sphere, size: 1.0)
+        let sphere = Primitive(shape: .sphere, size: 1.0)
         sphere.position = [0,0,0]
         //sphere.pivotPosition = [1,2,0]
         sphere.material.baseColor = [1.0, 0, 0]
@@ -63,11 +60,33 @@ class Renderer: NSObject {
         sphere.material.secondColor = [1.0,1.0,0.0]
         sphere.material.ambientOcclusion = [0,0,0]
         sphere.name = "sun"
+        primitives.append(sphere)
         
-       
+        let box = Primitive(shape: .cube, size: 1.0)
+        box.position = [-1.5,0.5,0]
+        box.rotation = [0, Float(45).degreesToRadians, 0]
+        box.material.baseColor = [0, 0.5, 0]
+        box.material.secondColor = [1.0,1.0,0.0]
+        box.material.metallic = 1.0
+        box.material.roughness = 0.0
+        box.material.shininess = 0.1
+        box.material.specularColor = [0,1.0,0.0]
+        box.material.ambientOcclusion = [1.0,1.0,1.0]
+        box.name = "cube"
         
         
+        
+        primitives.append(box)
+        
+        
+      
+        
+      
     }
+    
+   
+    
+    
     
     func buildDepthStencilState() {
         // 1
@@ -79,13 +98,15 @@ class Renderer: NSObject {
         depthStencilState =
             Renderer.device.makeDepthStencilState(descriptor: descriptor)
     }
-
+    
 }
 
-extension Renderer : MTKViewDelegate {
+extension Renderer: MTKViewDelegate {
+    func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
+        camera.aspect = Float(view.bounds.width)/Float(view.bounds.height)
+    }
     
     func draw(in view: MTKView) {
-        /// Per frame updates hare
         guard let descriptor = view.currentRenderPassDescriptor,
             let commandBuffer = Renderer.commandQueue.makeCommandBuffer(),
             let renderEncoder =
@@ -94,37 +115,35 @@ extension Renderer : MTKViewDelegate {
         }
         renderEncoder.setDepthStencilState(depthStencilState)
         
-        //fragmentUniforms.cameraPosition = camera.position
-        uniforms.projectionMatrix = camera.projectionMatrix
+       uniforms.projectionMatrix = camera.projectionMatrix
         uniforms.viewMatrix = camera.viewMatrix
-        uniforms.modelMatrix = sphere.modelMatrix
-        uniforms.normalMatrix = float3x3(normalFrom4x4: sphere.modelMatrix)
         
-        
-        
-        
-        renderEncoder.setVertexBuffer(sphere.vertexBuffer, offset: 0, index: 0)
-        renderEncoder.setVertexBytes(&uniforms, length: MemoryLayout<Uniforms>.stride, index: 1)
-        
-        renderEncoder.setRenderPipelineState(sphere.pipelineState)
-        for submesh in sphere.mesh.submeshes{
-            renderEncoder.drawIndexedPrimitives(type: .triangle, indexCount: submesh.indexCount, indexType: submesh.indexType, indexBuffer: submesh.indexBuffer.buffer, indexBufferOffset: submesh.indexBuffer.offset)
+//
+        for primitive in primitives {
+            
+           uniforms.modelMatrix = primitive.modelMatrix
+            uniforms.normalMatrix = primitive.modelMatrix.upperLeft
+            
+            renderEncoder.setVertexBuffer(primitive.vertexBuffer, offset: 0, index: 0)
+            renderEncoder.setVertexBytes(&uniforms,
+                                         length: MemoryLayout<Uniforms>.stride, index: 1)
+            
+            renderEncoder.setRenderPipelineState(primitive.pipelineState)
+            for submesh in primitive.mesh.submeshes{
+                renderEncoder.drawIndexedPrimitives(type: .triangle, indexCount: submesh.indexCount, indexType: submesh.indexType, indexBuffer: submesh.indexBuffer.buffer, indexBufferOffset: submesh.indexBuffer.offset)
+            }
+//    
         }
         
+        
+       // debugLights(renderEncoder: renderEncoder, lightType: Spotlight)
         renderEncoder.endEncoding()
         guard let drawable = view.currentDrawable else {
             return
         }
         commandBuffer.present(drawable)
         commandBuffer.commit()
-        
-        }
-    
-    
-    func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
-        /// Respond to drawable size or orientation changes here
-        
-       camera.aspect = Float(view.bounds.width)/Float(view.bounds.height)
     }
 }
+
 
