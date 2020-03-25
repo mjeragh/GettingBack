@@ -50,7 +50,7 @@ struct Lighting {
     var light = Light()
     light.position = [0, 0, 0]
     light.color = [1, 1, 1]
-    light.specularColor = [1, 1, 1]
+    light.specularColor = [0.6,0.6, 0.6]
     light.intensity = 0.6
     light.attenuation = float3(1, 0, 0)
     light.type = Sunlight

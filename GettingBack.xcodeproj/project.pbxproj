@@ -19,6 +19,7 @@
 		B2236EA1241AD3FB0079C1A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2236EA0241AD3FB0079C1A0 /* Assets.xcassets */; };
 		B2236EA4241AD3FB0079C1A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2236EA2241AD3FB0079C1A0 /* LaunchScreen.storyboard */; };
 		B2236EAC241D62710079C1A0 /* MathLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2236EAB241D62710079C1A0 /* MathLibrary.swift */; };
+		B2FAF0AB242BBCFA00A1D890 /* VertexDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FAF0AA242BBCFA00A1D890 /* VertexDescriptor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		B2236EA3241AD3FB0079C1A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B2236EA5241AD3FB0079C1A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2236EAB241D62710079C1A0 /* MathLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathLibrary.swift; sourceTree = "<group>"; };
+		B2FAF0AA242BBCFA00A1D890 /* VertexDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VertexDescriptor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,7 @@
 				B2236E94241AD3F80079C1A0 /* AppDelegate.swift */,
 				B2236E96241AD3F80079C1A0 /* ShaderTypes.h */,
 				B2236E9B241AD3F80079C1A0 /* Shaders.metal */,
+				B2FAF0AA242BBCFA00A1D890 /* VertexDescriptor.swift */,
 				B22293D2242AA6D80059218C /* SceneSets */,
 				B206E87924240B1C0019832E /* Renderer */,
 				B2236E99241AD3F80079C1A0 /* GameViewController.swift */,
@@ -174,6 +177,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2FAF0AB242BBCFA00A1D890 /* VertexDescriptor.swift in Sources */,
 				B206E87F242538620019832E /* Camera.swift in Sources */,
 				B2236E9C241AD3F80079C1A0 /* Shaders.metal in Sources */,
 				B2236E98241AD3F80079C1A0 /* Renderer.swift in Sources */,

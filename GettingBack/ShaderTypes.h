@@ -21,6 +21,12 @@ typedef struct {
     matrix_float3x3 normalMatrix;
 } Uniforms;
 
+typedef struct {
+  uint lightCount;
+  vector_float3 cameraPosition;
+  uint tiling;
+} FragmentUniforms;
+
 typedef enum {
     unused = 0,
     Sunlight = 1,
@@ -41,10 +47,11 @@ typedef struct {
     float coneAttenuation;
 } Light;
 
-typedef struct {
-    uint lightCount;
-    vector_float3 cameraPosition;
-} FragmentUniforms;
+typedef enum {
+    none = 0,
+    linear = 1,
+    radial = 2
+} Gradient;
 
 typedef struct {
     vector_float3 baseColor;
@@ -55,8 +62,27 @@ typedef struct {
     vector_float3 ambientOcclusion;
     float shininess;
     vector_float4 irradiatedColor;
+    Gradient gradient;
 } Material;
 
+typedef enum {
+  BufferIndexVertices = 0,
+  BufferIndexUniforms = 11,
+  BufferIndexLights = 12,
+  BufferIndexFragmentUniforms = 13,
+  BufferIndexMaterials = 14
+} BufferIndices;
+
+typedef enum {
+  Position = 0,
+  Normal = 1,
+  UV = 2,
+  Tangent = 3,
+  Bitangent = 4,
+  Color = 5,
+  Joints = 6,
+  Weights = 7
+} Attributes;
 
 #endif /* ShaderTypes_h */
 

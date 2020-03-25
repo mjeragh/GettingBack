@@ -41,6 +41,27 @@ vertex VertexOut vertex_main(const VertexIn vertexIn [[ stage_in ]],
     return out;
 }
 
+fragment float4 fragment_main(VertexOut in [[stage_in]],
+                              constant Light *lights [[buffer(BufferIndexLights)]],
+                              constant Material &material [[ buffer(BufferIndexMaterials) ]], //material is an object
+                              constant FragmentUniforms &fragmentUniforms [[ buffer(BufferIndexFragmentUniforms)]]) {
+    float3 baseColor;
+    if (material.gradient == linear){
+        baseColor = mix(material.baseColor, material.secondColor, sqrt(1 - in.uv.y));
+    } else if (material.gradient == radial){
+        //float distanceFromCenter = length(in.uv - float2(0.5,0.5));
+        
+        baseColor = mix(material.baseColor, material.secondColor, in.uv.x + in.uv.y - 2 * in.uv.x * in.uv.y);//distanceFromCenter*2.0);
+    } else { //none
+        baseColor = material.baseColor;
+    }
+    
+    
+    float3 color = lights[0].color * baseColor;
+    
+    return float4(color,1);
+}
+
 fragment float4 fragment_normals(VertexOut in [[stage_in]]) {
     return float4(in.worldNormal, 1);
     

@@ -9,7 +9,9 @@ class Renderer: NSObject {
     static var library: MTLLibrary?
     var depthStencilState: MTLDepthStencilState!
     
+    var fragmentUniforms = FragmentUniforms()
     var uniforms = Uniforms()
+    let lighting = Lighting()
     
     // Camera holds view and projection matrices
     lazy var camera: Camera = {
@@ -57,8 +59,9 @@ class Renderer: NSObject {
         sphere.material.roughness = 0
         sphere.material.shininess = 0.4
         sphere.material.specularColor = [0,0,0]
-        sphere.material.secondColor = [1.0,1.0,0.0]
+        sphere.material.secondColor = [1.0,1.0,1.0]
         sphere.material.ambientOcclusion = [0,0,0]
+        sphere.material.gradient = linear
         sphere.name = "sun"
         primitives.append(sphere)
         
@@ -81,7 +84,7 @@ class Renderer: NSObject {
         
       
         
-      
+      fragmentUniforms.lightCount = lighting.count
     }
     
    
@@ -128,6 +131,12 @@ extension Renderer: MTKViewDelegate {
             renderEncoder.setVertexBytes(&uniforms,
                                          length: MemoryLayout<Uniforms>.stride, index: 1)
             
+            var lights = lighting.lights
+            renderEncoder.setFragmentBytes(&lights,
+                                           length: MemoryLayout<Light>.stride * lights.count,
+                                        index: Int(BufferIndexLights.rawValue))
+            renderEncoder.setFragmentBytes(&fragmentUniforms, length: MemoryLayout<FragmentUniforms>.stride, index: Int(BufferIndexFragmentUniforms.rawValue))
+            renderEncoder.setFragmentBytes(&primitive.material, length: MemoryLayout<Material>.stride, index: Int(BufferIndexMaterials.rawValue))
             renderEncoder.setRenderPipelineState(primitive.pipelineState)
             for submesh in primitive.mesh.submeshes{
                 renderEncoder.drawIndexedPrimitives(type: .triangle, indexCount: submesh.indexCount, indexType: submesh.indexType, indexBuffer: submesh.indexBuffer.buffer, indexBufferOffset: submesh.indexBuffer.offset)
