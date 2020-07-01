@@ -38,7 +38,7 @@ class Node {
     var position: SIMD3<Float> = [0, 0, 0]
     var rotation: SIMD3<Float> = [0, 0, 0]
     var scale: SIMD3<Float> = [1, 1, 1]
-    var test: SIMD4<Float> = [1,1,1,1]
+    var test: SIMD4<Float> = [1,1,1,1] //I cant remember why I need this Test
     weak var parent: Node?
     var material = Material()
     
