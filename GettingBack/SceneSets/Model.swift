@@ -78,5 +78,12 @@ class Model: Node {
   }
 }
 
-
+extension Model:Renderable{
+    func render(renderEncoder: MTLRenderCommandEncoder, uniforms: Uniforms, fragmentUniforms fragment: FragmentUniforms) {
+        //TODO
+        
+    }
+    
+    
+}
 

@@ -25,5 +25,7 @@ class GameViewController: UIViewController {
        
         renderer = Renderer(metalView: mtkView)
 
+        let scene = TestScene(sceneSize: mtkView.bounds.size)
+        renderer.scene = scene
     }
 }

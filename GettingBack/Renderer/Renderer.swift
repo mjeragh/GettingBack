@@ -1,148 +1,97 @@
+
 import MetalKit
 
-
 class Renderer: NSObject {
-    
-    static var device: MTLDevice!
-    static var commandQueue: MTLCommandQueue!
-    static var colorPixelFormat: MTLPixelFormat!
-    static var library: MTLLibrary?
-    var depthStencilState: MTLDepthStencilState!
-    
-    var fragmentUniforms = FragmentUniforms()
-    var uniforms = Uniforms()
-    let lighting = Lighting()
-    var t = Float(0.0)
-    // Camera holds view and projection matrices
-    lazy var camera: Camera = {
-        let camera = Camera()
-        camera.position = [0, 2, -15]
-        camera.rotation = [0, 0, 0]
-        return camera
-    }()
-    
-    // Array of Models allows for rendering multiple models
-   
-    var primitives: [Primitive] = []
-   
-   
-    
-    init(metalView: MTKView) {
-        guard let device = MTLCreateSystemDefaultDevice() else {
-            fatalError("GPU not available")
-        }
-        metalView.depthStencilPixelFormat = .depth32Float
-        metalView.device = device
-        Renderer.device = device
-        Renderer.commandQueue = device.makeCommandQueue()!
-        Renderer.colorPixelFormat = metalView.colorPixelFormat
-        Renderer.library = device.makeDefaultLibrary()
-        
-        super.init()
-        metalView.backgroundColor = UIColor.brown
-      //  MTLClearColor(red: 0, green: 0, blue: 0.2, alpha: 1)
-        metalView.delegate = self
-        mtkView(metalView, drawableSizeWillChange: metalView.bounds.size)
-        
-      
-        
-        buildDepthStencilState()
-        
-//
-        
-        //creat a sphere
-        let sphere = Primitive(shape: .sphere, size: 1.0)
-        sphere.position = [0,0,0]
-        //sphere.pivotPosition = [1,2,0]
-        sphere.material.baseColor = [1.0, 0, 0]
-        sphere.material.metallic = 0.0
-        sphere.material.roughness = 0
-        sphere.material.shininess = 0.4
-        sphere.material.specularColor = [0,0,0]
-        sphere.material.secondColor = [1.0,0,1.0]
-        sphere.material.ambientOcclusion = [0,0,0]
-        sphere.material.gradient = linear
-        sphere.name = "sun"
-        primitives.append(sphere)
-        
-        let box = Primitive(shape: .cube, size: 1.0)
-        box.position = [-1.5,0.5,0]
-        box.rotation = [0, Float(45).degreesToRadians, 0]
-        box.material.baseColor = [0, 0.5, 0]
-        box.material.secondColor = [1.0,1.0,0.0]
-        box.material.metallic = 1.0
-        box.material.roughness = 0.0
-        box.material.shininess = 0.1
-        box.material.specularColor = [0,1.0,0.0]
-        box.material.ambientOcclusion = [1.0,1.0,1.0]
-        box.name = "cube"
-        
-        
-        
-        primitives.append(box)
-        
-        
-      
-        
-      fragmentUniforms.lightCount = lighting.count
+  static var device: MTLDevice!
+  static var commandQueue: MTLCommandQueue!
+  static var library: MTLLibrary!
+  static var colorPixelFormat: MTLPixelFormat!
+  static var fps: Int!
+
+  var fragmentUniforms = FragmentUniforms()
+  let depthStencilState: MTLDepthStencilState
+  let lighting = Lighting()
+  var scene: Scene?
+  
+  init(metalView: MTKView) {
+    guard
+      let device = MTLCreateSystemDefaultDevice(),
+      let commandQueue = device.makeCommandQueue() else {
+        fatalError("GPU not available")
     }
+    Renderer.device = device
+    Renderer.commandQueue = commandQueue
+    Renderer.library = device.makeDefaultLibrary()
+    Renderer.colorPixelFormat = metalView.colorPixelFormat
+    Renderer.fps = metalView.preferredFramesPerSecond
     
-   
+    metalView.device = device
+    metalView.depthStencilPixelFormat = .depth32Float
     
-    
-    
-    func buildDepthStencilState() {
-        // 1
-        let descriptor = MTLDepthStencilDescriptor()
-        // 2
-        descriptor.depthCompareFunction = .less
-        // 3
-        descriptor.isDepthWriteEnabled = true
-        depthStencilState =
-            Renderer.device.makeDepthStencilState(descriptor: descriptor)
-    }
-    
+    depthStencilState = Renderer.buildDepthStencilState()!
+    super.init()
+    metalView.clearColor = MTLClearColor(red: 0.0, green: 0.05,
+                                         blue: 0.1, alpha: 1)
+
+    metalView.delegate = self
+    mtkView(metalView, drawableSizeWillChange: metalView.bounds.size)
+
+    fragmentUniforms.lightCount = lighting.count
+  }
+  
+
+  static func buildDepthStencilState() -> MTLDepthStencilState? {
+    let descriptor = MTLDepthStencilDescriptor()
+    descriptor.depthCompareFunction = .less
+    descriptor.isDepthWriteEnabled = true
+    return
+      Renderer.device.makeDepthStencilState(descriptor: descriptor)
+  }
+  
 }
 
 extension Renderer: MTKViewDelegate {
-    func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
-        camera.aspect = Float(view.bounds.width)/Float(view.bounds.height)
+  func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
+    scene?.sceneSizeWillChange(to: size)
+  }
+  
+  func draw(in view: MTKView) {
+    guard
+      let scene = scene,
+      let descriptor = view.currentRenderPassDescriptor,
+      let commandBuffer = Renderer.commandQueue.makeCommandBuffer(),
+      let renderEncoder =
+      commandBuffer.makeRenderCommandEncoder(descriptor: descriptor) else {
+        return
     }
     
-    func draw(in view: MTKView) {
-        guard let descriptor = view.currentRenderPassDescriptor,
-            let commandBuffer = Renderer.commandQueue.makeCommandBuffer(),
-            let renderEncoder =
-            commandBuffer.makeRenderCommandEncoder(descriptor: descriptor) else {
-                return
-        }
-        
-        renderEncoder.setDepthStencilState(depthStencilState)
-        
-       uniforms.projectionMatrix = camera.projectionMatrix
-        uniforms.viewMatrix = camera.viewMatrix
-        
-        var lights = lighting.lights
-                    renderEncoder.setFragmentBytes(&lights,
-                                                   length: MemoryLayout<Light>.stride * lights.count,
-                                                index: Int(BufferIndexLights.rawValue))
-                    renderEncoder.setFragmentBytes(&fragmentUniforms, length: MemoryLayout<FragmentUniforms>.stride, index: Int(BufferIndexFragmentUniforms.rawValue))
-//
-        for primitive in primitives {
-            
-            primitive.render(renderEncoder: renderEncoder, uniforms: uniforms, fragmentUniforms: fragmentUniforms)
-//
-        }
-        
-        
-       // debugLights(renderEncoder: renderEncoder, lightType: Spotlight)
-        renderEncoder.endEncoding()
-        guard let drawable = view.currentDrawable else {
-            return
-        }
-        commandBuffer.present(drawable)
-        commandBuffer.commit()
+    // update all the models' poses
+    let deltaTime = 1 / Float(Renderer.fps)
+    scene.update(deltaTime: deltaTime)
+
+    
+    renderEncoder.setDepthStencilState(depthStencilState)
+
+    var lights = lighting.lights
+    renderEncoder.setFragmentBytes(&lights,
+                                   length: MemoryLayout<Light>.stride * lights.count,
+                                   index: Int(BufferIndexLights.rawValue))
+
+    // render all the models in the array
+    for renderable in scene.renderables {
+      renderEncoder.pushDebugGroup(renderable.name)
+      renderable.render(renderEncoder: renderEncoder,
+                        uniforms: scene.uniforms,
+                        fragmentUniforms: scene.fragmentUniforms)
+      renderEncoder.popDebugGroup()
     }
+    
+    renderEncoder.endEncoding()
+    guard let drawable = view.currentDrawable else {
+      return
+    }
+    commandBuffer.present(drawable)
+    commandBuffer.commit()
+    commandBuffer.waitUntilCompleted()
+  }
 }
-
-

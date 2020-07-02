@@ -36,12 +36,21 @@ class Node {
     let identifier = UUID()
     var name: String = "untitled"
     var position: SIMD3<Float> = [0, 0, 0]
-    var rotation: SIMD3<Float> = [0, 0, 0]
+    var rotation: float3 = [0, 0, 0] {
+      didSet {
+        let rotationMatrix = float4x4(rotation: rotation)
+        quaternion = simd_quatf(rotationMatrix)
+      }
+    }
+    var quaternion = simd_quatf()
     var scale: SIMD3<Float> = [1, 1, 1]
     var test: SIMD4<Float> = [1,1,1,1] //I cant remember why I need this Test
     weak var parent: Node?
     var material = Material()
+    var children: [Node] = []
     
+    
+
     var boundingBox = MDLAxisAlignedBoundingBox()
     var size: SIMD3<Float> {
         return boundingBox.maxBounds - boundingBox.minBounds
@@ -67,21 +76,38 @@ class Node {
     
    
     
-    var children: [Node] = []
-    
-    func addChildNode(_ node: Node) {
-        if node.parent != nil {
-            node.removeFromParent()
-        }
-        children.append(node)
+    func update(deltaTime: Float) {
+      // override this
     }
     
-    private func removeChildNode(_ node: Node) {
-        children = children.filter { $0 != node } //  In Swift 4.2, this could be written with removeAll(where:)
+    final func add(childNode: Node) {
+      children.append(childNode)
+      childNode.parent = self
+    }
+    
+    final func remove(childNode: Node) {
+      for child in childNode.children {
+        child.parent = self
+        children.append(child)
+      }
+      childNode.children = []
+      guard let index = (children.firstIndex {
+        $0 === childNode
+      }) else { return }
+      children.remove(at: index)
+      childNode.parent = nil
     }
     
     func removeFromParent() {
-        parent?.removeChildNode(self)
+        parent?.remove(childNode: self)
+    }
+    
+    var forwardVector: float3 {
+      return normalize([sin(rotation.y), 0, cos(rotation.y)])
+    }
+    
+    var rightVector: float3 {
+      return [forwardVector.z, forwardVector.y, -forwardVector.x]
     }
     
 }
