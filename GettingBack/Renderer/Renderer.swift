@@ -12,7 +12,7 @@ class Renderer: NSObject {
     var fragmentUniforms = FragmentUniforms()
     var uniforms = Uniforms()
     let lighting = Lighting()
-    
+    var t = Float(0.0)
     // Camera holds view and projection matrices
     lazy var camera: Camera = {
         let camera = Camera()
@@ -116,32 +116,22 @@ extension Renderer: MTKViewDelegate {
             commandBuffer.makeRenderCommandEncoder(descriptor: descriptor) else {
                 return
         }
+        
         renderEncoder.setDepthStencilState(depthStencilState)
         
        uniforms.projectionMatrix = camera.projectionMatrix
         uniforms.viewMatrix = camera.viewMatrix
         
+        var lights = lighting.lights
+                    renderEncoder.setFragmentBytes(&lights,
+                                                   length: MemoryLayout<Light>.stride * lights.count,
+                                                index: Int(BufferIndexLights.rawValue))
+                    renderEncoder.setFragmentBytes(&fragmentUniforms, length: MemoryLayout<FragmentUniforms>.stride, index: Int(BufferIndexFragmentUniforms.rawValue))
 //
         for primitive in primitives {
             
-           uniforms.modelMatrix = primitive.modelMatrix
-            uniforms.normalMatrix = primitive.modelMatrix.upperLeft
-            
-            renderEncoder.setVertexBuffer(primitive.vertexBuffer, offset: 0, index: 0)
-            renderEncoder.setVertexBytes(&uniforms,
-                                         length: MemoryLayout<Uniforms>.stride, index: 1)
-            
-            var lights = lighting.lights
-            renderEncoder.setFragmentBytes(&lights,
-                                           length: MemoryLayout<Light>.stride * lights.count,
-                                        index: Int(BufferIndexLights.rawValue))
-            renderEncoder.setFragmentBytes(&fragmentUniforms, length: MemoryLayout<FragmentUniforms>.stride, index: Int(BufferIndexFragmentUniforms.rawValue))
-            renderEncoder.setFragmentBytes(&primitive.material, length: MemoryLayout<Material>.stride, index: Int(BufferIndexMaterials.rawValue))
-            renderEncoder.setRenderPipelineState(primitive.pipelineState)
-            for submesh in primitive.mesh.submeshes{
-                renderEncoder.drawIndexedPrimitives(type: .triangle, indexCount: submesh.indexCount, indexType: submesh.indexType, indexBuffer: submesh.indexBuffer.buffer, indexBufferOffset: submesh.indexBuffer.offset)
-            }
-//    
+            primitive.render(renderEncoder: renderEncoder, uniforms: uniforms, fragmentUniforms: fragmentUniforms)
+//
         }
         
         

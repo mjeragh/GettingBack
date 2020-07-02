@@ -61,12 +61,12 @@ class Primitive : Node {
             mdlMesh = MDLMesh(planeWithExtent: [size, size, size], segments: [100,100], geometryType: .triangles, allocator: allocator)
         }
         
-//        // add tangent and bitangent here
-//        mdlMesh.addTangentBasis(forTextureCoordinateAttributeNamed:
-//            MDLVertexAttributeTextureCoordinate,
-//                                tangentAttributeNamed: MDLVertexAttributeTangent,
-//                                bitangentAttributeNamed:
-//            MDLVertexAttributeBitangent)
+        //        // add tangent and bitangent here
+        //        mdlMesh.addTangentBasis(forTextureCoordinateAttributeNamed:
+        //            MDLVertexAttributeTextureCoordinate,
+        //                                tangentAttributeNamed: MDLVertexAttributeTangent,
+        //                                bitangentAttributeNamed:
+        //            MDLVertexAttributeBitangent)
         
         self.mesh = try! MTKMesh(mesh: mdlMesh, device: Renderer.device)
         
@@ -76,17 +76,39 @@ class Primitive : Node {
         
         pipelineState = Primitive.buildPipelineState(vertexDescriptor: mdlMesh.vertexDescriptor)
         //debugBoundingBox = DebugBoundingBox(boundingBox: mdlMesh.boundingBox)
-       
+        
         super.init()
         self.name = name
         self.boundingBox = mdlMesh.boundingBox
+    }
+    
+    
+    
+}
+extension Primitive : Renderable {
+    func render(renderEncoder: MTLRenderCommandEncoder, uniforms vertex: Uniforms, fragmentUniforms fragment: FragmentUniforms) {
+        var uniforms = vertex
+        uniforms.modelMatrix = modelMatrix
+        uniforms.normalMatrix = modelMatrix.upperLeft
+        
+        renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+        renderEncoder.setVertexBytes(&uniforms,
+                                     length: MemoryLayout<Uniforms>.stride, index: 1)
+        
+        
+        renderEncoder.setFragmentBytes(&material, length: MemoryLayout<Material>.stride, index: Int(BufferIndexMaterials.rawValue))
+        renderEncoder.setRenderPipelineState(pipelineState)
+        for submesh in mesh.submeshes{
+            renderEncoder.drawIndexedPrimitives(type: .triangle, indexCount: submesh.indexCount, indexType: submesh.indexType, indexBuffer: submesh.indexBuffer.buffer, indexBufferOffset: submesh.indexBuffer.offset)
+        }
+        
     }
     
     private static func buildPipelineState(vertexDescriptor: MDLVertexDescriptor) -> MTLRenderPipelineState {
         let library = Renderer.library
         let vertexFunction = library?.makeFunction(name: "vertex_main")
         let fragmentFunction = library?.makeFunction(name: "fragment_main")
-
+        
         var pipelineState: MTLRenderPipelineState
         let pipelineDescriptor = MTLRenderPipelineDescriptor()
         pipelineDescriptor.vertexFunction = vertexFunction
@@ -101,7 +123,7 @@ class Primitive : Node {
         }
         return pipelineState
     }
+    
 }
 
-    
 
