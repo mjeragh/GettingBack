@@ -32,11 +32,13 @@
 
 import Foundation
 import CoreGraphics
+import MetalPerformanceShaders
 
 class Scene {
 //  let inputController = InputController()
 //  let physicsController = PhysicsController()
   
+    var accelerationStructure: MPSTriangleAccelerationStructure!
   var sceneSize: CGSize
   var cameras = [Camera()]
   var currentCameraIndex = 0
@@ -132,5 +134,17 @@ class Scene {
     }
     sceneSize = size
   }
+    
+    
+    func buildAccelerationStructure() {
+        //todo
+    }
+    func handleInteraction(at point: CGPoint) {
+        //todo:
+    }
+    func unproject(at: CGPoint) -> SIMD3<Float>? {
+        //Todo
+        return nil
+    }
 }
 

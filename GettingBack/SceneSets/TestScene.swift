@@ -44,11 +44,12 @@ class TestScene: Scene {
         box.material.specularColor = [0,1.0,0.0]
         box.material.ambientOcclusion = [1.0,1.0,1.0]
         box.name = "cube"
+        add(node: box)
         
         camera.position = [0,0,-15]
         camera.name = "Test"
         
-        add(node: box)
+        
     }
     override func updateScene(deltaTime: Float) {
         time += 0.1
