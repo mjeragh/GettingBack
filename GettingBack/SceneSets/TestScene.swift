@@ -8,6 +8,10 @@
 
 import Foundation
 import CoreGraphics
+import MetalPerformanceShaders
+import MetalKit
+
+
 class TestScene: Scene {
     var time = Float(0)
     let box, sphere : Primitive
@@ -16,6 +20,7 @@ class TestScene: Scene {
         sphere = Primitive(shape: .sphere, size: 1.0)
         box = Primitive(shape: .cube, size: 1.0)
         super.init(sceneSize: sceneSize)
+       buildAccelerationStructure()
     }
     
     override func setupScene() {
@@ -58,4 +63,58 @@ class TestScene: Scene {
         sphere.position = [cos(time),0,0 + sin(time)]
     }
     
+    override func buildAccelerationStructure() {
+        
+        //creating Bounding Buffer
+        let boundingBuffer = Renderer.device.makeBuffer(length: boundingBoxes.count * MemoryLayout<MDLAxisAlignedBoundingBox>.stride, options: .storageModeShared)
+        
+        var pointer = boundingBuffer?.contents().bindMemory(to: MDLAxisAlignedBoundingBox.self, capacity: boundingBoxes.count)
+        
+        for boundingBox in boundingBoxes {
+            pointer?.pointee.maxBounds = boundingBox.maxBounds
+            pointer?.pointee.minBounds = boundingBox.minBounds
+            pointer = pointer?.advanced(by: 1) //from page 451 metalbytutorialsV2
         }
+        
+        let accelerationStructureDescriptor = MTLPrimitiveAccelerationStructureDescriptor()
+
+        // Create geometry descriptor(s)
+        let geometryDescriptor = MTLAccelerationStructureBoundingBoxGeometryDescriptor()
+
+        geometryDescriptor.boundingBoxBuffer = boundingBuffer
+        geometryDescriptor.boundingBoxCount = boundingBoxes.count
+//        geometryDescriptor.boundingBoxBufferOffset = 0
+//        geometryDescriptor.boundingBoxStride = MemoryLayout<MDLAxisAlignedBoundingBox>.stride
+
+        accelerationStructureDescriptor.geometryDescriptors = [ geometryDescriptor ]
+        
+        //Second Step from the Video of wwdc2020
+        // Query for acceleration structure sizes
+        let sizes = Renderer.device.accelerationStructureSizes(descriptor: accelerationStructureDescriptor)
+
+        // Allocate acceleration structure
+        let accelerationStructure =
+            Renderer.device.makeAccelerationStructure(size: Int(sizes.accelerationStructureSize))!
+
+        // Allocate scratch buffer
+        let scratchBuffer = Renderer.device.makeBuffer(length: Int(sizes.buildScratchBufferSize),
+                                              options: .storageModePrivate)!
+        
+        
+
+        // Create command buffer/encoder
+        let commandBuffer = Renderer.commandQueue.makeCommandBuffer()!
+        let commandEncoder = commandBuffer.makeAccelerationStructureCommandEncoder()!
+
+        // Encode acceleration structure build
+        commandEncoder.build(accelerationStructure: accelerationStructure,
+                             descriptor: accelerationStructureDescriptor,
+                             scratchBuffer: scratchBuffer,
+                             scratchBufferOffset: 0)
+
+        // Commit command buffer
+        commandEncoder.endEncoding()
+        commandBuffer.commit()
+    }
+    
+}
