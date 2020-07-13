@@ -29,7 +29,7 @@ struct VertexOut {
     float2 uv;
 };
 
-vertex VertexOut vertex_main(const VertexIn vertexIn [[ stage_in ]],
+[[vertex]] VertexOut vertex_main(const VertexIn vertexIn [[ stage_in ]],
                              constant Uniforms &uniforms [[ buffer(1) ]])
 {
     VertexOut out;
@@ -41,7 +41,7 @@ vertex VertexOut vertex_main(const VertexIn vertexIn [[ stage_in ]],
     return out;
 }
 
-fragment float4 fragment_main(VertexOut in [[stage_in]],
+[[fragment]] float4 fragment_main(VertexOut in [[stage_in]],
                               constant Light *lights [[buffer(BufferIndexLights)]],
                               constant Material &material [[ buffer(BufferIndexMaterials) ]], //material is an object
                               constant FragmentUniforms &fragmentUniforms [[ buffer(BufferIndexFragmentUniforms)]]) {
@@ -62,7 +62,7 @@ fragment float4 fragment_main(VertexOut in [[stage_in]],
     return float4(color,1);
 }
 
-fragment float4 fragment_normals(VertexOut in [[stage_in]]) {
+[[fragment]] float4 fragment_normals(VertexOut in [[stage_in]]) {
     return float4(in.worldNormal, 1);
     
 }

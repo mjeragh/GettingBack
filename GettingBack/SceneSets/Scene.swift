@@ -143,11 +143,13 @@ class Scene {
     
     
     func buildAccelerationStructure() {
-        //todo
+        //override this function when needed
     }
+    
     func handleInteraction(at point: CGPoint) {
         //todo:
     }
+    
     func unproject(at: CGPoint) -> SIMD3<Float>? {
         //Todo
         return nil

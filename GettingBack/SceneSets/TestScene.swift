@@ -116,5 +116,7 @@ class TestScene: Scene {
         commandEncoder.endEncoding()
         commandBuffer.commit()
     }
-    
+    override func handleInteraction(at point: CGPoint) {
+        <#code#>
+    }
 }
