@@ -15,12 +15,17 @@ import MetalKit
 class TestScene: Scene {
     var time = Float(0)
     let box, sphere : Primitive
+    var commandBuffer : MTLCommandBuffer!
+    var computePipelineState: MTLComputePipelineState!
+    var computeEncoder: MTLComputeCommandEncoder!
+    
     
     override init(sceneSize: CGSize) {
         sphere = Primitive(shape: .sphere, size: 1.0)
         box = Primitive(shape: .cube, size: 1.0)
         super.init(sceneSize: sceneSize)
        buildAccelerationStructure()
+       buildComputeEncoder()
     }
     
     override func setupScene() {
@@ -116,7 +121,61 @@ class TestScene: Scene {
         commandEncoder.endEncoding()
         commandBuffer.commit()
     }
+    func buildComputeEncoder() {
+        let commandQueue = Renderer.device.makeCommandQueue()
+        commandBuffer = commandQueue!.makeCommandBuffer()
+        computeEncoder = commandBuffer?.makeComputeCommandEncoder()
+
+        let computeFunction = Renderer.device.makeDefaultLibrary()?.makeFunction(name: "raytracingKernel")!
+        computePipelineState = try! Renderer.device.makeComputePipelineState(function: computeFunction!)
+        
+        
+    }
     override func handleInteraction(at point: CGPoint) {
-        <#code#>
+       
+        
+        
+        let width = Float(sceneSize.width)
+        let height = Float(sceneSize.height)
+        // let aspectRatio = camera?.aspect//width / height
+        
+        let projectionMatrix = camera.projectionMatrix
+        let inverseProjectionMatrix = projectionMatrix.inverse
+        
+       // let viewMatrix = camera.worldTransform.inverse
+        let inverseViewMatrix = camera.inverseViewMatrix//viewMatrix.inverse
+        
+        let clipX = (2 * Float(point.x)) / width - 1
+        let clipY = 1 - (2 * Float(point.y)) / height
+        let clipCoords = SIMD4<Float>(clipX, clipY, 0, 1) // Assume clip space is hemicube, -Z is into the screen
+        
+        var eyeRayDir = inverseProjectionMatrix * clipCoords
+        eyeRayDir.z = 1
+        eyeRayDir.w = 0
+        
+        var worldRayDir = (inverseViewMatrix * eyeRayDir).xyz
+        worldRayDir = normalize(worldRayDir)
+        
+        let eyeRayOrigin = SIMD4<Float>(x: 0, y: 0, z: 0, w: 1)
+        let worldRayOrigin = (inverseViewMatrix * eyeRayOrigin).xyz
+        
+        let ray = Ray(origin: worldRayOrigin, direction: worldRayDir)
+        
+        computeEncoder?.pushDebugGroup("handleInteraction")
+        computeEncoder?.setComputePipelineState(computePipelineState)
+        
+        let uniforms : Uniforms
+        uniforms.origin = worldRayOrigin
+        uniforms.
+        
+        computeEncoder?.setBuffer(acce=, offset: 0, index: 0)
+        computeEncoder?.setBytes(&uniforms, length: MemoryLayout<Uniforms>.stride, index: 1)
+
+        
+
+        computeEncoder?.endEncoding()
+        computeEncoder?.popDebugGroup()
+        commandBuffer?.commit()
+        commandBuffer?.waitUntilCompleted()
     }
 }
