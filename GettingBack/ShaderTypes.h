@@ -23,7 +23,7 @@ typedef struct {
     unsigned int height;
     //camera
     vector_float3 origin;
-    vector_float3 position;
+    vector_float3 direction;
     vector_float3 up;
     vector_float3 right;
     vector_float3 forward;

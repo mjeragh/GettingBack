@@ -18,7 +18,7 @@ class TestScene: Scene {
     var commandBuffer : MTLCommandBuffer!
     var computePipelineState: MTLComputePipelineState!
     var computeEncoder: MTLComputeCommandEncoder!
-    
+    var accelerationStructure: MTLAccelerationStructure!
     
     override init(sceneSize: CGSize) {
         sphere = Primitive(shape: .sphere, size: 1.0)
@@ -98,28 +98,28 @@ class TestScene: Scene {
         let sizes = Renderer.device.accelerationStructureSizes(descriptor: accelerationStructureDescriptor)
 
         // Allocate acceleration structure
-        let accelerationStructure =
+         accelerationStructure =
             Renderer.device.makeAccelerationStructure(size: Int(sizes.accelerationStructureSize))!
 
-        // Allocate scratch buffer
-        let scratchBuffer = Renderer.device.makeBuffer(length: Int(sizes.buildScratchBufferSize),
-                                              options: .storageModePrivate)!
-        
-        
-
-        // Create command buffer/encoder
-        let commandBuffer = Renderer.commandQueue.makeCommandBuffer()!
-        let commandEncoder = commandBuffer.makeAccelerationStructureCommandEncoder()!
-
-        // Encode acceleration structure build
-        commandEncoder.build(accelerationStructure: accelerationStructure,
-                             descriptor: accelerationStructureDescriptor,
-                             scratchBuffer: scratchBuffer,
-                             scratchBufferOffset: 0)
-
-        // Commit command buffer
-        commandEncoder.endEncoding()
-        commandBuffer.commit()
+//        // Allocate scratch buffer
+//        let scratchBuffer = Renderer.device.makeBuffer(length: Int(sizes.buildScratchBufferSize),
+//                                              options: .storageModePrivate)!
+//
+//
+//
+//        // Create command buffer/encoder
+//        let commandBuffer = Renderer.commandQueue.makeCommandBuffer()!
+//        let commandEncoder = commandBuffer.makeAccelerationStructureCommandEncoder()!
+//
+//        // Encode acceleration structure build
+//        commandEncoder.build(accelerationStructure: accelerationStructure,
+//                             descriptor: accelerationStructureDescriptor,
+//                             scratchBuffer: scratchBuffer,
+//                             scratchBufferOffset: 0)
+//
+//        // Commit command buffer
+//        commandEncoder.endEncoding()
+//        commandBuffer.commit()
     }
     func buildComputeEncoder() {
         let commandQueue = Renderer.device.makeCommandQueue()
@@ -159,16 +159,16 @@ class TestScene: Scene {
         let eyeRayOrigin = SIMD4<Float>(x: 0, y: 0, z: 0, w: 1)
         let worldRayOrigin = (inverseViewMatrix * eyeRayOrigin).xyz
         
-        let ray = Ray(origin: worldRayOrigin, direction: worldRayDir)
+//        let ray = Ray(origin: worldRayOrigin, direction: worldRayDir)
         
         computeEncoder?.pushDebugGroup("handleInteraction")
         computeEncoder?.setComputePipelineState(computePipelineState)
         
-        let uniforms : Uniforms
+        var uniforms : Uniforms
         uniforms.origin = worldRayOrigin
-        uniforms.
+        uniforms.direction = worldRayDir
         
-        computeEncoder?.setBuffer(acce=, offset: 0, index: 0)
+        computeEncoder?.setAccelerationStructure(accelerationStructure, bufferIndex: 0)
         computeEncoder?.setBytes(&uniforms, length: MemoryLayout<Uniforms>.stride, index: 1)
 
         
