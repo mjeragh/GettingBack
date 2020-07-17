@@ -123,6 +123,7 @@
 			children = (
 				B2236E94241AD3F80079C1A0 /* AppDelegate.swift */,
 				B2236E96241AD3F80079C1A0 /* ShaderTypes.h */,
+				B2FE359824BB84B4001E6254 /* Ray.metal */,
 				B2236E9B241AD3F80079C1A0 /* Shaders.metal */,
 				B2FAF0AA242BBCFA00A1D890 /* VertexDescriptor.swift */,
 				B2ED6FDC24AE74F30045E382 /* Ground */,
@@ -134,7 +135,6 @@
 				B2236EA2241AD3FB0079C1A0 /* LaunchScreen.storyboard */,
 				B2236EA5241AD3FB0079C1A0 /* Info.plist */,
 				B2236EAB241D62710079C1A0 /* MathLibrary.swift */,
-				B2FE359824BB84B4001E6254 /* Ray.metal */,
 			);
 			path = GettingBack;
 			sourceTree = "<group>";

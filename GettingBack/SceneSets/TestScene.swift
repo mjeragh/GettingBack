@@ -10,7 +10,7 @@ import Foundation
 import CoreGraphics
 import MetalPerformanceShaders
 import MetalKit
-
+import OSLog
 
 class TestScene: Scene {
     var time = Float(0)
@@ -123,11 +123,11 @@ class TestScene: Scene {
     }
     func buildComputeEncoder() {
         let commandQueue = Renderer.device.makeCommandQueue()
-        commandBuffer = commandQueue!.makeCommandBuffer()
-        computeEncoder = commandBuffer?.makeComputeCommandEncoder()
+        
+        
 
-        let computeFunction = Renderer.device.makeDefaultLibrary()?.makeFunction(name: "raytracingKernel")!
-        computePipelineState = try! Renderer.device.makeComputePipelineState(function: computeFunction!)
+        
+        
         
         
     }
@@ -160,22 +160,26 @@ class TestScene: Scene {
         let worldRayOrigin = (inverseViewMatrix * eyeRayOrigin).xyz
         
 //        let ray = Ray(origin: worldRayOrigin, direction: worldRayDir)
-        
+        let commandQueue = Renderer.device.makeCommandQueue()
+        commandBuffer = commandQueue!.makeCommandBuffer()
+        computeEncoder = commandBuffer?.makeComputeCommandEncoder()
         computeEncoder?.pushDebugGroup("handleInteraction")
-        computeEncoder?.setComputePipelineState(computePipelineState)
         
-        var uniforms : Uniforms
+        var uniforms = Uniforms()
         uniforms.origin = worldRayOrigin
         uniforms.direction = worldRayDir
-        
+        var nodeIndex = 100;
         computeEncoder?.setAccelerationStructure(accelerationStructure, bufferIndex: 0)
         computeEncoder?.setBytes(&uniforms, length: MemoryLayout<Uniforms>.stride, index: 1)
-
+        computeEncoder?.setBytes(&nodeIndex, length: MemoryLayout<Int>.stride, index: 2)
         
-
+        let computeFunction = Renderer.device.makeDefaultLibrary()?.makeFunction(name: "testKernel")!//(name: "raytracingKernel")!
+        computePipelineState = try! Renderer.device.makeComputePipelineState(function: computeFunction!)
+        computeEncoder?.setComputePipelineState(computePipelineState)
         computeEncoder?.endEncoding()
         computeEncoder?.popDebugGroup()
         commandBuffer?.commit()
         commandBuffer?.waitUntilCompleted()
+        os_log("Hit \(nodeIndex) at ")
     }
 }

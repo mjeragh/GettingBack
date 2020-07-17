@@ -80,27 +80,39 @@ BoundingBoxIntersection IntersectionFunction(// Ray parameters passed to the ray
     return ret;
 }
 
+kernel void testKernel(constant Uniforms & uniforms [[buffer(1)]],
+                       
+                       primitive_acceleration_structure accelerationStructure [[buffer(0)]],
+                       
+                       device int &node [[buffer(2)]]){
+    node = 5;
+    ray ray;
+}
+
+
 // Main ray tracing kernel.
-kernel void raytracingKernel(uint2 tid [[thread_position_in_grid]],
-                             constant Uniforms & uniforms,
+/// Trying to figure it out
+kernel void raytracingKernel(constant Uniforms & uniforms [[buffer(1)]],
                              
-                             primitive_acceleration_structure accelerationStructure
+                             primitive_acceleration_structure accelerationStructure [[buffer(0)]],
+                             
+                             device int &node [[buffer(2)]]
                              )
 {
     // The sample aligns the thread count to the threadgroup size. which means the thread count
     // may be different than the bounds of the texture. Test to make sure this thread
     // is referencing a pixel within the bounds of the texture.
-    if (tid.x < uniforms.width && tid.y < uniforms.height) {
+//    if (tid.x < uniforms.width && tid.y < uniforms.height) {
         // The ray to cast.
         ray ray;
         
         // Pixel coordinates for this thread.
-        float2 pixel = (float2)tid;
+//        float2 pixel = (float2)tid;
         
         
         // Map pixel coordinates to -1..1.
-        float2 uv = (float2)pixel / float2(uniforms.width, uniforms.height);
-        uv = uv * 2.0f - 1.0f;
+//        float2 uv = (float2)pixel / float2(uniforms.width, uniforms.height);
+//        uv = uv * 2.0f - 1.0f;
         
         //constant Camera & camera = uniforms.camera;
         
@@ -135,25 +147,27 @@ kernel void raytracingKernel(uint2 tid [[thread_position_in_grid]],
             
         }else {
             // Look up the mask for this instance, which indicates what type of geometry the ray hit.
-            unsigned int mask = instances[instanceIndex].mask;
+            //from page 204 of MSL 2.3 the intersect type wpuld return the ray and accel
             
+            uint result = intersection.primitive_id;
             
+            node = result;
             
             // The ray hit something. Look up the transformation matrix for this instance.
             float4x4 objectToWorldSpaceTransform(1.0f);
             
             for (int column = 0; column < 4; column++)
                 for (int row = 0; row < 3; row++)
-                    objectToWorldSpaceTransform[column][row] = instances[instanceIndex].transformationMatrix[column][row];
+                   // objectToWorldSpaceTransform[column][row] = intersection    .transformationMatrix[column][row];
             
             // Compute intersection point in world space.
             float3 worldSpaceIntersectionPoint = ray.origin + ray.direction * intersection.distance;
             
             unsigned primitiveIndex = intersection.primitive_id;
             
-            float2 barycentric_coords = intersection.triangle_barycentric_coord;
+            
         }
         
         
     }
-}
+
