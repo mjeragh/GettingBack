@@ -19,13 +19,15 @@ class TestScene: Scene {
     var computePipelineState: MTLComputePipelineState!
     var computeEncoder: MTLComputeCommandEncoder!
     var accelerationStructure: MTLAccelerationStructure!
+    var boundingBuffer, localRaysBuffer : MTLBuffer!
+    var parameters : [Float] = []
     
     override init(sceneSize: CGSize) {
         sphere = Primitive(shape: .sphere, size: 1.0)
         box = Primitive(shape: .cube, size: 1.0)
         super.init(sceneSize: sceneSize)
        buildAccelerationStructure()
-       buildComputeEncoder()
+      
     }
     
     override func setupScene() {
@@ -59,7 +61,9 @@ class TestScene: Scene {
         camera.position = [0,0,-15]
         camera.name = "Test"
         
-        
+        for _ in 0...renderables.count{
+            parameters.append(0.0)
+        }
     }
     override func updateScene(deltaTime: Float) {
         time += 0.1
@@ -71,7 +75,7 @@ class TestScene: Scene {
     override func buildAccelerationStructure() {
         
         //creating Bounding Buffer
-        let boundingBuffer = Renderer.device.makeBuffer(length: boundingBoxes.count * MemoryLayout<MDLAxisAlignedBoundingBox>.stride, options: .storageModeShared)
+       boundingBuffer = Renderer.device.makeBuffer(length: boundingBoxes.count * MemoryLayout<MDLAxisAlignedBoundingBox>.stride, options: .storageModeShared)
         
         var pointer = boundingBuffer?.contents().bindMemory(to: MDLAxisAlignedBoundingBox.self, capacity: boundingBoxes.count)
         
@@ -121,16 +125,7 @@ class TestScene: Scene {
 //        commandEncoder.endEncoding()
 //        commandBuffer.commit()
     }
-    func buildComputeEncoder() {
-        let commandQueue = Renderer.device.makeCommandQueue()
-        
-        
-
-        
-        
-        
-        
-    }
+    
     override func handleInteraction(at point: CGPoint) {
        
         
@@ -165,21 +160,35 @@ class TestScene: Scene {
         computeEncoder = commandBuffer?.makeComputeCommandEncoder()
         computeEncoder?.pushDebugGroup("handleInteraction")
         
+        //need to compute the local rays
+        var localRays : [localRay] = []
+        
+        rootNode.children.forEach{node in
+            
+            localRays.append(localRay(localOrigin: (node.worldTransform.inverse * SIMD4<Float>(worldRayOrigin,0)).xyz, localDirection: (node.worldTransform.inverse * SIMD4<Float>(worldRayDir,0)).xyz))
+            
+            
+        }
+        
+        localRaysBuffer = Renderer.device.makeBuffer(bytes: localRays, length: MemoryLayout<localRay>.stride * localRays.count, options: .storageModeShared)
         var uniforms = Uniforms()
         uniforms.origin = worldRayOrigin
         uniforms.direction = worldRayDir
-        var nodeIndex = 100;
-        computeEncoder?.setAccelerationStructure(accelerationStructure, bufferIndex: 0)
+        
+        computeEncoder?.setBuffer(boundingBuffer, offset: 0, index: 0)
+        computeEncoder?.setBuffer(localRaysBuffer, offset: 0, index: 3)
         computeEncoder?.setBytes(&uniforms, length: MemoryLayout<Uniforms>.stride, index: 1)
-        computeEncoder?.setBytes(&nodeIndex, length: MemoryLayout<Int>.stride, index: 2)
+        computeEncoder?.setBytes(parameters, length: MemoryLayout<Float>.stride * renderables.count, index: 2)
         
         let computeFunction = Renderer.device.makeDefaultLibrary()?.makeFunction(name: "testKernel")!//(name: "raytracingKernel")!
         computePipelineState = try! Renderer.device.makeComputePipelineState(function: computeFunction!)
         computeEncoder?.setComputePipelineState(computePipelineState)
+        let threadsPerThreadGrid = MTLSizeMake(Int(renderables.count), 1, 1)
+        computeEncoder?.dispatchThreadgroups(threadsPerThreadGrid, threadsPerThreadgroup: MTLSizeMake(1, 1, 1))
         computeEncoder?.endEncoding()
         computeEncoder?.popDebugGroup()
         commandBuffer?.commit()
         commandBuffer?.waitUntilCompleted()
-        os_log("Hit \(nodeIndex) at ")
+        os_log("Hit \(self.parameters) at ")
     }
 }

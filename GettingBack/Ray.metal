@@ -17,7 +17,7 @@ using namespace raytracing;
 // Return type for a bounding box intersection function.
 struct BoundingBoxIntersection {
     bool accept    [[accept_intersection]]; // Whether to accept or reject the intersection.
-    float distance [[distance]];            // Distance from the ray origin to the intersection point.
+    float4 distance ;            // Distance from the ray origin to the intersection point.
 };
 
 
@@ -40,134 +40,112 @@ struct BoundingBoxIntersection {
  tested, and so on. The ray intersector provides this datas when it calls the intersection function.
  Metal provides other built-in arguments but this sample doesn't use them.
  */
-[[intersection(bounding_box)]]
-BoundingBoxIntersection IntersectionFunction(// Ray parameters passed to the ray intersector below
-                                             float3 origin               [[origin]],
-                                             float3 direction            [[direction]],
-                                             float minDistance           [[min_distance]],
-                                             float maxDistance           [[max_distance]],
-                                             // Information about the primitive.
-                                             unsigned int primitiveIndex [[primitive_id]]
+BoundingBoxIntersection IntersectionFunction(BoundingBox boundingBox,
+                                             ray ray
                                              )
 {
     
     
-    // Check for intersection between the ray and sphere mathematically.
-    float3 oc = origin ;//- sphere.origin;
+    float3 tmin = boundingBox.minBounds;
+    float3 tmax = boundingBox.maxBounds;
     
-    float a = dot(direction, direction);
-    float b = 2 * dot(oc, direction);
-    float c = dot(oc, oc);// - sphere.radius * sphere.radius;
+    float3 inverseDirection = 1 / ray.direction;
     
-    float disc = b * b - 4 * a * c;
+    int sign[3];
+    sign[0]= (inverseDirection.x < 0);
+    sign[1]= (inverseDirection.y < 0);
+    sign[2]= (inverseDirection.z < 0);
     
     BoundingBoxIntersection ret;
+    ret.accept = false;
     
-    if (disc <= 0.0f) {
-        // If the ray missed the sphere, return false.
-        ret.accept = false;
-    }
-    else {
-        // Otherwise, compute the intersection distance.
-        ret.distance = (-b - sqrt(disc)) / (2 * a);
+    float3 bounds[2] = {tmin,tmax};
+    
+    tmin.x = (bounds[sign[0]].x - ray.origin.x) * inverseDirection.x;
+    tmax.x = (bounds[1 - sign[0]].x - ray.origin.x) * inverseDirection.x;
+    
+    tmin.y = (bounds[sign[1]].y - ray.origin.y) * inverseDirection.y;
+    tmax.y = (bounds[1 - sign[1]].y - ray.origin.y) * inverseDirection.y;
+    
+    float t0 = float(tmax.z);
+    
+    if ((tmin.x > tmax.y) || (tmin.y > tmax.x)){
         
-        // The intersection function must also check whether the intersection distance is
-        // within the acceptable range. Intersection functions do not run in any particular order,
-        // so the maximum distance may be different from the one passed into the ray intersector.
-        ret.accept = ret.distance >= minDistance && ret.distance <= maxDistance;
+        return ret;
     }
     
-    return ret;
+    
+    
+    if (tmin.y > tmin.x){
+        tmin.x = tmin.y;
+    }
+    
+    
+    if (tmax.y < tmax.x){
+        tmax.x = tmax.y;
+    }
+    
+    tmin.z = (bounds[sign[2]].z - ray.origin.z) * inverseDirection.z;
+    tmax.z = (bounds[1-sign[2]].z - ray.origin.z) * inverseDirection.z;
+    
+    
+    
+    if ((tmin.x > tmax.z) || (tmin.z > tmax.x)){
+        
+        return ret;
+    }
+    
+    if (tmin.z > tmin.x){
+        tmin.x = tmin.z;
+        t0 = tmin.x;
+    }
+    
+    if (tmax.z < tmax.x){
+        tmax.x = tmax.z;
+        t0 = tmax.x;
+    }
+    
+    ret.accept = true;
+    ret.distance =float4(ray.origin + ray.direction * t0, 1);
+    return ret ;
+}
+ 
+
+float interpolate(ray r, float3 p){
+    return length(p - float3(0,0,0)) / length(r.direction);
 }
 
 kernel void testKernel(constant Uniforms & uniforms [[buffer(1)]],
                        
-                       primitive_acceleration_structure accelerationStructure [[buffer(0)]],
+                       constant BoundingBox *boundingBuffer [[buffer(0)]],
                        
-                       device int &node [[buffer(2)]]){
-    node = 5;
+                       device float *parameters [[buffer(2)]],
+                       constant localRay *localRays [[buffer(3)]],
+                       uint pid [[thread_position_in_grid]]){
+    
+    BoundingBoxIntersection answer;
     ray ray;
+    ray.origin = localRays[pid].localOrigin;
+    
+    // Map normalized pixel coordinates into camera's coordinate system.
+    ray.direction = localRays[pid].localDirection;//normalize(uv.x * uniforms.right + uv.y * uniforms.up + uniforms.forward);
+    
+    // Don't limit intersection distance.
+    ray.max_distance = INFINITY;
+   //intersector is not supported by anything lower than A13, not iOS14
+   //I will move my intersector from CPU to the GPU
+    
+    //hit test with local ray
+    
+    IntersectionFunction(boundingBuffer[pid], ray);
+    
+    if (answer.accept){
+        
+    }
+    
 }
 
 
 // Main ray tracing kernel.
 /// Trying to figure it out
-kernel void raytracingKernel(constant Uniforms & uniforms [[buffer(1)]],
-                             
-                             primitive_acceleration_structure accelerationStructure [[buffer(0)]],
-                             
-                             device int &node [[buffer(2)]]
-                             )
-{
-    // The sample aligns the thread count to the threadgroup size. which means the thread count
-    // may be different than the bounds of the texture. Test to make sure this thread
-    // is referencing a pixel within the bounds of the texture.
-//    if (tid.x < uniforms.width && tid.y < uniforms.height) {
-        // The ray to cast.
-        ray ray;
-        
-        // Pixel coordinates for this thread.
-//        float2 pixel = (float2)tid;
-        
-        
-        // Map pixel coordinates to -1..1.
-//        float2 uv = (float2)pixel / float2(uniforms.width, uniforms.height);
-//        uv = uv * 2.0f - 1.0f;
-        
-        //constant Camera & camera = uniforms.camera;
-        
-        // Rays start at the camera position.
-        ray.origin = uniforms.origin;
-        
-        // Map normalized pixel coordinates into camera's coordinate system.
-        ray.direction = uniforms.direction;//normalize(uv.x * uniforms.right + uv.y * uniforms.up + uniforms.forward);
-        
-        // Don't limit intersection distance.
-        ray.max_distance = INFINITY;
-        
-        
-        // Create an intersector to test for intersection between the ray and the geometry in the scene.
-        intersector<> i;
-        
-        
-        typename intersector<>::result_type intersection;
-        
-        
-        // Get the closest intersection, not the first intersection. This is the default, but
-        // the sample adjusts this property below when it casts shadow rays.
-        i.accept_any_intersection(false);
-        
-        // Check for intersection between the ray and the acceleration structure. If the sample
-        // isn't using intersection functions, it doesn't need to include one.
-        intersection = i.intersect(ray, accelerationStructure);
-        
-        // Stop if the ray didn't hit anything and has bounced out of the scene.
-        if (intersection.type == intersection_type::none)
-        {
-            
-        }else {
-            // Look up the mask for this instance, which indicates what type of geometry the ray hit.
-            //from page 204 of MSL 2.3 the intersect type wpuld return the ray and accel
-            
-            uint result = intersection.primitive_id;
-            
-            node = result;
-            
-            // The ray hit something. Look up the transformation matrix for this instance.
-            float4x4 objectToWorldSpaceTransform(1.0f);
-            
-            for (int column = 0; column < 4; column++)
-                for (int row = 0; row < 3; row++)
-                   // objectToWorldSpaceTransform[column][row] = intersection    .transformationMatrix[column][row];
-            
-            // Compute intersection point in world space.
-            float3 worldSpaceIntersectionPoint = ray.origin + ray.direction * intersection.distance;
-            
-            unsigned primitiveIndex = intersection.primitive_id;
-            
-            
-        }
-        
-        
-    }
 

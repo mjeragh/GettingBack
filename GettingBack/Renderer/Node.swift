@@ -48,7 +48,7 @@ class Node {
     weak var parent: Node?
     var material = Material()
     var children: [Node] = []
-    
+    var localRay : localRay!
     
 
     var boundingBox = MDLAxisAlignedBoundingBox()

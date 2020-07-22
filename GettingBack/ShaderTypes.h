@@ -19,6 +19,8 @@ typedef struct {
     matrix_float4x4 viewMatrix;
     matrix_float4x4 projectionMatrix;
     matrix_float3x3 normalMatrix;
+    
+    
     unsigned int width;
     unsigned int height;
     //camera
@@ -28,6 +30,11 @@ typedef struct {
     vector_float3 right;
     vector_float3 forward;
 } Uniforms;
+
+typedef struct{
+    vector_float3 localOrigin;
+    vector_float3 localDirection;
+} localRay;
 
 typedef struct {
   uint lightCount;
@@ -91,6 +98,11 @@ typedef enum {
   Joints = 6,
   Weights = 7
 } Attributes;
+
+typedef struct {
+    vector_float3 minBounds;
+    vector_float3 maxBounds;
+} BoundingBox;
 
 #endif /* ShaderTypes_h */
 

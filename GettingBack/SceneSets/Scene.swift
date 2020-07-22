@@ -106,6 +106,7 @@ class Scene {
     if let parent = parent {
       parent.add(childNode: node)
         boundingBoxes.append(parent.boundingBox)
+        
     } else {
       rootNode.add(childNode: node)
         boundingBoxes.append(node.boundingBox)
