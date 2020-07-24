@@ -48,7 +48,7 @@ class Node {
     weak var parent: Node?
     var material = Material()
     var children: [Node] = []
-    var localRay : localRay!
+    var nodeGPU = NodeGPU()
     
 
     var boundingBox = MDLAxisAlignedBoundingBox()
@@ -83,6 +83,9 @@ class Node {
     final func add(childNode: Node) {
       children.append(childNode)
       childNode.parent = self
+        //TODO: The following code is redudant, I will take care of it later
+        childNode.nodeGPU.boundingBox.minBounds = childNode.boundingBox.minBounds
+        childNode.nodeGPU.boundingBox.maxBounds = childNode.boundingBox.maxBounds
     }
     
     final func remove(childNode: Node) {

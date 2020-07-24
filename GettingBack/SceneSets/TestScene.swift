@@ -19,8 +19,7 @@ class TestScene: Scene {
     var computePipelineState: MTLComputePipelineState!
     var computeEncoder: MTLComputeCommandEncoder!
     var accelerationStructure: MTLAccelerationStructure!
-    var boundingBuffer, localRaysBuffer : MTLBuffer!
-    var parameters : [Float] = []
+    var nodeGPUBuffer : MTLBuffer!
     
     override init(sceneSize: CGSize) {
         sphere = Primitive(shape: .sphere, size: 1.0)
@@ -61,9 +60,7 @@ class TestScene: Scene {
         camera.position = [0,0,-15]
         camera.name = "Test"
         
-        for _ in 0...renderables.count{
-            parameters.append(0.0)
-        }
+       
     }
     override func updateScene(deltaTime: Float) {
         time += 0.1
@@ -72,58 +69,13 @@ class TestScene: Scene {
         sphere.position = [cos(time),0,0 + sin(time)]
     }
     
+    //the function name should change to build buffers
     override func buildAccelerationStructure() {
         
         //creating Bounding Buffer
-       boundingBuffer = Renderer.device.makeBuffer(length: boundingBoxes.count * MemoryLayout<MDLAxisAlignedBoundingBox>.stride, options: .storageModeShared)
-        
-        var pointer = boundingBuffer?.contents().bindMemory(to: MDLAxisAlignedBoundingBox.self, capacity: boundingBoxes.count)
-        
-        for boundingBox in boundingBoxes {
-            pointer?.pointee.maxBounds = boundingBox.maxBounds
-            pointer?.pointee.minBounds = boundingBox.minBounds
-            pointer = pointer?.advanced(by: 1) //from page 451 metalbytutorialsV2
-        }
-        
-        let accelerationStructureDescriptor = MTLPrimitiveAccelerationStructureDescriptor()
-
-        // Create geometry descriptor(s)
-        let geometryDescriptor = MTLAccelerationStructureBoundingBoxGeometryDescriptor()
-
-        geometryDescriptor.boundingBoxBuffer = boundingBuffer
-        geometryDescriptor.boundingBoxCount = boundingBoxes.count
-//        geometryDescriptor.boundingBoxBufferOffset = 0
-//        geometryDescriptor.boundingBoxStride = MemoryLayout<MDLAxisAlignedBoundingBox>.stride
-
-        accelerationStructureDescriptor.geometryDescriptors = [ geometryDescriptor ]
-        
-        //Second Step from the Video of wwdc2020
-        // Query for acceleration structure sizes
-        let sizes = Renderer.device.accelerationStructureSizes(descriptor: accelerationStructureDescriptor)
-
-        // Allocate acceleration structure
-         accelerationStructure =
-            Renderer.device.makeAccelerationStructure(size: Int(sizes.accelerationStructureSize))!
-
-//        // Allocate scratch buffer
-//        let scratchBuffer = Renderer.device.makeBuffer(length: Int(sizes.buildScratchBufferSize),
-//                                              options: .storageModePrivate)!
-//
-//
-//
-//        // Create command buffer/encoder
-//        let commandBuffer = Renderer.commandQueue.makeCommandBuffer()!
-//        let commandEncoder = commandBuffer.makeAccelerationStructureCommandEncoder()!
-//
-//        // Encode acceleration structure build
-//        commandEncoder.build(accelerationStructure: accelerationStructure,
-//                             descriptor: accelerationStructureDescriptor,
-//                             scratchBuffer: scratchBuffer,
-//                             scratchBufferOffset: 0)
-//
-//        // Commit command buffer
-//        commandEncoder.endEncoding()
-//        commandBuffer.commit()
+       nodeGPUBuffer = Renderer.device.makeBuffer(length: rootNode.children.count * MemoryLayout<NodeGPU>.stride, options: .storageModeShared)
+     
+  
     }
     
     override func handleInteraction(at point: CGPoint) {
@@ -161,25 +113,23 @@ class TestScene: Scene {
         computeEncoder?.pushDebugGroup("handleInteraction")
         
         //need to compute the local rays
-        var localRays : [localRay] = []
-        
+       
         rootNode.children.forEach{node in
             
-            localRays.append(localRay(localOrigin: (node.worldTransform.inverse * SIMD4<Float>(worldRayOrigin,0)).xyz, localDirection: (node.worldTransform.inverse * SIMD4<Float>(worldRayDir,0)).xyz))
+            node.nodeGPU.localRay = (LocalRay(localOrigin: (node.worldTransform.inverse * SIMD4<Float>(worldRayOrigin,0)).xyz, localDirection: (node.worldTransform.inverse * SIMD4<Float>(worldRayDir,0)).xyz))
             
             
         }
         
-        localRaysBuffer = Renderer.device.makeBuffer(bytes: localRays, length: MemoryLayout<localRay>.stride * localRays.count, options: .storageModeShared)
+        
         var uniforms = Uniforms()
         uniforms.origin = worldRayOrigin
         uniforms.direction = worldRayDir
         
-        computeEncoder?.setBuffer(boundingBuffer, offset: 0, index: 0)
-        computeEncoder?.setBuffer(localRaysBuffer, offset: 0, index: 3)
-        computeEncoder?.setBytes(&uniforms, length: MemoryLayout<Uniforms>.stride, index: 1)
-        computeEncoder?.setBytes(parameters, length: MemoryLayout<Float>.stride * renderables.count, index: 2)
         
+        computeEncoder?.setBuffer(nodeGPUBuffer, offset: 0, index: 0)
+        computeEncoder?.setBytes(&uniforms, length: MemoryLayout<Uniforms>.stride, index: 1)
+       
         let computeFunction = Renderer.device.makeDefaultLibrary()?.makeFunction(name: "testKernel")!//(name: "raytracingKernel")!
         computePipelineState = try! Renderer.device.makeComputePipelineState(function: computeFunction!)
         computeEncoder?.setComputePipelineState(computePipelineState)
@@ -189,6 +139,6 @@ class TestScene: Scene {
         computeEncoder?.popDebugGroup()
         commandBuffer?.commit()
         commandBuffer?.waitUntilCompleted()
-        os_log("Hit \(self.parameters) at ")
+//        os_log("Hit \(self.rootNode.children.min(by: node, in node.nodegpu.parameter)) at ")
     }
 }

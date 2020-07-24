@@ -58,7 +58,7 @@ class Scene {
   var uniforms = Uniforms()
   var fragmentUniforms = FragmentUniforms()
     
-    var boundingBoxes : [MDLAxisAlignedBoundingBox] = []
+    
   
   func setupScene() {
     // override this to add objects to the scene
@@ -105,11 +105,9 @@ class Scene {
   final func add(node: Node, parent: Node? = nil, render: Bool = true) {
     if let parent = parent {
       parent.add(childNode: node)
-        boundingBoxes.append(parent.boundingBox)
         
     } else {
       rootNode.add(childNode: node)
-        boundingBoxes.append(node.boundingBox)
     }
     guard render == true,
       let renderable = node as? Renderable else {
@@ -131,7 +129,6 @@ class Scene {
       let index = (renderables.firstIndex {
         $0 as? Node === node
       }) else { return }
-    boundingBoxes.remove(at: index)
     renderables.remove(at: index)
   }
   

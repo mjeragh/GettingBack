@@ -34,7 +34,7 @@ typedef struct {
 typedef struct{
     vector_float3 localOrigin;
     vector_float3 localDirection;
-} localRay;
+} LocalRay;
 
 typedef struct {
   uint lightCount;
@@ -103,6 +103,12 @@ typedef struct {
     vector_float3 minBounds;
     vector_float3 maxBounds;
 } BoundingBox;
+
+typedef struct{
+    LocalRay localRay;
+    BoundingBox boundingBox;
+    float parameter;
+} NodeGPU;
 
 #endif /* ShaderTypes_h */
 

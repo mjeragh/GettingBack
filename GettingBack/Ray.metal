@@ -117,18 +117,15 @@ float interpolate(ray r, float3 p){
 
 kernel void testKernel(constant Uniforms & uniforms [[buffer(1)]],
                        
-                       constant BoundingBox *boundingBuffer [[buffer(0)]],
-                       
-                       device float *parameters [[buffer(2)]],
-                       constant localRay *localRays [[buffer(3)]],
+                       device NodeGPU *nodeGPU [[buffer(0)]],
                        uint pid [[thread_position_in_grid]]){
     
     BoundingBoxIntersection answer;
     ray ray;
-    ray.origin = localRays[pid].localOrigin;
+    ray.origin = nodeGPU[pid].localRay.localOrigin;
     
     // Map normalized pixel coordinates into camera's coordinate system.
-    ray.direction = localRays[pid].localDirection;//normalize(uv.x * uniforms.right + uv.y * uniforms.up + uniforms.forward);
+    ray.direction = nodeGPU[pid].localRay.localDirection;//normalize(uv.x * uniforms.right + uv.y * uniforms.up + uniforms.forward);
     
     // Don't limit intersection distance.
     ray.max_distance = INFINITY;
@@ -137,7 +134,7 @@ kernel void testKernel(constant Uniforms & uniforms [[buffer(1)]],
     
     //hit test with local ray
     
-    IntersectionFunction(boundingBuffer[pid], ray);
+    IntersectionFunction(nodeGPU[pid].boundingBox, ray);
     
     if (answer.accept){
         
