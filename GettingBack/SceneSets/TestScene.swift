@@ -20,18 +20,23 @@ class TestScene: Scene {
     var computeEncoder: MTLComputeCommandEncoder!
     var accelerationStructure: MTLAccelerationStructure!
     var nodeGPUBuffer : MTLBuffer!
+    let width : Float
+    let height : Float
     
     override init(sceneSize: CGSize) {
         sphere = Primitive(shape: .sphere, size: 1.0)
         box = Primitive(shape: .cube, size: 1.0)
+        width = Float(sceneSize.width)
+        height = Float(sceneSize.height)
         super.init(sceneSize: sceneSize)
+        
        buildAccelerationStructure()
       
     }
     
     override func setupScene() {
         
-        sphere.position = [0,1.3,10]
+        sphere.position = [1,3.3,10]
         //sphere.pivotPosition = [1,2,0]
         sphere.material.baseColor = [1.0, 0, 0]
         sphere.material.metallic = 0.0
@@ -45,7 +50,7 @@ class TestScene: Scene {
         
         
         
-        box.position = [0,1.5,0]
+        box.position = [1,1.5,0]
         box.rotation = [0, Float(45).degreesToRadians, 0]
         box.material.baseColor = [0, 0.5, 0]
         box.material.secondColor = [1.0,1.0,0.0]
@@ -57,10 +62,20 @@ class TestScene: Scene {
         box.name = "cube"
         add(node: box)
         add(node: sphere)
+        currentCameraIndex = 1
         camera.position = [0,0,-15]
-        camera.name = "Test"
+        camera.name = "Standard Camera"
         
+        currentCameraIndex = 0
+        (cameras[0] as! ArcballCamera).distance = 15
+        currentCameraIndex = 0
        
+        if let tp = touchPlane.debugPlane {
+            
+            add(node: tp)
+            
+        }
+        
     }
     override func updateScene(deltaTime: Float) {
 //        time += 0.1
@@ -78,35 +93,30 @@ class TestScene: Scene {
   
     }
     
+    override func sceneSizeWillChange(to size: CGSize) {
+        super.sceneSizeWillChange(to: size)
+        
+        
+    }
+    
     override func handleInteraction(at point: CGPoint) {
        
-        
-        
-        let width = Float(sceneSize.width)
-        let height = Float(sceneSize.height)
-        // let aspectRatio = camera?.aspect//width / height
-        
-        let projectionMatrix = camera.projectionMatrix
-        let inverseProjectionMatrix = projectionMatrix.inverse
-        
-       // let viewMatrix = camera.worldTransform.inverse
-        let inverseViewMatrix = camera.inverseViewMatrix//viewMatrix.inverse
-        
         let clipX = (2 * Float(point.x)) / width - 1
         let clipY = 1 - (2 * Float(point.y)) / height
         let clipCoords = SIMD4<Float>(clipX, clipY, 0, 1) // Assume clip space is hemicube, -Z is into the screen
         
-        var eyeRayDir = inverseProjectionMatrix * clipCoords
+        var eyeRayDir = camera.projectionMatrix.inverse * clipCoords
         eyeRayDir.z = 1
         eyeRayDir.w = 0
         
-        var worldRayDir = (inverseViewMatrix * eyeRayDir).xyz
+        var worldRayDir = (camera.inverseViewMatrix * eyeRayDir).xyz
         worldRayDir = normalize(worldRayDir)
         
+       
         let eyeRayOrigin = SIMD4<Float>(x: 0, y: 0, z: 0, w: 1)
-        let worldRayOrigin = (inverseViewMatrix * eyeRayOrigin).xyz
+        let worldRayOrigin = (camera.inverseViewMatrix * eyeRayOrigin).xyz
         
-//        let ray = Ray(origin: worldRayOrigin, direction: worldRayDir)
+        
         let commandQueue = Renderer.device.makeCommandQueue()
         commandBuffer = commandQueue!.makeCommandBuffer()
         computeEncoder = commandBuffer?.makeComputeCommandEncoder()
@@ -118,10 +128,6 @@ class TestScene: Scene {
             
             node.nodeGPU.localRay = (LocalRay(localOrigin: (node.worldTransform.inverse * SIMD4<Float>(worldRayOrigin,1)).xyz, localDirection: (node.worldTransform.inverse * SIMD4<Float>(worldRayDir,0)).xyz))
             node.nodeGPU.parameter = 10000000000.0
-//            pointer?.pointee.localRay = node.nodeGPU.localRay
-//            pointer?.pointee.boundingBox = node.nodeGPU.boundingBox
-//            pointer?.pointee.parameter = node.nodeGPU.parameter
-//            pointer?.pointee.modelMatrix = node.nodeGPU.modelMatrix
             pointer?.pointee = node.nodeGPU
             pointer = pointer?.advanced(by: 1) //from page 451 metalbytutorialsV2
         }
@@ -166,8 +172,47 @@ class TestScene: Scene {
         }
         if (answer?.nodeGPU.debug == 2 ){
             os_log("Hit \((answer?.name)! as String) , \((answer?.nodeGPU.parameter)! as Float), \(Int32((answer?.nodeGPU.debug)! as Int32))")
+            GameViewController.selectedNode = answer
         } else{
             os_log("Miss")
         }
-}
+    }
+    
+    
+    
+    override func unproject(at point: CGPoint) -> SIMD3<Float>? {
+        
+        let clipX = (2 * Float(point.x)) / width - 1
+        let clipY = 1 - (2 * Float(point.y)) / height
+        let clipCoords = SIMD4<Float>(clipX, clipY, 0, 1) // Assume clip space is hemicube, -Z is into the screen
+        
+        var eyeRayDir = camera.projectionMatrix.inverse * clipCoords
+        eyeRayDir.z = 1
+        eyeRayDir.w = 0
+        
+        var worldRayDir = (camera.inverseViewMatrix * eyeRayDir).xyz
+        worldRayDir = normalize(worldRayDir)
+        
+        
+
+        
+        let eyeRayOrigin = SIMD4<Float>(x: 0, y: 0, z: 0, w: 1)
+        let worldRayOrigin = (camera.inverseViewMatrix * eyeRayOrigin).xyz
+        
+        let ray = LocalRay(localOrigin: worldRayOrigin, localDirection: worldRayDir)
+       os_log("ray.direction %f, %f, %f",ray.localDirection.x, ray.localDirection.y, ray.localDirection.z)
+     
+        var position  = GameViewController.selectedNode!.position
+        
+        let parameter = touchPlane.intersectionPlane(ray)
+        os_log("parameter: %f", parameter)
+        if (parameter  > Float(0.0)) {
+            
+            position = ray.localOrigin + ray.localDirection * parameter
+            os_log("(unproject) intersectionPoint %f, %f, %f", ray.localDirection.x * parameter, ray.localDirection.y * parameter, ray.localDirection.z * parameter)
+           // position.y += 0
+        }
+        return position
+    }
+    
 }

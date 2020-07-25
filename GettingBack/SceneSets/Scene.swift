@@ -41,7 +41,7 @@ class Scene {
   
     
   var sceneSize: CGSize
-  var cameras = [Camera()]
+  var cameras = [ArcballCamera(), Camera()]
   var currentCameraIndex = 0
   var camera: Camera  {
     return cameras[currentCameraIndex]

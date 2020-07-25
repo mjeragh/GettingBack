@@ -11,11 +11,14 @@ import MetalKit
 import os.log
 import os.signpost
 
+let touchPlane = Plane(a: 0,b: 1.57,c: 0,d: -2, debug: true)
+
 // Our iOS specific view controller
 class GameViewController: UIViewController {
 
     var renderer: Renderer!
-   
+    var scene:Scene!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -27,7 +30,7 @@ class GameViewController: UIViewController {
         
         renderer = Renderer(metalView: mtkView)
 
-        let scene = TestScene(sceneSize: mtkView.bounds.size)
+        scene = TestScene(sceneSize: mtkView.bounds.size)
         renderer.scene = scene
     }
 }
@@ -57,7 +60,7 @@ extension GameViewController {
             let delta = float2(Float(newTranslation!.x - GameViewController.translation.x),
                                Float(newTranslation!.y - GameViewController.translation.y))
             
-            //scene?.camera.rotate(delta: delta)
+            scene?.camera.rotate(delta: delta)
             return
         }
         if let location = touches.first?.location(in: view)  {
