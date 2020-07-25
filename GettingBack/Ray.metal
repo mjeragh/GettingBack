@@ -52,9 +52,9 @@ BoundingBoxIntersection IntersectionFunction(BoundingBox boundingBox,
     float3 inverseDirection = 1 / ray.direction;
     
     int sign[3];
-    sign[0]= (inverseDirection.x < 0) ? 1 : 0;
-    sign[1]= (inverseDirection.y < 0) ? 1 : 0;
-    sign[2]= (inverseDirection.z < 0) ? 1 : 0;
+    sign[0]= (inverseDirection.x < 0);
+    sign[1]= (inverseDirection.y < 0);
+    sign[2]= (inverseDirection.z < 0);
     
     BoundingBoxIntersection ret;
     ret.accept = false;

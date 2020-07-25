@@ -118,10 +118,11 @@ class TestScene: Scene {
             
             node.nodeGPU.localRay = (LocalRay(localOrigin: (node.worldTransform.inverse * SIMD4<Float>(worldRayOrigin,1)).xyz, localDirection: (node.worldTransform.inverse * SIMD4<Float>(worldRayDir,0)).xyz))
             node.nodeGPU.parameter = 10000000000.0
-            pointer?.pointee.localRay = node.nodeGPU.localRay
-            pointer?.pointee.boundingBox = node.nodeGPU.boundingBox
-            pointer?.pointee.parameter = node.nodeGPU.parameter
-            pointer?.pointee.modelMatrix = node.nodeGPU.modelMatrix
+//            pointer?.pointee.localRay = node.nodeGPU.localRay
+//            pointer?.pointee.boundingBox = node.nodeGPU.boundingBox
+//            pointer?.pointee.parameter = node.nodeGPU.parameter
+//            pointer?.pointee.modelMatrix = node.nodeGPU.modelMatrix
+            pointer?.pointee = node.nodeGPU
             pointer = pointer?.advanced(by: 1) //from page 451 metalbytutorialsV2
         }
         
@@ -134,13 +135,7 @@ class TestScene: Scene {
         
         computeEncoder?.setBuffer(nodeGPUBuffer, offset: 0, index: 0)
         
-//        pointer = nodeGPUBuffer?.contents().bindMemory(to: NodeGPU.self, capacity: rootNode.children.count)
-////
-////        for child in rootNode.children {
-//////            os_log("localRay: \(pointer?.pointee.localRay.localOrigin), BoundingBox\(pointer?.pointee.boundingBox.minBounds), parameter\((pointer?.pointee.parameter)! as NSObject)")
-////            pointer = pointer?.advanced(by: 1) //from page 451 metalbytutorialsV2
-////        }
-        
+
         
         
         computeEncoder?.setBytes(&uniforms, length: MemoryLayout<Uniforms>.stride, index: 1)
