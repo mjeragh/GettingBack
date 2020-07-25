@@ -31,7 +31,7 @@ class TestScene: Scene {
     
     override func setupScene() {
         
-        sphere.position = [0,0,0]
+        sphere.position = [10,-2,0]
         //sphere.pivotPosition = [1,2,0]
         sphere.material.baseColor = [1.0, 0, 0]
         sphere.material.metallic = 0.0
@@ -42,10 +42,10 @@ class TestScene: Scene {
         sphere.material.ambientOcclusion = [0,0,0]
         sphere.material.gradient = linear
         sphere.name = "sun"
-        add(node: sphere)
         
         
-        box.position = [-1.5,0.5,0]
+        
+        box.position = [-1.5,1.5,0]
         box.rotation = [0, Float(45).degreesToRadians, 0]
         box.material.baseColor = [0, 0.5, 0]
         box.material.secondColor = [1.0,1.0,0.0]
@@ -56,17 +56,17 @@ class TestScene: Scene {
         box.material.ambientOcclusion = [1.0,1.0,1.0]
         box.name = "cube"
         add(node: box)
-        
+        add(node: sphere)
         camera.position = [0,0,-15]
         camera.name = "Test"
         
        
     }
     override func updateScene(deltaTime: Float) {
-        time += 0.1
-        
-        box.position = [-1.5 + cos(time),0.5 + sin(time),0]
-        sphere.position = [cos(time),0,0 + sin(time)]
+//        time += 0.1
+//
+//        box.position = [-1.5 + cos(time),0.5 + sin(time),0]
+//        sphere.position = [cos(time),0,0 + sin(time)]
     }
     
     //the function name should change to build buffers
@@ -113,12 +113,16 @@ class TestScene: Scene {
         computeEncoder?.pushDebugGroup("handleInteraction")
         
         //need to compute the local rays
-       
+        var pointer = nodeGPUBuffer?.contents().bindMemory(to: NodeGPU.self, capacity: rootNode.children.count)
         rootNode.children.forEach{node in
             
-            node.nodeGPU.localRay = (LocalRay(localOrigin: (node.worldTransform.inverse * SIMD4<Float>(worldRayOrigin,0)).xyz, localDirection: (node.worldTransform.inverse * SIMD4<Float>(worldRayDir,0)).xyz))
+            node.nodeGPU.localRay = (LocalRay(localOrigin: (node.worldTransform.inverse * SIMD4<Float>(worldRayOrigin,1)).xyz, localDirection: (node.worldTransform.inverse * SIMD4<Float>(worldRayDir,0)).xyz))
+            node.nodeGPU.parameter = 10000000000.0
+            pointer?.pointee.localRay = node.nodeGPU.localRay
+            pointer?.pointee.boundingBox = node.nodeGPU.boundingBox
+            pointer?.pointee.parameter = node.nodeGPU.parameter
             
-            
+            pointer = pointer?.advanced(by: 1) //from page 451 metalbytutorialsV2
         }
         
         
@@ -127,7 +131,18 @@ class TestScene: Scene {
         uniforms.direction = worldRayDir
         
         
+        
         computeEncoder?.setBuffer(nodeGPUBuffer, offset: 0, index: 0)
+        
+//        pointer = nodeGPUBuffer?.contents().bindMemory(to: NodeGPU.self, capacity: rootNode.children.count)
+////
+////        for child in rootNode.children {
+//////            os_log("localRay: \(pointer?.pointee.localRay.localOrigin), BoundingBox\(pointer?.pointee.boundingBox.minBounds), parameter\((pointer?.pointee.parameter)! as NSObject)")
+////            pointer = pointer?.advanced(by: 1) //from page 451 metalbytutorialsV2
+////        }
+        
+        
+        
         computeEncoder?.setBytes(&uniforms, length: MemoryLayout<Uniforms>.stride, index: 1)
        
         let computeFunction = Renderer.device.makeDefaultLibrary()?.makeFunction(name: "testKernel")!//(name: "raytracingKernel")!
@@ -139,6 +154,18 @@ class TestScene: Scene {
         computeEncoder?.popDebugGroup()
         commandBuffer?.commit()
         commandBuffer?.waitUntilCompleted()
-//        os_log("Hit \(self.rootNode.children.min(by: node, in node.nodegpu.parameter)) at ")
+        
+        pointer = nodeGPUBuffer?.contents().bindMemory(to: NodeGPU.self, capacity: rootNode.children.count)
+        
+        
+        
+        let answer = rootNode.children.min{
+            a, b in a.nodeGPU.parameter < b.nodeGPU.parameter
+        }
+        os_log("Hit \((answer?.name)! as NSObject) ")
+        
+        for node in rootNode.children {
+            os_log("\((node.name) as NSObject), \((node.nodeGPU.parameter) as NSObject), \((node.nodeGPU.debug) as NSObject)")
+        }
     }
 }

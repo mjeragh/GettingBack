@@ -35,15 +35,35 @@ import os.log
 class Node {
     let identifier = UUID()
     var name: String = "untitled"
-    var position: SIMD3<Float> = [0, 0, 0]
+    var position: SIMD3<Float> = [0, 0, 0]{
+        didSet {
+            let translateMatrix = float4x4(translation: position)
+            let rotateMatrix = float4x4(rotation: rotation)
+            let scaleMatrix = float4x4(scaling: scale)
+             
+            nodeGPU.modelMatrix = translateMatrix * rotateMatrix * scaleMatrix
+        }
+    }
     var rotation: float3 = [0, 0, 0] {
       didSet {
         let rotationMatrix = float4x4(rotation: rotation)
         quaternion = simd_quatf(rotationMatrix)
+        let translateMatrix = float4x4(translation: position)
+        let scaleMatrix = float4x4(scaling: scale)
+         
+        nodeGPU.modelMatrix = translateMatrix * rotationMatrix * scaleMatrix
       }
     }
     var quaternion = simd_quatf()
-    var scale: SIMD3<Float> = [1, 1, 1]
+    var scale: SIMD3<Float> = [1, 1, 1]{
+        didSet {
+            let translateMatrix = float4x4(translation: position)
+            let rotateMatrix = float4x4(rotation: rotation)
+            let scaleMatrix = float4x4(scaling: scale)
+             
+            nodeGPU.modelMatrix = translateMatrix * rotateMatrix * scaleMatrix
+        }
+    }
     var test: SIMD4<Float> = [1,1,1,1] //I cant remember why I need this Test
     weak var parent: Node?
     var material = Material()
@@ -58,11 +78,12 @@ class Node {
     
    // var boundingSphere = BoundingSphere(center: SIMD3<Float>(0,0,0), radius: 0, debugBoundingSphere: nil)
     
-  
+        
   var modelMatrix: float4x4 {
     let translateMatrix = float4x4(translation: position)
     let rotateMatrix = float4x4(rotation: rotation)
     let scaleMatrix = float4x4(scaling: scale)
+    nodeGPU.modelMatrix = translateMatrix * rotateMatrix * scaleMatrix
     return translateMatrix * rotateMatrix * scaleMatrix
   }
   
@@ -86,6 +107,7 @@ class Node {
         //TODO: The following code is redudant, I will take care of it later
         childNode.nodeGPU.boundingBox.minBounds = childNode.boundingBox.minBounds
         childNode.nodeGPU.boundingBox.maxBounds = childNode.boundingBox.maxBounds
+        childNode.nodeGPU.debug = 0
     }
     
     final func remove(childNode: Node) {

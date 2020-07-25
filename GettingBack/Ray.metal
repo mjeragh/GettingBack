@@ -16,7 +16,7 @@ using namespace raytracing;
 
 // Return type for a bounding box intersection function.
 struct BoundingBoxIntersection {
-    bool accept    [[accept_intersection]]; // Whether to accept or reject the intersection.
+    bool accept   ; // Whether to accept or reject the intersection.
     float4 distance ;            // Distance from the ray origin to the intersection point.
 };
 
@@ -52,9 +52,9 @@ BoundingBoxIntersection IntersectionFunction(BoundingBox boundingBox,
     float3 inverseDirection = 1 / ray.direction;
     
     int sign[3];
-    sign[0]= (inverseDirection.x < 0);
-    sign[1]= (inverseDirection.y < 0);
-    sign[2]= (inverseDirection.z < 0);
+    sign[0]= (inverseDirection.x < 0) ? 1 : 0;
+    sign[1]= (inverseDirection.y < 0) ? 1 : 0;
+    sign[2]= (inverseDirection.z < 0) ? 1 : 0;
     
     BoundingBoxIntersection ret;
     ret.accept = false;
@@ -134,9 +134,16 @@ kernel void testKernel(constant Uniforms & uniforms [[buffer(1)]],
     
     //hit test with local ray
     
-    IntersectionFunction(nodeGPU[pid].boundingBox, ray);
+    answer = IntersectionFunction(nodeGPU[pid].boundingBox, ray);
+    nodeGPU[pid].debug = 1;
     
     if (answer.accept){
+        float3 worldPoint = (nodeGPU[pid].modelMatrix * answer.distance).xyz;
+        struct ray worldRay;
+        worldRay.origin = uniforms.origin;
+        worldRay.direction = uniforms.direction;
+        nodeGPU[pid].debug = 2;
+        nodeGPU[pid].parameter = interpolate(worldRay, worldPoint);
         
     }
     

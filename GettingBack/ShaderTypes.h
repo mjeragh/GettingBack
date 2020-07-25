@@ -21,14 +21,14 @@ typedef struct {
     matrix_float3x3 normalMatrix;
     
     
-    unsigned int width;
-    unsigned int height;
+//    unsigned int width;
+//    unsigned int height;
     //camera
     vector_float3 origin;
     vector_float3 direction;
-    vector_float3 up;
-    vector_float3 right;
-    vector_float3 forward;
+//    vector_float3 up;
+//    vector_float3 right;
+//    vector_float3 forward;
 } Uniforms;
 
 typedef struct{
@@ -108,6 +108,8 @@ typedef struct{
     LocalRay localRay;
     BoundingBox boundingBox;
     float parameter;
+    matrix_float4x4 modelMatrix;
+    int debug;
 } NodeGPU;
 
 #endif /* ShaderTypes_h */
