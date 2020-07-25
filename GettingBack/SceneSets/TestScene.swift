@@ -31,7 +31,7 @@ class TestScene: Scene {
     
     override func setupScene() {
         
-        sphere.position = [10,-2,0]
+        sphere.position = [0,1.3,10]
         //sphere.pivotPosition = [1,2,0]
         sphere.material.baseColor = [1.0, 0, 0]
         sphere.material.metallic = 0.0
@@ -45,7 +45,7 @@ class TestScene: Scene {
         
         
         
-        box.position = [-1.5,1.5,0]
+        box.position = [0,1.5,0]
         box.rotation = [0, Float(45).degreesToRadians, 0]
         box.material.baseColor = [0, 0.5, 0]
         box.material.secondColor = [1.0,1.0,0.0]
@@ -121,7 +121,7 @@ class TestScene: Scene {
             pointer?.pointee.localRay = node.nodeGPU.localRay
             pointer?.pointee.boundingBox = node.nodeGPU.boundingBox
             pointer?.pointee.parameter = node.nodeGPU.parameter
-            
+            pointer?.pointee.modelMatrix = node.nodeGPU.modelMatrix
             pointer = pointer?.advanced(by: 1) //from page 451 metalbytutorialsV2
         }
         
@@ -156,16 +156,23 @@ class TestScene: Scene {
         commandBuffer?.waitUntilCompleted()
         
         pointer = nodeGPUBuffer?.contents().bindMemory(to: NodeGPU.self, capacity: rootNode.children.count)
+       
         
-        
+        for node in rootNode.children {
+            node.nodeGPU = pointer!.pointee
+            
+            
+//            os_log("\((node.name) as String), \((node.nodeGPU.parameter) as Float), \(Int32((node.nodeGPU.debug) as Int32))")
+            pointer = pointer?.advanced(by: 1)
+        }
         
         let answer = rootNode.children.min{
             a, b in a.nodeGPU.parameter < b.nodeGPU.parameter
         }
-        os_log("Hit \((answer?.name)! as NSObject) ")
-        
-        for node in rootNode.children {
-            os_log("\((node.name) as NSObject), \((node.nodeGPU.parameter) as NSObject), \((node.nodeGPU.debug) as NSObject)")
+        if (answer?.nodeGPU.debug == 2 ){
+            os_log("Hit \((answer?.name)! as String) , \((answer?.nodeGPU.parameter)! as Float), \(Int32((answer?.nodeGPU.debug)! as Int32))")
+        } else{
+            os_log("Miss")
         }
-    }
+}
 }
