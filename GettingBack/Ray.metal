@@ -136,8 +136,9 @@ kernel void testKernel(constant Uniforms & uniforms [[buffer(1)]],
     
     answer = IntersectionFunction(nodeGPU[pid].boundingBox, ray);
     nodeGPU[pid].debug = 1;
-    
+    nodeGPU[pid].parameter = INFINITY;//10000000000.0;
     if (answer.accept){
+        
         float3 worldPoint = (nodeGPU[pid].modelMatrix * answer.distance).xyz;
         struct ray worldRay;
         worldRay.origin = uniforms.origin;

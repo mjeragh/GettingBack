@@ -70,11 +70,11 @@ class TestScene: Scene {
         (cameras[0] as! ArcballCamera).distance = 15
         currentCameraIndex = 0
        
-        if let tp = touchPlane.debugPlane {
-            
-            add(node: tp)
-            
-        }
+//        if let tp = touchPlane.debugPlane {
+//
+//            add(node: tp)
+//
+//        }
         
     }
     override func updateScene(deltaTime: Float) {
@@ -121,15 +121,15 @@ class TestScene: Scene {
         commandBuffer = commandQueue!.makeCommandBuffer()
         computeEncoder = commandBuffer?.makeComputeCommandEncoder()
         computeEncoder?.pushDebugGroup("handleInteraction")
-        
+        let gpuCapacity = renderables.count
         //need to compute the local rays
-        var pointer = nodeGPUBuffer?.contents().bindMemory(to: NodeGPU.self, capacity: rootNode.children.count)
+        var pointer = nodeGPUBuffer?.contents().bindMemory(to: NodeGPU.self, capacity: gpuCapacity)
         rootNode.children.forEach{node in
-            
             node.nodeGPU.localRay = (LocalRay(localOrigin: (node.worldTransform.inverse * SIMD4<Float>(worldRayOrigin,1)).xyz, localDirection: (node.worldTransform.inverse * SIMD4<Float>(worldRayDir,0)).xyz))
-            node.nodeGPU.parameter = 10000000000.0
+//            node.nodeGPU.parameter = 10000000000.0
             pointer?.pointee = node.nodeGPU
             pointer = pointer?.advanced(by: 1) //from page 451 metalbytutorialsV2
+            
         }
         
         

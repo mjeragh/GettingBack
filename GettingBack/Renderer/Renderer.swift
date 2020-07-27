@@ -86,6 +86,15 @@ extension Renderer: MTKViewDelegate {
       renderEncoder.popDebugGroup()
     }
     
+    //debug
+    if let debug = touchPlane.debugPlane{
+        renderEncoder.pushDebugGroup(debug.name)
+        debug.render(renderEncoder: renderEncoder,
+                          uniforms: scene.uniforms,
+                          fragmentUniforms: scene.fragmentUniforms)
+        renderEncoder.popDebugGroup()
+    }
+    
     renderEncoder.endEncoding()
     guard let drawable = view.currentDrawable else {
       return
