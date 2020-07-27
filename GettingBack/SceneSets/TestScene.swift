@@ -45,7 +45,7 @@ class TestScene: Scene {
         sphere.material.specularColor = [0,0,0]
         sphere.material.secondColor = [1.0,0,1.0]
         sphere.material.ambientOcclusion = [0,0,0]
-        sphere.material.gradient = linear
+        sphere.material.gradient = radial
         sphere.name = "sun"
         
         

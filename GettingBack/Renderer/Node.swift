@@ -35,6 +35,7 @@ import os.log
 class Node {
     let identifier = UUID()
     var name: String = "untitled"
+    var nodeGPU = NodeGPU()
     var position: SIMD3<Float> = [0, 0, 0]{
         didSet {
             let translateMatrix = float4x4(translation: position)
@@ -68,7 +69,7 @@ class Node {
     weak var parent: Node?
     var material = Material()
     var children: [Node] = []
-    var nodeGPU = NodeGPU()
+    
     
 
     var boundingBox = MDLAxisAlignedBoundingBox()
@@ -84,7 +85,7 @@ class Node {
     let rotateMatrix = float4x4(rotation: rotation)
     let scaleMatrix = float4x4(scaling: scale)
     nodeGPU.modelMatrix = translateMatrix * rotateMatrix * scaleMatrix
-    return translateMatrix * rotateMatrix * scaleMatrix
+    return nodeGPU.modelMatrix
   }
   
     var worldTransform: float4x4 {
@@ -139,58 +140,6 @@ class Node {
 
 extension Node: Equatable, CustomDebugStringConvertible {
 
-//    func unproject(_ ray: Ray) -> HitResult?{
-//        let modelToWorld = worldTransform//float4x4.identity()
-//        let localRay = modelToWorld.inverse * ray
-//
-//        var nearest: HitResult?
-//        if let modelPoint = boundingBox.intersect(localRay) {
-//            let worldPoint = modelToWorld * modelPoint
-//            let worldParameter = ray.interpolate(worldPoint)
-//            nearest = HitResult(node: self, ray: ray, parameter: worldParameter)
-//        }
-//
-//
-//        return nearest
-//    }
-//
-//    func hitTest(_ ray: Ray) -> HitResult? {
-//        let modelToWorld = worldTransform
-//        let localRay = modelToWorld.inverse * ray
-//
-//        var nearest: HitResult?
-//        if let modelPoint = boundingBox.intersect(localRay) {
-//            let worldPoint = modelToWorld * modelPoint
-//            let worldParameter = ray.interpolate(worldPoint)
-//            nearest = HitResult(node: self, ray: ray, parameter: worldParameter)
-//        }
-//
-//        var nearestChildHit: HitResult?
-//        for child in children {
-//            if (child.name == "plane") {continue}
-//            if let childHit = child.hitTest(ray) {
-//                if let nearestActualChildHit = nearestChildHit {
-//                    if childHit < nearestActualChildHit {
-//                        nearestChildHit = childHit
-//                    }
-//                } else {
-//                    nearestChildHit = childHit
-//                }
-//            }
-//        }
-//
-//        if let nearestActualChildHit = nearestChildHit {
-//            if let nearestActual = nearest {
-//                if nearestActualChildHit < nearestActual {
-//                    return nearestActualChildHit
-//                }
-//            } else {
-//                return nearestActualChildHit
-//            }
-//        }
-//
-//        return nearest
-//    }
 
     static func == (lhs: Node, rhs: Node) -> Bool {
         return lhs.identifier == rhs.identifier
@@ -198,66 +147,4 @@ extension Node: Equatable, CustomDebugStringConvertible {
 
     var debugDescription: String { return "<Node>: \(name )" }
 }
-//
-//extension MDLAxisAlignedBoundingBox {
-//
-//    func intersect(_ ray: Ray) -> SIMD4<Float>? {
-//
-//        var tmin = minBounds
-//        var tmax = maxBounds
-//
-//        let inverseDirection = 1 / ray.direction
-//
-//        let sign : [Int] = [(inverseDirection.x < 0) ? 1 : 0,(inverseDirection.y < 0) ? 1 : 0,(inverseDirection.z < 0) ? 1 : 0]
-//
-//
-//        let bounds : [SIMD3<Float>] = [tmin,tmax]
-//
-//        tmin.x = (bounds[sign[0]].x - ray.origin.x) * inverseDirection.x
-//        tmax.x = (bounds[1 - sign[0]].x - ray.origin.x) * inverseDirection.x
-//
-//        tmin.y = (bounds[sign[1]].y - ray.origin.y) * inverseDirection.y
-//        tmax.y = (bounds[1 - sign[1]].y - ray.origin.y) * inverseDirection.y
-//
-//        var t0 = Float(tmax.z)
-//
-//        if ((tmin.x > tmax.y) || (tmin.y > tmax.x)){
-//            os_log("first nil")
-//            return nil
-//        }
-//
-//
-//
-//        if (tmin.y > tmin.x){
-//            tmin.x = tmin.y;
-//        }
-//
-//
-//        if (tmax.y < tmax.x){
-//            tmax.x = tmax.y;
-//        }
-//
-//        tmin.z = (bounds[sign[2]].z - ray.origin.z) * inverseDirection.z
-//        tmax.z = (bounds[1-sign[2]].z - ray.origin.z) * inverseDirection.z
-//
-//
-//
-//        if ((tmin.x > tmax.z) || (tmin.z > tmax.x)){
-//            os_log("second nil")
-//            return nil
-//        }
-//
-//        if (tmin.z > tmin.x){
-//            tmin.x = tmin.z
-//            t0 = tmin.x
-//        }
-//
-//        if (tmax.z < tmax.x){
-//            tmax.x = tmax.z
-//            t0 = tmax.x
-//        }
-//
-//        print("t0 \(t0)")
-//        return SIMD4<Float>(ray.origin + ray.direction * t0, 1)
-//    }
-//}
+
