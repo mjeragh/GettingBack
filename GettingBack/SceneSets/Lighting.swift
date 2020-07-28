@@ -52,7 +52,7 @@ struct Lighting {
     light.position = [0, 0, 0]
     light.color = [1, 1, 1]
     light.specularColor = [0.6,0.6, 0.6]
-    light.intensity = 0.6
+    light.intensity = 1
     light.attenuation = float3(1, 0, 0)
     light.type = Sunlight
     return light
