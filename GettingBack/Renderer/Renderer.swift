@@ -8,7 +8,7 @@ class Renderer: NSObject {
   static var colorPixelFormat: MTLPixelFormat!
   static var fps: Int!
 
-  static var fragmentUniforms = FragmentUniforms()
+ // static var fragmentUniforms = FragmentUniforms()
   let depthStencilState: MTLDepthStencilState
 //  let lighting = Lighting()
   var scene: Scene?
@@ -30,8 +30,8 @@ class Renderer: NSObject {
     
     depthStencilState = Renderer.buildDepthStencilState()!
     super.init()
-    metalView.clearColor = MTLClearColor(red: 0.0, green: 0.05,
-                                         blue: 0.1, alpha: 1)
+    metalView.clearColor = MTLClearColor(red: 0.1, green: 0.1,
+                                         blue: 0.5, alpha: 1)
 
     metalView.delegate = self
     mtkView(metalView, drawableSizeWillChange: metalView.bounds.size)
@@ -94,7 +94,7 @@ extension Renderer: MTKViewDelegate {
                           fragmentUniforms: scene.fragmentUniforms)
         renderEncoder.popDebugGroup()
     }
-    scene.debugLights(renderEncoder: renderEncoder, lightType: Spotlight)
+    scene.debugLights(renderEncoder: renderEncoder, lightType: Sunlight)
     renderEncoder.endEncoding()
     guard let drawable = view.currentDrawable else {
       return

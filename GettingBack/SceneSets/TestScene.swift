@@ -18,7 +18,6 @@ class TestScene: Scene {
     var commandBuffer : MTLCommandBuffer!
     var computePipelineState: MTLComputePipelineState!
     var computeEncoder: MTLComputeCommandEncoder!
-    var accelerationStructure: MTLAccelerationStructure!
     var nodeGPUBuffer : MTLBuffer!
     let width : Float
     let height : Float
@@ -29,8 +28,8 @@ class TestScene: Scene {
         width = Float(sceneSize.width)
         height = Float(sceneSize.height)
         super.init(sceneSize: sceneSize)
-        Renderer.fragmentUniforms.lightCount = lighting.count
-       buildAccelerationStructure()
+        fragmentUniforms.lightCount = lighting.count
+       buildGPUBuffers()
       
     }
     
@@ -81,7 +80,7 @@ class TestScene: Scene {
     }
     
     //the function name should change to build buffers
-    override func buildAccelerationStructure() {
+    override func buildGPUBuffers() {
         
         //creating Bounding Buffer
        nodeGPUBuffer = Renderer.device.makeBuffer(length: rootNode.children.count * MemoryLayout<NodeGPU>.stride, options: .storageModeShared)
@@ -129,7 +128,7 @@ class TestScene: Scene {
         }
         
         
-        var uniforms = Uniforms()
+//        var uniforms = Uniforms()
         uniforms.origin = worldRayOrigin
         uniforms.direction = worldRayDir
         

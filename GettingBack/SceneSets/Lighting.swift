@@ -36,6 +36,7 @@ struct Lighting {
   let sunlight: Light = {
     var light = Lighting.buildDefaultLight()
     light.position = [3, 3, -2]
+    light.type = Sunlight
     return light
   }()
   let lights: [Light]

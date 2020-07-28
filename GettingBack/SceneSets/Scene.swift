@@ -145,7 +145,7 @@ class Scene {
   }
     
     
-    func buildAccelerationStructure() {
+    func buildGPUBuffers() {
         //override this function when needed
     }
     
