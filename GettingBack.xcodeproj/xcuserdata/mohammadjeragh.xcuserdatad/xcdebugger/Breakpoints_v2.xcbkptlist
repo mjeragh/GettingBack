@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Bucket
-   uuid = "AD895EC9-9D4A-4C28-9A32-46952853C66D"
+   uuid = "C1B94EEF-8152-44B7-96EC-8C2CC9CB0B52"
    type = "1"
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.RuntimeIssueBreakpoint">
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "52CF098C-FA06-4F32-BF59-302448B1FF5A"
-            shouldBeEnabled = "Yes"
+            uuid = "20CCFD70-ADE5-49A0-8270-8783D968A091"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            breakpointStackSelectionBehavior = "1"
-            type = "8"
-            categories = "Metal Diagnostics">
+            filePath = "GettingBack/SceneSets/Lighting.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "init()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

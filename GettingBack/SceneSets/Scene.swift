@@ -58,8 +58,13 @@ class Scene {
   var uniforms = Uniforms()
   var fragmentUniforms = FragmentUniforms()
     
+  let lighting = Lighting()
+    // Debug drawing of lights
+    lazy var lightPipelineState: MTLRenderPipelineState = {
+      return buildLightPipelineState()
+    }()
     
-  
+    
   func setupScene() {
     // override this to add objects to the scene
   }

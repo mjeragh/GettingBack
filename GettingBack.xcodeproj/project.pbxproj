@@ -11,6 +11,8 @@
 		B206E87D242412870019832E /* Primitive.swift in Sources */ = {isa = PBXBuildFile; fileRef = B206E87C242412870019832E /* Primitive.swift */; };
 		B206E87F242538620019832E /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = B206E87E242538620019832E /* Camera.swift */; };
 		B22293D1242AA6B80059218C /* Lighting.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22293D0242AA6B80059218C /* Lighting.swift */; };
+		B222AE2D24D0B67F000E8560 /* DebugLights.metal in Sources */ = {isa = PBXBuildFile; fileRef = B222AE2B24D0B67F000E8560 /* DebugLights.metal */; };
+		B222AE2E24D0B67F000E8560 /* DebugLights.swift in Sources */ = {isa = PBXBuildFile; fileRef = B222AE2C24D0B67F000E8560 /* DebugLights.swift */; };
 		B2236E95241AD3F80079C1A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2236E94241AD3F80079C1A0 /* AppDelegate.swift */; };
 		B2236E98241AD3F80079C1A0 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2236E97241AD3F80079C1A0 /* Renderer.swift */; };
 		B2236E9A241AD3F80079C1A0 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2236E99241AD3F80079C1A0 /* GameViewController.swift */; };
@@ -40,6 +42,8 @@
 		B206E87C242412870019832E /* Primitive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Primitive.swift; sourceTree = "<group>"; };
 		B206E87E242538620019832E /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		B22293D0242AA6B80059218C /* Lighting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lighting.swift; sourceTree = "<group>"; };
+		B222AE2B24D0B67F000E8560 /* DebugLights.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = DebugLights.metal; sourceTree = "<group>"; };
+		B222AE2C24D0B67F000E8560 /* DebugLights.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugLights.swift; sourceTree = "<group>"; };
 		B2236E91241AD3F80079C1A0 /* GettingBack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GettingBack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2236E94241AD3F80079C1A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B2236E96241AD3F80079C1A0 /* ShaderTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderTypes.h; sourceTree = "<group>"; };
@@ -145,6 +149,8 @@
 			isa = PBXGroup;
 			children = (
 				B2D9DE1524CCD17C00D9EDFD /* Plane.swift */,
+				B222AE2B24D0B67F000E8560 /* DebugLights.metal */,
+				B222AE2C24D0B67F000E8560 /* DebugLights.swift */,
 				B2236EAB241D62710079C1A0 /* MathLibrary.swift */,
 			);
 			path = Utilities;
@@ -248,12 +254,14 @@
 				B2FE359924BB84B4001E6254 /* Ray.metal in Sources */,
 				B2ED6FCF24AE57DE0045E382 /* Mesh.swift in Sources */,
 				B2ED6FD324AE582D0045E382 /* Model.swift in Sources */,
+				B222AE2D24D0B67F000E8560 /* DebugLights.metal in Sources */,
 				B2ED6FDB24AE74970045E382 /* TestScene.swift in Sources */,
 				B22293D1242AA6B80059218C /* Lighting.swift in Sources */,
 				B2ED6FCD24AE57730045E382 /* Texturable.swift in Sources */,
 				B206E87B24240EA30019832E /* Node.swift in Sources */,
 				B2236E95241AD3F80079C1A0 /* AppDelegate.swift in Sources */,
 				B2236EAC241D62710079C1A0 /* MathLibrary.swift in Sources */,
+				B222AE2E24D0B67F000E8560 /* DebugLights.swift in Sources */,
 				B2ED6FD124AE58130045E382 /* Submesh.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

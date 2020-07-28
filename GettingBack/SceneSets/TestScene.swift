@@ -29,7 +29,7 @@ class TestScene: Scene {
         width = Float(sceneSize.width)
         height = Float(sceneSize.height)
         super.init(sceneSize: sceneSize)
-        
+        Renderer.fragmentUniforms.lightCount = lighting.count
        buildAccelerationStructure()
       
     }
@@ -70,11 +70,7 @@ class TestScene: Scene {
         (cameras[0] as! ArcballCamera).distance = 15
         currentCameraIndex = 0
        
-//        if let tp = touchPlane.debugPlane {
-//
-//            add(node: tp)
-//
-//        }
+
         
     }
     override func updateScene(deltaTime: Float) {
