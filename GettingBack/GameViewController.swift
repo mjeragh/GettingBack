@@ -11,7 +11,7 @@ import MetalKit
 import os.log
 import os.signpost
 
-let touchPlane = Plane(a: 0,b: 1.57,c: 0,d: -2, debug: false)
+
 
 // Our iOS specific view controller
 class GameViewController: UIViewController {

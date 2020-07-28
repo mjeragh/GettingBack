@@ -39,7 +39,7 @@ class Scene {
 //  let inputController = InputController()
 //  let physicsController = PhysicsController()
   
-    
+    var touchPlane : Plane!
   var sceneSize: CGSize
   var cameras = [ArcballCamera(), Camera()]
   var currentCameraIndex = 0

@@ -89,7 +89,7 @@ extension Renderer: MTKViewDelegate {
     }
     
     //debug
-    if let debug = touchPlane.debugPlane{
+    if let debug = scene.touchPlane.debugPlane{
         renderEncoder.pushDebugGroup(debug.name)
         debug.render(renderEncoder: renderEncoder,
                           uniforms: scene.uniforms,

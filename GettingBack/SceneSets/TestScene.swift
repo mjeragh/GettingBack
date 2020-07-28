@@ -22,12 +22,15 @@ class TestScene: Scene {
     let width : Float
     let height : Float
     
+    
     override init(sceneSize: CGSize) {
         sphere = Primitive(shape: .sphere, size: 1.0)
         box = Primitive(shape: .cube, size: 1.0)
         width = Float(sceneSize.width)
         height = Float(sceneSize.height)
+       
         super.init(sceneSize: sceneSize)
+        touchPlane = Plane(a: 0,b: 1.57,c: 0,d: -2, debug: false)
         fragmentUniforms.lightCount = lighting.count
        buildGPUBuffers()
       
