@@ -23,6 +23,15 @@ typedef struct {
     vector_float3 direction;
 } Uniforms;
 
+
+typedef enum {
+  BaseColorTexture = 0,
+  NormalTexture = 1,
+  RoughnessTexture = 2,
+  MetallicTexture = 3,
+  AOTexture = 4
+} Textures;
+
 typedef struct{
     vector_float3 localOrigin;
     vector_float3 localDirection;

@@ -73,7 +73,6 @@ extension Texturable {
     
     let texture = try? textureLoader.newTexture(texture: texture,
                                                 options: textureLoaderOptions)
-    print("loaded texture from MDLTexture")
     return texture
   }
 }

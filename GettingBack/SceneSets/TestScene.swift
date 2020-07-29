@@ -40,7 +40,7 @@ class TestScene: Scene {
         sphere = Primitive(shape: .sphere, size: 1.0)
         box = Primitive(shape: .cube, size: 1.0)
         
-        sphere.position = [1,3.3,10]
+        sphere.position = [1,0,10]
         //sphere.pivotPosition = [1,2,0]
         sphere.material.baseColor = [1.0, 0, 0]
         sphere.material.metallic = 0.0
@@ -54,7 +54,7 @@ class TestScene: Scene {
         
         
         
-        box.position = [1,1.5,0]
+        box.position = [1,0,0]
         box.rotation = [0, Float(45).degreesToRadians, 0]
         box.material.baseColor = [0, 0.5, 0]
         box.material.secondColor = [1.0,1.0,0.0]
@@ -66,11 +66,16 @@ class TestScene: Scene {
         box.name = "cube"
         
         let wagon = Model(name: "cup_saucer_set.usdz")
-        wagon.position = [1,0,0]
-        wagon.scale = [0.1,0.1,0.1]
+        wagon.position = [0,0,0]
+        //wagon.scale = [0.1,0.1,0.1]
         wagon.name = "Wagon"
         
-        add(node: wagon)
+        let train = Model(name: "train.obj")
+        train.name = "train"
+        train.position = [0, 0, 4]
+        train.rotation = [0, Float(45).degreesToRadians, 0]
+        add(node: train)
+        
         add(node: box)
         add(node: sphere)
         

@@ -38,17 +38,22 @@ class Submesh {
     let baseColor: MTLTexture?
     let normal: MTLTexture?
     let roughness: MTLTexture?
+    let metallic: MTLTexture?
+    let ao: MTLTexture?
   }
   
   let textures: Textures
   let material: Material
   let pipelineState: MTLRenderPipelineState
   
-  init(mdlSubmesh: MDLSubmesh, mtkSubmesh: MTKSubmesh) {
+  init(mdlSubmesh: MDLSubmesh, mtkSubmesh: MTKSubmesh, hasSkeleton: Bool) {
     self.mtkSubmesh = mtkSubmesh
     textures = Textures(material: mdlSubmesh.material)
     material = Material(material: mdlSubmesh.material)
-    pipelineState = Submesh.makePipelineState(textures: textures)
+    pipelineState =
+      Submesh.makePipelineState(textures: textures,
+                                hasSkeleton: hasSkeleton)
+    
   }
 }
 
@@ -63,19 +68,34 @@ private extension Submesh {
       functionConstants.setConstantValue(&property, type: .bool, index: 1)
       property = textures.roughness != nil
       functionConstants.setConstantValue(&property, type: .bool, index: 2)
-      property = false
+      property = textures.metallic != nil
       functionConstants.setConstantValue(&property, type: .bool, index: 3)
+      property = textures.ao != nil
       functionConstants.setConstantValue(&property, type: .bool, index: 4)
       return functionConstants
   }
-
-  static func makePipelineState(textures: Textures) -> MTLRenderPipelineState {
-    let functionConstants = makeFunctionConstants(textures: textures)
+  
+  static func makeVertexFunctionConstants(hasSkeleton: Bool) -> MTLFunctionConstantValues {
+    let functionConstants = MTLFunctionConstantValues()
+    var addSkeleton = hasSkeleton
+    functionConstants.setConstantValue(&addSkeleton, type: .bool, index: 5)
+    return functionConstants
+  }
+  
+  static func makePipelineState(textures: Textures,
+                                hasSkeleton: Bool)
+    -> MTLRenderPipelineState {
+      let functionConstants = makeFunctionConstants(textures: textures)
     
     let library = Renderer.library
-    let vertexFunction = library?.makeFunction(name: "vertex_main")
-    let fragmentFunction: MTLFunction?
+      let vertexFunction: MTLFunction?
+      let fragmentFunction: MTLFunction?
     do {
+      let constantValues =
+        makeVertexFunctionConstants(hasSkeleton: hasSkeleton)
+      vertexFunction =
+        try library?.makeFunction(name: "vertex_main",
+                                  constantValues: constantValues)
       fragmentFunction = try library?.makeFunction(name: "fragment_mainPBR",
                                                    constantValues: functionConstants)
     } catch {
@@ -111,6 +131,11 @@ private extension Submesh.Textures {
         let filename = property.stringValue,
         let texture = try? Submesh.loadTexture(imageName: filename)
         else {
+          if let property = material?.property(with: semantic),
+            property.type == .texture,
+            let mdlTexture = property.textureSamplerValue?.texture {
+            return try? Submesh.loadTexture(texture: mdlTexture)
+          }
           return nil
       }
       return texture
@@ -118,6 +143,8 @@ private extension Submesh.Textures {
     baseColor = property(with: MDLMaterialSemantic.baseColor)
     normal = property(with: .tangentSpaceNormal)
     roughness = property(with: .roughness)
+    metallic = property(with: .metallic)
+    ao = property(with: .ambientOcclusion)
   }
 }
 

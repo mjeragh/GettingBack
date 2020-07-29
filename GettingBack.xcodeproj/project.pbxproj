@@ -36,6 +36,16 @@
 		B2F7513024D21845003EA0AD /* PBR.metal in Sources */ = {isa = PBXBuildFile; fileRef = B2F7512F24D21845003EA0AD /* PBR.metal */; };
 		B2F7513224D21901003EA0AD /* wheelbarrow.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B2F7513124D21901003EA0AD /* wheelbarrow.usdz */; };
 		B2F7513424D21BD5003EA0AD /* cup_saucer_set.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B2F7513324D21BD5003EA0AD /* cup_saucer_set.usdz */; };
+		B2F7514424D2230C003EA0AD /* train.obj in Resources */ = {isa = PBXBuildFile; fileRef = B2F7514124D2230C003EA0AD /* train.obj */; };
+		B2F7514524D2230C003EA0AD /* train-color.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F7514224D2230C003EA0AD /* train-color.png */; };
+		B2F7514624D2230C003EA0AD /* train.mtl in Resources */ = {isa = PBXBuildFile; fileRef = B2F7514324D2230C003EA0AD /* train.mtl */; };
+		B2F7514E24D22660003EA0AD /* AnimationClip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F7514924D22660003EA0AD /* AnimationClip.swift */; };
+		B2F7514F24D22660003EA0AD /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F7514A24D22660003EA0AD /* Animation.swift */; };
+		B2F7515024D22660003EA0AD /* AnimationComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F7514B24D22660003EA0AD /* AnimationComponent.swift */; };
+		B2F7515124D22660003EA0AD /* Skeleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F7514C24D22660003EA0AD /* Skeleton.swift */; };
+		B2F7515224D22660003EA0AD /* TransformComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F7514D24D22660003EA0AD /* TransformComponent.swift */; };
+		B2F7515524D22C16003EA0AD /* DebugBoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F7515324D22C16003EA0AD /* DebugBoundingBox.swift */; };
+		B2F7515624D22C16003EA0AD /* DebugBoundingBox.metal in Sources */ = {isa = PBXBuildFile; fileRef = B2F7515424D22C16003EA0AD /* DebugBoundingBox.metal */; };
 		B2FAF0AB242BBCFA00A1D890 /* VertexDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FAF0AA242BBCFA00A1D890 /* VertexDescriptor.swift */; };
 		B2FE359924BB84B4001E6254 /* Ray.metal in Sources */ = {isa = PBXBuildFile; fileRef = B2FE359824BB84B4001E6254 /* Ray.metal */; };
 /* End PBXBuildFile section */
@@ -73,6 +83,16 @@
 		B2F7512F24D21845003EA0AD /* PBR.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = PBR.metal; sourceTree = "<group>"; };
 		B2F7513124D21901003EA0AD /* wheelbarrow.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = wheelbarrow.usdz; sourceTree = "<group>"; };
 		B2F7513324D21BD5003EA0AD /* cup_saucer_set.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = cup_saucer_set.usdz; sourceTree = "<group>"; };
+		B2F7514124D2230C003EA0AD /* train.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = train.obj; sourceTree = "<group>"; };
+		B2F7514224D2230C003EA0AD /* train-color.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "train-color.png"; sourceTree = "<group>"; };
+		B2F7514324D2230C003EA0AD /* train.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = train.mtl; sourceTree = "<group>"; };
+		B2F7514924D22660003EA0AD /* AnimationClip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationClip.swift; sourceTree = "<group>"; };
+		B2F7514A24D22660003EA0AD /* Animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
+		B2F7514B24D22660003EA0AD /* AnimationComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationComponent.swift; sourceTree = "<group>"; };
+		B2F7514C24D22660003EA0AD /* Skeleton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Skeleton.swift; sourceTree = "<group>"; };
+		B2F7514D24D22660003EA0AD /* TransformComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformComponent.swift; sourceTree = "<group>"; };
+		B2F7515324D22C16003EA0AD /* DebugBoundingBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugBoundingBox.swift; sourceTree = "<group>"; };
+		B2F7515424D22C16003EA0AD /* DebugBoundingBox.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = DebugBoundingBox.metal; sourceTree = "<group>"; };
 		B2FAF0AA242BBCFA00A1D890 /* VertexDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VertexDescriptor.swift; sourceTree = "<group>"; };
 		B2FE359824BB84B4001E6254 /* Ray.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Ray.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -139,6 +159,7 @@
 				B2236E9B241AD3F80079C1A0 /* Shaders.metal */,
 				B2F7512F24D21845003EA0AD /* PBR.metal */,
 				B2FAF0AA242BBCFA00A1D890 /* VertexDescriptor.swift */,
+				B2F7514824D22660003EA0AD /* Animation Support */,
 				B2ED6FDC24AE74F30045E382 /* Ground */,
 				B22293D2242AA6D80059218C /* SceneSets */,
 				B206E87924240B1C0019832E /* Renderer */,
@@ -146,8 +167,7 @@
 				B2236E9D241AD3F80079C1A0 /* Main.storyboard */,
 				B2236EA0241AD3FB0079C1A0 /* Assets.xcassets */,
 				B2236EA2241AD3FB0079C1A0 /* LaunchScreen.storyboard */,
-				B2F7513324D21BD5003EA0AD /* cup_saucer_set.usdz */,
-				B2F7513124D21901003EA0AD /* wheelbarrow.usdz */,
+				B2F7514024D222D8003EA0AD /* Models */,
 				B2236EA5241AD3FB0079C1A0 /* Info.plist */,
 				B2D9DE1424CCD16700D9EDFD /* Utilities */,
 			);
@@ -157,6 +177,8 @@
 		B2D9DE1424CCD16700D9EDFD /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				B2F7515424D22C16003EA0AD /* DebugBoundingBox.metal */,
+				B2F7515324D22C16003EA0AD /* DebugBoundingBox.swift */,
 				B2D9DE1524CCD17C00D9EDFD /* Plane.swift */,
 				B222AE2B24D0B67F000E8560 /* DebugLights.metal */,
 				B222AE2C24D0B67F000E8560 /* DebugLights.swift */,
@@ -174,6 +196,38 @@
 				B2ED6FE024AE74F30045E382 /* large-plane.obj */,
 			);
 			path = Ground;
+			sourceTree = "<group>";
+		};
+		B2F7514024D222D8003EA0AD /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B2F7514724D22314003EA0AD /* train */,
+				B2F7513324D21BD5003EA0AD /* cup_saucer_set.usdz */,
+				B2F7513124D21901003EA0AD /* wheelbarrow.usdz */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B2F7514724D22314003EA0AD /* train */ = {
+			isa = PBXGroup;
+			children = (
+				B2F7514224D2230C003EA0AD /* train-color.png */,
+				B2F7514324D2230C003EA0AD /* train.mtl */,
+				B2F7514124D2230C003EA0AD /* train.obj */,
+			);
+			path = train;
+			sourceTree = "<group>";
+		};
+		B2F7514824D22660003EA0AD /* Animation Support */ = {
+			isa = PBXGroup;
+			children = (
+				B2F7514924D22660003EA0AD /* AnimationClip.swift */,
+				B2F7514A24D22660003EA0AD /* Animation.swift */,
+				B2F7514B24D22660003EA0AD /* AnimationComponent.swift */,
+				B2F7514C24D22660003EA0AD /* Skeleton.swift */,
+				B2F7514D24D22660003EA0AD /* TransformComponent.swift */,
+			);
+			path = "Animation Support";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,11 +289,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2236EA4241AD3FB0079C1A0 /* LaunchScreen.storyboard in Resources */,
+				B2F7514524D2230C003EA0AD /* train-color.png in Resources */,
+				B2F7514624D2230C003EA0AD /* train.mtl in Resources */,
 				B2236EA1241AD3FB0079C1A0 /* Assets.xcassets in Resources */,
 				B2F7513424D21BD5003EA0AD /* cup_saucer_set.usdz in Resources */,
 				B2ED6FE124AE74F30045E382 /* large-plane.mtl in Resources */,
 				B2236E9F241AD3F80079C1A0 /* Main.storyboard in Resources */,
 				B2ED6FE324AE74F30045E382 /* ground.obj in Resources */,
+				B2F7514424D2230C003EA0AD /* train.obj in Resources */,
 				B2ED6FE224AE74F30045E382 /* ground.mtl in Resources */,
 				B2F7513224D21901003EA0AD /* wheelbarrow.usdz in Resources */,
 				B2ED6FE424AE74F30045E382 /* large-plane.obj in Resources */,
@@ -259,22 +316,29 @@
 				B2ED6FD524AE59910045E382 /* Renderable.swift in Sources */,
 				B2ED6FD924AE6C3B0045E382 /* Scene.swift in Sources */,
 				B2D9DE1624CCD17C00D9EDFD /* Plane.swift in Sources */,
+				B2F7515024D22660003EA0AD /* AnimationComponent.swift in Sources */,
 				B2236E98241AD3F80079C1A0 /* Renderer.swift in Sources */,
 				B2236E9A241AD3F80079C1A0 /* GameViewController.swift in Sources */,
 				B206E87D242412870019832E /* Primitive.swift in Sources */,
 				B2FE359924BB84B4001E6254 /* Ray.metal in Sources */,
+				B2F7514F24D22660003EA0AD /* Animation.swift in Sources */,
+				B2F7515124D22660003EA0AD /* Skeleton.swift in Sources */,
 				B2ED6FCF24AE57DE0045E382 /* Mesh.swift in Sources */,
 				B2ED6FD324AE582D0045E382 /* Model.swift in Sources */,
 				B222AE2D24D0B67F000E8560 /* DebugLights.metal in Sources */,
 				B2ED6FDB24AE74970045E382 /* TestScene.swift in Sources */,
 				B22293D1242AA6B80059218C /* Lighting.swift in Sources */,
 				B2ED6FCD24AE57730045E382 /* Texturable.swift in Sources */,
+				B2F7515624D22C16003EA0AD /* DebugBoundingBox.metal in Sources */,
 				B206E87B24240EA30019832E /* Node.swift in Sources */,
 				B2236E95241AD3F80079C1A0 /* AppDelegate.swift in Sources */,
 				B2F7513024D21845003EA0AD /* PBR.metal in Sources */,
+				B2F7514E24D22660003EA0AD /* AnimationClip.swift in Sources */,
+				B2F7515224D22660003EA0AD /* TransformComponent.swift in Sources */,
 				B2236EAC241D62710079C1A0 /* MathLibrary.swift in Sources */,
 				B222AE2E24D0B67F000E8560 /* DebugLights.swift in Sources */,
 				B2ED6FD124AE58130045E382 /* Submesh.swift in Sources */,
+				B2F7515524D22C16003EA0AD /* DebugBoundingBox.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
