@@ -19,16 +19,8 @@ typedef struct {
     matrix_float4x4 viewMatrix;
     matrix_float4x4 projectionMatrix;
     matrix_float3x3 normalMatrix;
-    
-    
-//    unsigned int width;
-//    unsigned int height;
-    //camera
     vector_float3 origin;
     vector_float3 direction;
-//    vector_float3 up;
-//    vector_float3 right;
-//    vector_float3 forward;
 } Uniforms;
 
 typedef struct{

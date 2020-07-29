@@ -14,7 +14,7 @@ import OSLog
 
 class TestScene: Scene {
     var time = Float(0)
-    let box, sphere : Primitive
+    
     var commandBuffer : MTLCommandBuffer!
     var computePipelineState: MTLComputePipelineState!
     var computeEncoder: MTLComputeCommandEncoder!
@@ -24,8 +24,7 @@ class TestScene: Scene {
     
     
     override init(sceneSize: CGSize) {
-        sphere = Primitive(shape: .sphere, size: 1.0)
-        box = Primitive(shape: .cube, size: 1.0)
+       
         width = Float(sceneSize.width)
         height = Float(sceneSize.height)
        
@@ -37,6 +36,9 @@ class TestScene: Scene {
     }
     
     override func setupScene() {
+        let box, sphere : Primitive
+        sphere = Primitive(shape: .sphere, size: 1.0)
+        box = Primitive(shape: .cube, size: 1.0)
         
         sphere.position = [1,3.3,10]
         //sphere.pivotPosition = [1,2,0]
@@ -62,16 +64,32 @@ class TestScene: Scene {
         box.material.specularColor = [0,1.0,0.0]
         box.material.ambientOcclusion = [1.0,1.0,1.0]
         box.name = "cube"
+        
+        let wagon = Model(name: "cup_saucer_set.usdz")
+        wagon.position = [1,0,0]
+        wagon.scale = [0.1,0.1,0.1]
+        wagon.name = "Wagon"
+        
+        add(node: wagon)
         add(node: box)
         add(node: sphere)
+        
+        
+        
+        
+        
         currentCameraIndex = 1
         camera.position = [0,0,-15]
         camera.name = "Standard Camera"
         
+        
+        
+        
+        
         currentCameraIndex = 0
         (cameras[0] as! ArcballCamera).distance = 15
         currentCameraIndex = 0
-       
+        
 
         
     }
