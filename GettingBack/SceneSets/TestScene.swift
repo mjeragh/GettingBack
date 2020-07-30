@@ -65,10 +65,10 @@ class TestScene: Scene {
         box.material.ambientOcclusion = [1.0,1.0,1.0]
         box.name = "cube"
         
-        let wagon = Model(name: "cup_saucer_set.usdz")
-        wagon.position = [0,0,0]
-        //wagon.scale = [0.1,0.1,0.1]
-        wagon.name = "Wagon"
+//        let wagon = Model(name: "cup_saucer_set.usdz")
+//        wagon.position = [0,0,0]
+//        //wagon.scale = [0.1,0.1,0.1]
+//        wagon.name = "Wagon"
         
         let train = Model(name: "train.obj")
         train.name = "train"

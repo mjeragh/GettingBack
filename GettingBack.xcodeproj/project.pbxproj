@@ -111,6 +111,9 @@
 		B206E87924240B1C0019832E /* Renderer */ = {
 			isa = PBXGroup;
 			children = (
+				B2ED6FD224AE582D0045E382 /* Model.swift */,
+				B22293D0242AA6B80059218C /* Lighting.swift */,
+				B206E87E242538620019832E /* Camera.swift */,
 				B2ED6FCE24AE57DE0045E382 /* Mesh.swift */,
 				B2ED6FCC24AE57730045E382 /* Texturable.swift */,
 				B206E87A24240EA30019832E /* Node.swift */,
@@ -127,9 +130,6 @@
 			children = (
 				B2ED6FD824AE6C3B0045E382 /* Scene.swift */,
 				B2ED6FDA24AE74970045E382 /* TestScene.swift */,
-				B2ED6FD224AE582D0045E382 /* Model.swift */,
-				B22293D0242AA6B80059218C /* Lighting.swift */,
-				B206E87E242538620019832E /* Camera.swift */,
 			);
 			path = SceneSets;
 			sourceTree = "<group>";
