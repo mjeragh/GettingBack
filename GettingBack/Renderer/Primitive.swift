@@ -107,7 +107,7 @@ extension Primitive : Renderable {
     private static func buildPipelineState(vertexDescriptor: MDLVertexDescriptor) -> MTLRenderPipelineState {
         let library = Renderer.library
         let vertexFunction = library?.makeFunction(name: "vertex_main")
-        let fragmentFunction = library?.makeFunction(name: "fragment_main")
+        let fragmentFunction = library?.makeFunction(name: "fragment_normals")
         
         var pipelineState: MTLRenderPipelineState
         let pipelineDescriptor = MTLRenderPipelineDescriptor()
@@ -123,6 +123,35 @@ extension Primitive : Renderable {
         }
         return pipelineState
     }
+    
+}
+
+extension Model : Renderable {
+    func render(renderEncoder: MTLRenderCommandEncoder, uniforms: Uniforms, fragmentUniforms fragment: FragmentUniforms) {
+        var uniforms = uniforms
+        uniforms.modelMatrix = modelMatrix
+        uniforms.normalMatrix = modelMatrix.upperLeft
+
+        renderEncoder.setVertexBytes(&uniforms,
+                                     length: MemoryLayout<Uniforms>.stride, index: 1)
+        
+        renderEncoder.setRenderPipelineState(pipelineState)
+        for mesh in meshes {
+          let vertexBuffer = mesh.mtkMesh.vertexBuffers[0].buffer
+          renderEncoder.setVertexBuffer(vertexBuffer, offset: 0,
+                                        index: 0)
+          
+          for submesh in mesh.submeshes {
+            let mtkSubmesh = submesh.mtkSubmesh
+            renderEncoder.drawIndexedPrimitives(type: .triangle,
+                                                indexCount: mtkSubmesh.indexCount,
+                                                indexType: mtkSubmesh.indexType,
+                                                indexBuffer: mtkSubmesh.indexBuffer.buffer,
+                                                indexBufferOffset: mtkSubmesh.indexBuffer.offset)
+          }
+        }
+    }
+    
     
 }
 
