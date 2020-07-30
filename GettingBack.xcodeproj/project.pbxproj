@@ -109,6 +109,9 @@
 		B206E87924240B1C0019832E /* Renderer */ = {
 			isa = PBXGroup;
 			children = (
+				B22293D0242AA6B80059218C /* Lighting.swift */,
+				B2ED6FD224AE582D0045E382 /* Model.swift */,
+				B206E87E242538620019832E /* Camera.swift */,
 				B2ED6FD024AE58130045E382 /* Submesh.swift */,
 				B2ED6FCE24AE57DE0045E382 /* Mesh.swift */,
 				B206E87A24240EA30019832E /* Node.swift */,
@@ -122,9 +125,6 @@
 		B22293D2242AA6D80059218C /* SceneSets */ = {
 			isa = PBXGroup;
 			children = (
-				B2ED6FD224AE582D0045E382 /* Model.swift */,
-				B22293D0242AA6B80059218C /* Lighting.swift */,
-				B206E87E242538620019832E /* Camera.swift */,
 				B2ED6FD824AE6C3B0045E382 /* Scene.swift */,
 				B2ED6FDA24AE74970045E382 /* TestScene.swift */,
 			);
