@@ -79,7 +79,8 @@ class Primitive : Node {
         
         super.init()
         self.name = name
-        self.boundingBox = mdlMesh.boundingBox
+        self.nodeGPU.boundingBox.minBounds = mdlMesh.boundingBox.minBounds
+        self.nodeGPU.boundingBox.maxBounds = mdlMesh.boundingBox.maxBounds
     }
     
     

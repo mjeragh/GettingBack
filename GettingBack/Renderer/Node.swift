@@ -72,9 +72,9 @@ class Node {
     
     
 
-    var boundingBox = MDLAxisAlignedBoundingBox()
+//    var boundingBox = MDLAxisAlignedBoundingBox()
     var size: SIMD3<Float> {
-        return boundingBox.maxBounds - boundingBox.minBounds
+        return nodeGPU.boundingBox.maxBounds - nodeGPU.boundingBox.minBounds
     }
     
    // var boundingSphere = BoundingSphere(center: SIMD3<Float>(0,0,0), radius: 0, debugBoundingSphere: nil)
@@ -105,10 +105,7 @@ class Node {
     final func add(childNode: Node) {
       children.append(childNode)
       childNode.parent = self
-        //TODO: The following code is redudant, I will take care of it later
-        childNode.nodeGPU.boundingBox.minBounds = childNode.boundingBox.minBounds
-        childNode.nodeGPU.boundingBox.maxBounds = childNode.boundingBox.maxBounds
-        childNode.nodeGPU.debug = 0
+      childNode.nodeGPU.debug = 0
     }
     
     final func remove(childNode: Node) {

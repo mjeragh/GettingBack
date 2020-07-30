@@ -53,9 +53,9 @@ class Model: Node {
     pipelineState = Model.buildPipelineState()
     super.init()
     self.name = name
-//    self.nodeGPU.boundingBox.minBounds = asset.boundingBox.minBounds
-//    self.nodeGPU.boundingBox.maxBounds = asset.boundingBox.maxBounds
-    self.boundingBox = asset.boundingBox
+    self.nodeGPU.boundingBox.minBounds = asset.boundingBox.minBounds
+    self.nodeGPU.boundingBox.maxBounds = asset.boundingBox.maxBounds
+//    self.boundingBox = asset.boundingBox
   }
   
   private static func buildPipelineState() -> MTLRenderPipelineState {
