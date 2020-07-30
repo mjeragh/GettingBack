@@ -39,7 +39,7 @@ extension MDLVertexDescriptor {
     
     vertexDescriptor.attributes[0] = MDLVertexAttribute(name: MDLVertexAttributePosition,
                                                         format: .float3,
-                                                        offset: 0, bufferIndex: 0)
+                                                        offset: 0, bufferIndex: Int(BufferIndexVertices.rawValue))
     offset += MemoryLayout<float3>.stride
 
     // add the normal attribute here
@@ -47,8 +47,10 @@ extension MDLVertexDescriptor {
       MDLVertexAttribute(name: MDLVertexAttributeNormal,
                          format: .float3,
                          offset: offset,
-                         bufferIndex: 0)
+                         bufferIndex: Int(BufferIndexVertices.rawValue))
     offset += MemoryLayout<float3>.stride
+    vertexDescriptor.attributes[2] = MDLVertexAttribute(name: MDLVertexAttributeTextureCoordinate, format: .float2, offset: offset, bufferIndex: Int(BufferIndexVertices.rawValue))
+    offset += MemoryLayout<float2>.stride
 
     vertexDescriptor.layouts[0] = MDLVertexBufferLayout(stride: offset)
     return vertexDescriptor
