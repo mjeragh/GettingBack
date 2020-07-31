@@ -72,7 +72,7 @@ class TestScene: Scene {
         
         let train = Model(name: "train.obj")
         train.name = "train"
-        train.position = [0, 0, 4]
+        train.position = [0, 0, 2]
         train.rotation = [0, Float(45).degreesToRadians, 0]
         add(node: train)
         
@@ -93,7 +93,9 @@ class TestScene: Scene {
         
         currentCameraIndex = 0
         (cameras[0] as! ArcballCamera).distance = 15
-        currentCameraIndex = 0
+        (cameras[0] as! ArcballCamera).rotation.x = Float(-10).degreesToRadians
+        
+        
         
 
         

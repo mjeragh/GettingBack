@@ -75,9 +75,9 @@ extension Renderer: MTKViewDelegate {
     renderEncoder.setFragmentBytes(&lights,
                                    length: MemoryLayout<Light>.stride * lights.count,
                                    index: Int(BufferIndexLights.rawValue))
-    renderEncoder.setFragmentBytes(&scene.fragmentUniforms,
-                                   length: MemoryLayout<FragmentUniforms>.stride,
-                                   index: Int(BufferIndexFragmentUniforms.rawValue))
+//    renderEncoder.setFragmentBytes(&scene.fragmentUniforms,
+//                                   length: MemoryLayout<FragmentUniforms>.stride,
+//                                   index: Int(BufferIndexFragmentUniforms.rawValue))
 
     // render all the models in the array
     for renderable in scene.renderables {
@@ -96,7 +96,7 @@ extension Renderer: MTKViewDelegate {
                           fragmentUniforms: scene.fragmentUniforms)
         renderEncoder.popDebugGroup()
     }
-    scene.debugLights(renderEncoder: renderEncoder, lightType: Sunlight)
+    //scene.debugLights(renderEncoder: renderEncoder, lightType: Sunlight)
     renderEncoder.endEncoding()
     guard let drawable = view.currentDrawable else {
       return

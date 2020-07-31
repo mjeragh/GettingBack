@@ -28,14 +28,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 import MetalKit
+
 
 class Model: Node {
   
-  let pipelineState: MTLRenderPipelineState
   let meshes: [Mesh]
-  
+  var tiling: UInt32 = 1
+  let samplerState: MTLSamplerState?
+  static var vertexDescriptor: MDLVertexDescriptor = MDLVertexDescriptor.defaultVertexDescriptor
+
   init(name: String) {
     guard
       let assetUrl = Bundle.main.url(forResource: name, withExtension: nil) else {
@@ -45,57 +47,84 @@ class Model: Node {
     let asset = MDLAsset(url: assetUrl,
                          vertexDescriptor: MDLVertexDescriptor.defaultVertexDescriptor,
                          bufferAllocator: allocator)
-    let (mdlMeshes, mtkMeshes) = try! MTKMesh.newMeshes(asset: asset,
-                                                        device: Renderer.device)
+    var mtkMeshes: [MTKMesh] = []
+    let mdlMeshes = asset.childObjects(of: MDLMesh.self) as! [MDLMesh]
+    _ = mdlMeshes.map { mdlMesh in
+      mdlMesh.addTangentBasis(forTextureCoordinateAttributeNamed:
+        MDLVertexAttributeTextureCoordinate,
+                              tangentAttributeNamed: MDLVertexAttributeTangent,
+                              bitangentAttributeNamed: MDLVertexAttributeBitangent)
+      Model.vertexDescriptor = mdlMesh.vertexDescriptor
+      mtkMeshes.append(try! MTKMesh(mesh: mdlMesh, device: Renderer.device))
+    }
+
     meshes = zip(mdlMeshes, mtkMeshes).map {
       Mesh(mdlMesh: $0.0, mtkMesh: $0.1)
     }
-    pipelineState = Model.buildPipelineState()
+    samplerState = Model.buildSamplerState()
     super.init()
     self.name = name
     self.nodeGPU.boundingBox.minBounds = asset.boundingBox.minBounds
     self.nodeGPU.boundingBox.maxBounds = asset.boundingBox.maxBounds
-//    self.boundingBox = asset.boundingBox
   }
   
-  private static func buildPipelineState() -> MTLRenderPipelineState {
-    let library = Renderer.library
-    let vertexFunction = library?.makeFunction(name: "vertex_main")
-    let fragmentFunction = library?.makeFunction(name: "fragment_normals")
-    
-    var pipelineState: MTLRenderPipelineState
-    let pipelineDescriptor = MTLRenderPipelineDescriptor()
-    pipelineDescriptor.vertexFunction = vertexFunction
-    pipelineDescriptor.fragmentFunction = fragmentFunction
-    let vertexDescriptor = MDLVertexDescriptor.defaultVertexDescriptor
-    pipelineDescriptor.vertexDescriptor = MTKMetalVertexDescriptorFromModelIO(vertexDescriptor)
-    pipelineDescriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
-    pipelineDescriptor.depthAttachmentPixelFormat = .depth32Float
-    do {
-      pipelineState = try Renderer.device.makeRenderPipelineState(descriptor: pipelineDescriptor)
-    } catch let error {
-      fatalError(error.localizedDescription)
-    }
-    return pipelineState
+  private static func buildSamplerState() -> MTLSamplerState? {
+    let descriptor = MTLSamplerDescriptor()
+    descriptor.sAddressMode = .repeat
+    descriptor.tAddressMode = .repeat
+    descriptor.mipFilter = .linear
+    descriptor.maxAnisotropy = 8
+    let samplerState =
+      Renderer.device.makeSamplerState(descriptor: descriptor)
+    return samplerState
   }
 }
 
 extension Model : Renderable {
     func render(renderEncoder: MTLRenderCommandEncoder, uniforms: Uniforms, fragmentUniforms fragment: FragmentUniforms) {
-        var uniforms = uniforms
-        uniforms.modelMatrix = modelMatrix
-        uniforms.normalMatrix = modelMatrix.upperLeft
-
-        renderEncoder.setVertexBytes(&uniforms,
-                                     length: MemoryLayout<Uniforms>.stride, index: 1)
+        // add tiling here
+        var fragmentUniforms = fragment
+        fragmentUniforms.tiling = tiling
+        renderEncoder.setFragmentBytes(&fragmentUniforms,
+                                       length: MemoryLayout<FragmentUniforms>.stride,
+                                       index: Int(BufferIndexFragmentUniforms.rawValue))
         
-        renderEncoder.setRenderPipelineState(pipelineState)
+        renderEncoder.setFragmentSamplerState(samplerState, index: 0)
+        var uniforms = uniforms
+        
+        uniforms.modelMatrix = modelMatrix
+        uniforms.normalMatrix = uniforms.modelMatrix.upperLeft
+        
+        renderEncoder.setVertexBytes(&uniforms,
+                                     length: MemoryLayout<Uniforms>.stride,
+                                     index: Int(BufferIndexUniforms.rawValue))
+        
         for mesh in meshes {
-          let vertexBuffer = mesh.mtkMesh.vertexBuffers[0].buffer
-          renderEncoder.setVertexBuffer(vertexBuffer, offset: 0,
-                                        index: 0)
+
+          // render multiple buffers
+          // replace the following two lines
+          // this only sends the MTLBuffer containing position, normal and UV
+          for (index, vertexBuffer) in mesh.mtkMesh.vertexBuffers.enumerated() {
+            renderEncoder.setVertexBuffer(vertexBuffer.buffer,
+                                          offset: 0, index: index)
+          }
           
           for submesh in mesh.submeshes {
+            renderEncoder.setRenderPipelineState(submesh.pipelineState)
+            // textures
+            renderEncoder.setFragmentTexture(submesh.textures.baseColor,
+                                             index: Int(BaseColorTexture.rawValue))
+            renderEncoder.setFragmentTexture(submesh.textures.normal,
+                                             index: Int(NormalTexture.rawValue))
+            renderEncoder.setFragmentTexture(submesh.textures.roughness,
+                                             index: 2)
+            
+            // set the materials here
+            var material = submesh.material
+            renderEncoder.setFragmentBytes(&material,
+                                           length: MemoryLayout<Material>.stride,
+                                           index: Int(BufferIndexMaterials.rawValue))
+
             let mtkSubmesh = submesh.mtkSubmesh
             renderEncoder.drawIndexedPrimitives(type: .triangle,
                                                 indexCount: mtkSubmesh.indexCount,
@@ -104,7 +133,7 @@ extension Model : Renderable {
                                                 indexBufferOffset: mtkSubmesh.indexBuffer.offset)
           }
         }
-    }
+      }
     
     
 }
