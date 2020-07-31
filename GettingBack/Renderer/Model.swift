@@ -117,29 +117,33 @@ extension Model : Renderable {
                                           offset: 0, index: index)
           }
           
-          for submesh in mesh.submeshes {
-            renderEncoder.setRenderPipelineState(submesh.pipelineState)
-            // textures
-            renderEncoder.setFragmentTexture(submesh.textures.baseColor,
-                                             index: Int(BaseColorTexture.rawValue))
-            renderEncoder.setFragmentTexture(submesh.textures.normal,
-                                             index: Int(NormalTexture.rawValue))
-            renderEncoder.setFragmentTexture(submesh.textures.roughness,
-                                             index: 2)
-            
-            // set the materials here
-            var material = submesh.material
-            renderEncoder.setFragmentBytes(&material,
-                                           length: MemoryLayout<Material>.stride,
-                                           index: Int(BufferIndexMaterials.rawValue))
+            for submesh in mesh.submeshes {
+              renderEncoder.setRenderPipelineState(submesh.pipelineState)
+              // textures
+              renderEncoder.setFragmentTexture(submesh.textures.baseColor,
+                                               index: Int(BaseColorTexture.rawValue))
+              renderEncoder.setFragmentTexture(submesh.textures.normal,
+                                               index: Int(NormalTexture.rawValue))
+              renderEncoder.setFragmentTexture(submesh.textures.roughness,
+                                               index: Int(RoughnessTexture.rawValue))
+              renderEncoder.setFragmentTexture(submesh.textures.metallic,
+                                               index: Int(MetallicTexture.rawValue))
+              renderEncoder.setFragmentTexture(submesh.textures.ao,
+                                               index: Int(AOTexture.rawValue))
 
-            let mtkSubmesh = submesh.mtkSubmesh
-            renderEncoder.drawIndexedPrimitives(type: .triangle,
-                                                indexCount: mtkSubmesh.indexCount,
-                                                indexType: mtkSubmesh.indexType,
-                                                indexBuffer: mtkSubmesh.indexBuffer.buffer,
-                                                indexBufferOffset: mtkSubmesh.indexBuffer.offset)
-          }
+              // set the materials here
+              var material = submesh.material
+              renderEncoder.setFragmentBytes(&material,
+                                             length: MemoryLayout<Material>.stride,
+                                             index: Int(BufferIndexMaterials.rawValue))
+
+              let mtkSubmesh = submesh.mtkSubmesh
+              renderEncoder.drawIndexedPrimitives(type: .triangle,
+                                                  indexCount: mtkSubmesh.indexCount,
+                                                  indexType: mtkSubmesh.indexType,
+                                                  indexBuffer: mtkSubmesh.indexBuffer.buffer,
+                                                  indexBufferOffset: mtkSubmesh.indexBuffer.offset)
+            }
         }
       }
     

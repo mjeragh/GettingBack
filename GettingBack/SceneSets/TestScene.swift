@@ -87,8 +87,8 @@ class TestScene: Scene {
         add(node: box)
         add(node: sphere)
        
-//        add(node: wagon)
-//        add(node: cup)
+        add(node: wagon)
+        add(node: cup)
         
         
         

@@ -119,7 +119,8 @@ fragment float4 fragment_mainPBR(VertexOut in [[stage_in]],
   
   Light light = lights[0];
   float3 lightDirection = normalize(light.position);
-
+  lightDirection = light.position;
+  
   // all the necessary components are in place
   Lighting lighting;
   lighting.lightDirection = lightDirection;
@@ -134,11 +135,10 @@ fragment float4 fragment_mainPBR(VertexOut in [[stage_in]],
   float3 specularOutput = render(lighting);
   
   // compute Lambertian diffuse
-  float nDotl = dot(lighting.normal, lighting.lightDirection);
-  // rescale from -1 : 1 to 0.4 - 1 to lighten shadows
-  nDotl = ((nDotl + 1) / (1 + 1)) * (1 - 0.4) + 0.4;
+  float nDotl = max(0.001, saturate(dot(lighting.normal, lighting.lightDirection)));
   float3 diffuseColor = light.color * baseColor * nDotl * ambientOcclusion;
   diffuseColor *= 1.0 - metallic;
+  
   float4 finalColor = float4(specularOutput + diffuseColor, 1.0);
   return finalColor;
 }
