@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Bucket
-   uuid = "147101AC-2BC2-4549-AE53-0C88D4955816"
+   uuid = "8DFB2FF3-7775-4D19-9C4C-C047A7D5ECC3"
    type = "1"
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "61AF1B6D-1A5B-4553-837A-6174A1CFB107"
+            uuid = "83EB270B-09ED-46DA-A3E3-48EC118516FD"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GettingBack/Renderer/Renderer.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
             landmarkName = "draw(in:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -23,32 +23,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3410C32C-3129-4C6A-B674-B1173C1581F9"
+            uuid = "069FD6C1-8A71-4C24-AD94-4F6EAAB0D5F5"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "GettingBack/SceneSets/Model.swift"
+            filePath = "GettingBack/Renderer/Model.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
-            landmarkName = "init(name:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "3092951F-0198-4FB4-93D0-7177FE824479"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GettingBack/Renderer/Node.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
-            landmarkName = "add(childNode:)"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
+            landmarkName = "render(renderEncoder:uniforms:fragmentUniforms:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

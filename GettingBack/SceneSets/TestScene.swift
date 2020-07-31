@@ -72,7 +72,7 @@ class TestScene: Scene {
         
         let train = Model(name: "train.obj")
         train.name = "train"
-        train.position = [0, 0, 2]
+        train.position = [0, -1, 4]
         train.rotation = [0, Float(45).degreesToRadians, 0]
         add(node: train)
         

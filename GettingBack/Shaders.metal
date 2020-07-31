@@ -16,29 +16,43 @@
 
 using namespace metal;
 
+constant bool hasColorTexture [[function_constant(0)]];
+constant bool hasNormalTexture [[function_constant(1)]];
+
+
 struct VertexIn {
-    float4 position [[ attribute(0) ]];
-    float3 normal [[ attribute(1) ]];
-    float2 uv [[ attribute(2)]];
+  float4 position [[attribute(Position)]];
+  float3 normal [[attribute(Normal)]];
+  float2 uv [[attribute(UV)]];
+  float3 tangent [[attribute(Tangent)]];
+  float3 bitangent [[attribute(Bitangent)]];
 };
+
+
 
 struct VertexOut {
-    float4 position [[ position ]];
-    float3 worldPosition;
-    float3 worldNormal;
-    float2 uv;
+  float4 position [[position]];
+  float3 worldPosition;
+  float3 worldNormal;
+  float3 worldTangent;
+  float3 worldBitangent;
+  float2 uv;
 };
 
-[[vertex]] VertexOut vertex_main(const VertexIn vertexIn [[ stage_in ]],
-                             constant Uniforms &uniforms [[ buffer(1) ]])
+
+[[vertex]] VertexOut vertex_main(const VertexIn vertexIn [[stage_in]],
+                             constant Uniforms &uniforms [[buffer(BufferIndexUniforms)]])
 {
-    VertexOut out;
-    out.position = uniforms.projectionMatrix * uniforms.viewMatrix
-    * uniforms.modelMatrix * vertexIn.position;
-    out.worldPosition = (uniforms.modelMatrix * vertexIn.position).xyz;
-    out.worldNormal = uniforms.normalMatrix * vertexIn.normal;
-   // out.uv = vertexIn.uv;
-    return out;
+  VertexOut out {
+    .position = uniforms.projectionMatrix * uniforms.viewMatrix
+    * uniforms.modelMatrix * vertexIn.position,
+    .worldPosition = (uniforms.modelMatrix * vertexIn.position).xyz,
+    .worldNormal = uniforms.normalMatrix * vertexIn.normal,
+    .worldTangent = uniforms.normalMatrix * vertexIn.tangent,
+    .worldBitangent = uniforms.normalMatrix * vertexIn.bitangent,
+    .uv = vertexIn.uv
+  };
+  return out;
 }
 
 [[fragment]] float4 fragment_main(VertexOut in [[stage_in]],

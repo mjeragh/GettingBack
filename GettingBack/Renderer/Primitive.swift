@@ -61,12 +61,12 @@ class Primitive : Node {
             mdlMesh = MDLMesh(planeWithExtent: [size, size, size], segments: [100,100], geometryType: .triangles, allocator: allocator)
         }
         
-        //        // add tangent and bitangent here
-        //        mdlMesh.addTangentBasis(forTextureCoordinateAttributeNamed:
-        //            MDLVertexAttributeTextureCoordinate,
-        //                                tangentAttributeNamed: MDLVertexAttributeTangent,
-        //                                bitangentAttributeNamed:
-        //            MDLVertexAttributeBitangent)
+                // add tangent and bitangent here
+                mdlMesh.addTangentBasis(forTextureCoordinateAttributeNamed:
+                    MDLVertexAttributeTextureCoordinate,
+                                        tangentAttributeNamed: MDLVertexAttributeTangent,
+                                        bitangentAttributeNamed:
+                    MDLVertexAttributeBitangent)
         
         self.mesh = try! MTKMesh(mesh: mdlMesh, device: Renderer.device)
         
@@ -92,9 +92,16 @@ extension Primitive : Renderable {
         uniforms.modelMatrix = modelMatrix
         uniforms.normalMatrix = modelMatrix.upperLeft
         
-        renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+        //renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+        // render multiple buffers
+        // replace the following two lines
+        // this only sends the MTLBuffer containing position, normal and UV
+        for (index, vertexBuffer) in mesh.vertexBuffers.enumerated() {
+          renderEncoder.setVertexBuffer(vertexBuffer.buffer,
+                                        offset: 0, index: index)
+        }
         renderEncoder.setVertexBytes(&uniforms,
-                                     length: MemoryLayout<Uniforms>.stride, index: 1)
+                                     length: MemoryLayout<Uniforms>.stride, index: Int(BufferIndexUniforms.rawValue))
         
         
         renderEncoder.setFragmentBytes(&material, length: MemoryLayout<Material>.stride, index: Int(BufferIndexMaterials.rawValue))
@@ -112,10 +119,34 @@ extension Primitive : Renderable {
         
     }
     
+    
+   private static func makeFunctionConstants()
+        -> MTLFunctionConstantValues {
+            let functionConstants = MTLFunctionConstantValues()
+            var property = false
+            functionConstants.setConstantValue(&property, type: .bool, index: 0)
+            functionConstants.setConstantValue(&property, type: .bool, index: 1)
+            functionConstants.setConstantValue(&property, type: .bool, index: 2)
+            
+            functionConstants.setConstantValue(&property, type: .bool, index: 3)
+            functionConstants.setConstantValue(&property, type: .bool, index: 4)
+            
+            return functionConstants
+    }
+    
     private static func buildPipelineState(vertexDescriptor: MDLVertexDescriptor) -> MTLRenderPipelineState {
+        let functionConstants = makeFunctionConstants()
         let library = Renderer.library
         let vertexFunction = library?.makeFunction(name: "vertex_main")
-        let fragmentFunction = library?.makeFunction(name: "fragment_main")
+        let fragmentFunction: MTLFunction?
+        do {
+            fragmentFunction = try library?.makeFunction(name: "fragment_main",
+                                                         constantValues: functionConstants)
+        } catch {
+            fatalError("No Metal function exists")
+        }
+        
+        
         
         var pipelineState: MTLRenderPipelineState
         let pipelineDescriptor = MTLRenderPipelineDescriptor()

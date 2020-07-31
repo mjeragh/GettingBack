@@ -85,7 +85,7 @@ class Node {
     let rotateMatrix = float4x4(rotation: rotation)
     let scaleMatrix = float4x4(scaling: scale)
     nodeGPU.modelMatrix = translateMatrix * rotateMatrix * scaleMatrix
-    return nodeGPU.modelMatrix
+    return translateMatrix * rotateMatrix * scaleMatrix
   }
   
     var worldTransform: float4x4 {
