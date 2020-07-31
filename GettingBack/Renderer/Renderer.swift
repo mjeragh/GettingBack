@@ -96,7 +96,8 @@ extension Renderer: MTKViewDelegate {
                           fragmentUniforms: scene.fragmentUniforms)
         renderEncoder.popDebugGroup()
     }
-    //scene.debugLights(renderEncoder: renderEncoder, lightType: Sunlight)
+//    scene.debugLights(renderEncoder: renderEncoder, lightType: Sunlight)
+//    scene.debugLights(renderEncoder: renderEncoder, lightType: Ambientlight)
     renderEncoder.endEncoding()
     guard let drawable = view.currentDrawable else {
       return

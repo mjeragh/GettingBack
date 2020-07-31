@@ -28,8 +28,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import MetalKit
 
+import MetalKit
 
 class Model: Node {
   
@@ -47,6 +47,10 @@ class Model: Node {
     let asset = MDLAsset(url: assetUrl,
                          vertexDescriptor: MDLVertexDescriptor.defaultVertexDescriptor,
                          bufferAllocator: allocator)
+    
+    // load Model I/O textures
+    asset.loadTextures()
+    
     var mtkMeshes: [MTKMesh] = []
     let mdlMeshes = asset.childObjects(of: MDLMesh.self) as! [MDLMesh]
     _ = mdlMeshes.map { mdlMesh in
@@ -79,6 +83,10 @@ class Model: Node {
     return samplerState
   }
 }
+
+
+
+
 
 extension Model : Renderable {
     func render(renderEncoder: MTLRenderCommandEncoder, uniforms: Uniforms, fragmentUniforms fragment: FragmentUniforms) {

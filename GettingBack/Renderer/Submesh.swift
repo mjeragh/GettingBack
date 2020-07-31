@@ -38,6 +38,8 @@ class Submesh {
     let baseColor: MTLTexture?
     let normal: MTLTexture?
     let roughness: MTLTexture?
+    let metallic: MTLTexture?
+    let ao: MTLTexture?
   }
   
   let textures: Textures
@@ -63,8 +65,9 @@ private extension Submesh {
       functionConstants.setConstantValue(&property, type: .bool, index: 1)
       property = textures.roughness != nil
       functionConstants.setConstantValue(&property, type: .bool, index: 2)
-      property = false
+      property = textures.metallic != nil
       functionConstants.setConstantValue(&property, type: .bool, index: 3)
+      property = textures.ao != nil
       functionConstants.setConstantValue(&property, type: .bool, index: 4)
       return functionConstants
   }
@@ -111,6 +114,11 @@ private extension Submesh.Textures {
         let filename = property.stringValue,
         let texture = try? Submesh.loadTexture(imageName: filename)
         else {
+          if let property = material?.property(with: semantic),
+            property.type == .texture,
+            let mdlTexture = property.textureSamplerValue?.texture {
+            return try? Submesh.loadTexture(texture: mdlTexture)
+          }
           return nil
       }
       return texture
@@ -118,6 +126,8 @@ private extension Submesh.Textures {
     baseColor = property(with: MDLMaterialSemantic.baseColor)
     normal = property(with: .tangentSpaceNormal)
     roughness = property(with: .roughness)
+    metallic = property(with: .metallic)
+    ao = property(with: .ambientOcclusion)
   }
 }
 

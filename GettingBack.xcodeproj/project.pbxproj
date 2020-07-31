@@ -32,6 +32,8 @@
 		B2ED6FE224AE74F30045E382 /* ground.mtl in Resources */ = {isa = PBXBuildFile; fileRef = B2ED6FDE24AE74F30045E382 /* ground.mtl */; };
 		B2ED6FE324AE74F30045E382 /* ground.obj in Resources */ = {isa = PBXBuildFile; fileRef = B2ED6FDF24AE74F30045E382 /* ground.obj */; };
 		B2ED6FE424AE74F30045E382 /* large-plane.obj in Resources */ = {isa = PBXBuildFile; fileRef = B2ED6FE024AE74F30045E382 /* large-plane.obj */; };
+		B2EE235324D4AE0E003B6973 /* cube.obj in Resources */ = {isa = PBXBuildFile; fileRef = B2EE235124D4AE0D003B6973 /* cube.obj */; };
+		B2EE235424D4AE0E003B6973 /* cube.mtl in Resources */ = {isa = PBXBuildFile; fileRef = B2EE235224D4AE0E003B6973 /* cube.mtl */; };
 		B2F7513024D21845003EA0AD /* PBR.metal in Sources */ = {isa = PBXBuildFile; fileRef = B2F7512F24D21845003EA0AD /* PBR.metal */; };
 		B2F7513224D21901003EA0AD /* wheelbarrow.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B2F7513124D21901003EA0AD /* wheelbarrow.usdz */; };
 		B2F7513424D21BD5003EA0AD /* cup_saucer_set.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B2F7513324D21BD5003EA0AD /* cup_saucer_set.usdz */; };
@@ -79,6 +81,8 @@
 		B2ED6FDE24AE74F30045E382 /* ground.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ground.mtl; sourceTree = "<group>"; };
 		B2ED6FDF24AE74F30045E382 /* ground.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ground.obj; sourceTree = "<group>"; };
 		B2ED6FE024AE74F30045E382 /* large-plane.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "large-plane.obj"; sourceTree = "<group>"; };
+		B2EE235124D4AE0D003B6973 /* cube.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.obj; sourceTree = "<group>"; };
+		B2EE235224D4AE0E003B6973 /* cube.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.mtl; sourceTree = "<group>"; };
 		B2F7512F24D21845003EA0AD /* PBR.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = PBR.metal; sourceTree = "<group>"; };
 		B2F7513124D21901003EA0AD /* wheelbarrow.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = wheelbarrow.usdz; sourceTree = "<group>"; };
 		B2F7513324D21BD5003EA0AD /* cup_saucer_set.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = cup_saucer_set.usdz; sourceTree = "<group>"; };
@@ -160,7 +164,6 @@
 				B2F7512F24D21845003EA0AD /* PBR.metal */,
 				B2FAF0AA242BBCFA00A1D890 /* VertexDescriptor.swift */,
 				B2F7514824D22660003EA0AD /* Animation Support */,
-				B2ED6FDC24AE74F30045E382 /* Ground */,
 				B22293D2242AA6D80059218C /* SceneSets */,
 				B206E87924240B1C0019832E /* Renderer */,
 				B2236E99241AD3F80079C1A0 /* GameViewController.swift */,
@@ -201,6 +204,7 @@
 		B2F7514024D222D8003EA0AD /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B2ED6FDC24AE74F30045E382 /* Ground */,
 				B2F7514724D22314003EA0AD /* train */,
 				B2F7513324D21BD5003EA0AD /* cup_saucer_set.usdz */,
 				B2F7513124D21901003EA0AD /* wheelbarrow.usdz */,
@@ -211,6 +215,8 @@
 		B2F7514724D22314003EA0AD /* train */ = {
 			isa = PBXGroup;
 			children = (
+				B2EE235224D4AE0E003B6973 /* cube.mtl */,
+				B2EE235124D4AE0D003B6973 /* cube.obj */,
 				B2F7514224D2230C003EA0AD /* train-color.png */,
 				B2F7514324D2230C003EA0AD /* train.mtl */,
 				B2F7514124D2230C003EA0AD /* train.obj */,
@@ -291,8 +297,10 @@
 				B2236EA4241AD3FB0079C1A0 /* LaunchScreen.storyboard in Resources */,
 				B2F7514524D2230C003EA0AD /* train-color.png in Resources */,
 				B2F7514624D2230C003EA0AD /* train.mtl in Resources */,
+				B2EE235324D4AE0E003B6973 /* cube.obj in Resources */,
 				B2236EA1241AD3FB0079C1A0 /* Assets.xcassets in Resources */,
 				B2F7513424D21BD5003EA0AD /* cup_saucer_set.usdz in Resources */,
+				B2EE235424D4AE0E003B6973 /* cube.mtl in Resources */,
 				B2ED6FE124AE74F30045E382 /* large-plane.mtl in Resources */,
 				B2236E9F241AD3F80079C1A0 /* Main.storyboard in Resources */,
 				B2ED6FE324AE74F30045E382 /* ground.obj in Resources */,
