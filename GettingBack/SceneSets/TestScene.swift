@@ -80,7 +80,12 @@ class TestScene: Scene {
         cup.scale = [0.1,0.1,0.1]
         cup.name = "Cup"
         
+       // let toyCar = Model(name: "toy_car.usdz")
         
+//        toyCar.position = [0,2,4]
+//        toyCar.scale = [0.1,0.1,0.1]
+//        toyCar.name = "toyCar"
+//        add(node: toyCar)
         
         add(node: train)
         

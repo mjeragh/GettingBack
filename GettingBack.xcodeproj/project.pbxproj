@@ -34,6 +34,7 @@
 		B2ED6FE424AE74F30045E382 /* large-plane.obj in Resources */ = {isa = PBXBuildFile; fileRef = B2ED6FE024AE74F30045E382 /* large-plane.obj */; };
 		B2EE235324D4AE0E003B6973 /* cube.obj in Resources */ = {isa = PBXBuildFile; fileRef = B2EE235124D4AE0D003B6973 /* cube.obj */; };
 		B2EE235424D4AE0E003B6973 /* cube.mtl in Resources */ = {isa = PBXBuildFile; fileRef = B2EE235224D4AE0E003B6973 /* cube.mtl */; };
+		B2EE236924D4B635003B6973 /* toy_car.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B2EE236824D4B635003B6973 /* toy_car.usdz */; };
 		B2F7513024D21845003EA0AD /* PBR.metal in Sources */ = {isa = PBXBuildFile; fileRef = B2F7512F24D21845003EA0AD /* PBR.metal */; };
 		B2F7513224D21901003EA0AD /* wheelbarrow.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B2F7513124D21901003EA0AD /* wheelbarrow.usdz */; };
 		B2F7513424D21BD5003EA0AD /* cup_saucer_set.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B2F7513324D21BD5003EA0AD /* cup_saucer_set.usdz */; };
@@ -83,6 +84,7 @@
 		B2ED6FE024AE74F30045E382 /* large-plane.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "large-plane.obj"; sourceTree = "<group>"; };
 		B2EE235124D4AE0D003B6973 /* cube.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.obj; sourceTree = "<group>"; };
 		B2EE235224D4AE0E003B6973 /* cube.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.mtl; sourceTree = "<group>"; };
+		B2EE236824D4B635003B6973 /* toy_car.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = toy_car.usdz; sourceTree = "<group>"; };
 		B2F7512F24D21845003EA0AD /* PBR.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = PBR.metal; sourceTree = "<group>"; };
 		B2F7513124D21901003EA0AD /* wheelbarrow.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = wheelbarrow.usdz; sourceTree = "<group>"; };
 		B2F7513324D21BD5003EA0AD /* cup_saucer_set.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = cup_saucer_set.usdz; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 				B2ED6FDC24AE74F30045E382 /* Ground */,
 				B2F7514724D22314003EA0AD /* train */,
 				B2F7513324D21BD5003EA0AD /* cup_saucer_set.usdz */,
+				B2EE236824D4B635003B6973 /* toy_car.usdz */,
 				B2F7513124D21901003EA0AD /* wheelbarrow.usdz */,
 			);
 			path = Models;
@@ -308,6 +311,7 @@
 				B2ED6FE224AE74F30045E382 /* ground.mtl in Resources */,
 				B2F7513224D21901003EA0AD /* wheelbarrow.usdz in Resources */,
 				B2ED6FE424AE74F30045E382 /* large-plane.obj in Resources */,
+				B2EE236924D4B635003B6973 /* toy_car.usdz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
