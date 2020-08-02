@@ -47,7 +47,7 @@ class TestScene: Scene {
         sphere.material.roughness = 0
         sphere.material.shininess = 0.4
         sphere.material.specularColor = [0,0,0]
-        sphere.material.secondColor = [1.0,0,1.0]
+        sphere.material.secondColor = [0.0,0,1.0]
         sphere.material.ambientOcclusion = [0,0,0]
         sphere.material.gradient = radial
         sphere.name = "sun"
@@ -80,12 +80,12 @@ class TestScene: Scene {
         cup.scale = [0.1,0.1,0.1]
         cup.name = "Cup"
         
-       // let toyCar = Model(name: "toy_car.usdz")
+        let toyCar = Model(name: "toy_car.usdz")
         
-//        toyCar.position = [0,2,4]
-//        toyCar.scale = [0.1,0.1,0.1]
-//        toyCar.name = "toyCar"
-//        add(node: toyCar)
+        toyCar.position = [0,2,4]
+        toyCar.scale = [0.1,0.1,0.1]
+        toyCar.name = "toyCar"
+        add(node: toyCar)
         
         add(node: train)
         
@@ -108,6 +108,7 @@ class TestScene: Scene {
         currentCameraIndex = 0
         (cameras[0] as! ArcballCamera).distance = 15
         (cameras[0] as! ArcballCamera).rotation.x = Float(-10).degreesToRadians
+        
         
         
         

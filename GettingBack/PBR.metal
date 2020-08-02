@@ -116,30 +116,70 @@ fragment float4 fragment_mainPBR(VertexOut in [[stage_in]],
   normal = normalize(normal);
   
   float3 viewDirection = normalize(fragmentUniforms.cameraPosition - in.worldPosition);
+    
+    float4 finalColor = float4(0);
+    float3 diffuseColor = float3(0);
+    
+    for (uint i = 0; i < fragmentUniforms.lightCount; i++){
+        Light light = lights[i];
+          float3 lightDirection = normalize(light.position);
+          lightDirection = light.position;
+          
+          // all the necessary components are in place
+          Lighting lighting;
+          lighting.lightDirection = lightDirection;
+          lighting.viewDirection = viewDirection;
+          lighting.baseColor = baseColor;
+          lighting.normal = normal;
+          lighting.metallic = metallic;
+          lighting.roughness = roughness;
+          lighting.ambientOcclusion = ambientOcclusion;
+          lighting.lightColor = light.color;
+          
+        if (light.type == Sunlight) {//Directional Light
+            float3 specularOutput = render(lighting);
+            
+            // compute Lambertian diffuse
+            float nDotl = max(0.001, saturate(dot(lighting.normal, lighting.lightDirection)));
+            diffuseColor += light.color * baseColor * nDotl * ambientOcclusion;
+            diffuseColor *= 1.0 - metallic;
+            
+            finalColor += float4(specularOutput + diffuseColor, 1.0);
+        } else if (light.type == Ambientlight){
+            
+            finalColor += float4(light.color * light.intensity,1);
+        } else if (light.type == Pointlight) {
+            float d = distance(light.position, in.worldPosition);
+            float3 lightDirection = normalize(in.worldPosition - light.position);
+            float attenuation = 1.0 / (light.attenuation.x +
+                                       light.attenuation.y * d + light.attenuation.z * d * d);
+            
+            float diffuseIntensity =
+            saturate(-dot(lightDirection, lighting.normal));
+            float3 color = light.color * baseColor * diffuseIntensity;
+            color *= attenuation;
+            diffuseColor += color;
+            finalColor += float4(diffuseColor,1);
+          } else if (light.type == Spotlight) {
+            float d = distance(light.position, in.worldPosition);
+            float3 lightDirection = normalize(in.worldPosition - light.position);
+            float3 coneDirection = normalize(light.coneDirection);
+            float spotResult = dot(lightDirection, coneDirection);
+            if (spotResult > cos(light.coneAngle)) {
+              float attenuation = 1.0 / (light.attenuation.x +
+                                         light.attenuation.y * d + light.attenuation.z * d * d);
+              attenuation *= pow(spotResult, light.coneAttenuation);
+              float diffuseIntensity =
+              saturate(dot(-lightDirection, lighting.normal));
+              float3 color = light.color * baseColor * diffuseIntensity;
+              color *= attenuation;
+              diffuseColor += color;
+                finalColor += float4(diffuseColor,1);
+            }
+          }
+          
+    }
   
-  Light light = lights[0];
-  float3 lightDirection = normalize(light.position);
-  lightDirection = light.position;
-  
-  // all the necessary components are in place
-  Lighting lighting;
-  lighting.lightDirection = lightDirection;
-  lighting.viewDirection = viewDirection;
-  lighting.baseColor = baseColor;
-  lighting.normal = normal;
-  lighting.metallic = metallic;
-  lighting.roughness = roughness;
-  lighting.ambientOcclusion = ambientOcclusion;
-  lighting.lightColor = light.color;
-  
-  float3 specularOutput = render(lighting);
-  
-  // compute Lambertian diffuse
-  float nDotl = max(0.001, saturate(dot(lighting.normal, lighting.lightDirection)));
-  float3 diffuseColor = light.color * baseColor * nDotl * ambientOcclusion;
-  diffuseColor *= 1.0 - metallic;
-  
-  float4 finalColor = float4(specularOutput + diffuseColor, 1.0);
   return finalColor;
 }
 

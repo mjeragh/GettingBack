@@ -33,31 +33,33 @@ import Foundation
 
 struct Lighting {
   // Lights
-  let sunlight: Light = {
-    var light = Lighting.buildDefaultLight()
-    light.position = [0.4, 1, -2]
-    return light
-  }()
-  let ambientLight: Light = {
+//  let sunlight: Light = {
+//    var light = Lighting.buildDefaultLight()
+//    light.position = [0.4, 1, -2]
+//    return light
+//  }()
+  let spotLight: Light = {
     var light = Lighting.buildDefaultLight()
     light.color = [1, 1, 1]
-    light.intensity = 0.1
-    light.type = Ambientlight
+    light.intensity = 0.3
+    light.type = Pointlight
+    light.attenuation = float3(0.1,0.1,0.1)
+    light.position = [0,1,0]
     return light
   }()
-  let fillLight: Light = {
-    var light = Lighting.buildDefaultLight()
-    light.position = [0, -0.1, 0.4]
-    light.specularColor = [0, 0, 0]
-    light.color = [0.4, 0.4, 0.4]
-    return light
-  }()
+//  let fillLight: Light = {
+//    var light = Lighting.buildDefaultLight()
+//    light.position = [0, -0.1, 0.4]
+//    light.specularColor = [0, 0, 0]
+//    light.color = [0.4, 0.4, 0.4]
+//    return light
+//  }()
   
   let lights: [Light]
   let count: UInt32
   
   init() {
-    lights = [sunlight, ambientLight, fillLight]
+    lights = [ spotLight]
     count = UInt32(lights.count)
   }
   
