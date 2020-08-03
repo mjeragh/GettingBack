@@ -21,6 +21,10 @@
 		B2236EA1241AD3FB0079C1A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2236EA0241AD3FB0079C1A0 /* Assets.xcassets */; };
 		B2236EA4241AD3FB0079C1A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2236EA2241AD3FB0079C1A0 /* LaunchScreen.storyboard */; };
 		B2236EAC241D62710079C1A0 /* MathLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2236EAB241D62710079C1A0 /* MathLibrary.swift */; };
+		B26619BE24D89977003B75BB /* simpleMaterial.usda in Resources */ = {isa = PBXBuildFile; fileRef = B26619BD24D89977003B75BB /* simpleMaterial.usda */; };
+		B26619C024D8A10E003B75BB /* beachball.usda in Resources */ = {isa = PBXBuildFile; fileRef = B26619BF24D8A10E003B75BB /* beachball.usda */; };
+		B2A878AF24D8BB5D00AFC5E8 /* skeleton.usda in Resources */ = {isa = PBXBuildFile; fileRef = B2A878AE24D8BB5D00AFC5E8 /* skeleton.usda */; };
+		B2A878B124D8BD9D00AFC5E8 /* toy_drummer.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B2A878B024D8BD9D00AFC5E8 /* toy_drummer.usdz */; };
 		B2D9DE1624CCD17C00D9EDFD /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D9DE1524CCD17C00D9EDFD /* Plane.swift */; };
 		B2ED6FCF24AE57DE0045E382 /* Mesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2ED6FCE24AE57DE0045E382 /* Mesh.swift */; };
 		B2ED6FD124AE58130045E382 /* Submesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2ED6FD024AE58130045E382 /* Submesh.swift */; };
@@ -71,6 +75,10 @@
 		B2236EA3241AD3FB0079C1A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B2236EA5241AD3FB0079C1A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2236EAB241D62710079C1A0 /* MathLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathLibrary.swift; sourceTree = "<group>"; };
+		B26619BD24D89977003B75BB /* simpleMaterial.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = simpleMaterial.usda; sourceTree = "<group>"; };
+		B26619BF24D8A10E003B75BB /* beachball.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = beachball.usda; sourceTree = "<group>"; };
+		B2A878AE24D8BB5D00AFC5E8 /* skeleton.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = skeleton.usda; sourceTree = "<group>"; };
+		B2A878B024D8BD9D00AFC5E8 /* toy_drummer.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = toy_drummer.usdz; sourceTree = "<group>"; };
 		B2D9DE1524CCD17C00D9EDFD /* Plane.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
 		B2ED6FCE24AE57DE0045E382 /* Mesh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mesh.swift; path = "../../../../../../RayWenderlich/Metal_by_Tutorials_v2/07-maps-and-materials/projects/final/Materials/Materials/Mesh.swift"; sourceTree = "<group>"; };
 		B2ED6FD024AE58130045E382 /* Submesh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Submesh.swift; sourceTree = "<group>"; };
@@ -206,6 +214,10 @@
 		B2F7514024D222D8003EA0AD /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B2A878B024D8BD9D00AFC5E8 /* toy_drummer.usdz */,
+				B2A878AE24D8BB5D00AFC5E8 /* skeleton.usda */,
+				B26619BF24D8A10E003B75BB /* beachball.usda */,
+				B26619BD24D89977003B75BB /* simpleMaterial.usda */,
 				B2ED6FDC24AE74F30045E382 /* Ground */,
 				B2F7514724D22314003EA0AD /* train */,
 				B2F7513324D21BD5003EA0AD /* cup_saucer_set.usdz */,
@@ -297,13 +309,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B26619C024D8A10E003B75BB /* beachball.usda in Resources */,
 				B2236EA4241AD3FB0079C1A0 /* LaunchScreen.storyboard in Resources */,
 				B2F7514524D2230C003EA0AD /* train-color.png in Resources */,
 				B2F7514624D2230C003EA0AD /* train.mtl in Resources */,
+				B2A878B124D8BD9D00AFC5E8 /* toy_drummer.usdz in Resources */,
 				B2EE235324D4AE0E003B6973 /* cube.obj in Resources */,
+				B2A878AF24D8BB5D00AFC5E8 /* skeleton.usda in Resources */,
 				B2236EA1241AD3FB0079C1A0 /* Assets.xcassets in Resources */,
 				B2F7513424D21BD5003EA0AD /* cup_saucer_set.usdz in Resources */,
 				B2EE235424D4AE0E003B6973 /* cube.mtl in Resources */,
+				B26619BE24D89977003B75BB /* simpleMaterial.usda in Resources */,
 				B2ED6FE124AE74F30045E382 /* large-plane.mtl in Resources */,
 				B2236E9F241AD3F80079C1A0 /* Main.storyboard in Resources */,
 				B2ED6FE324AE74F30045E382 /* ground.obj in Resources */,

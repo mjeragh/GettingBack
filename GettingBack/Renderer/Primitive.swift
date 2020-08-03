@@ -40,7 +40,7 @@ class Primitive : Node {
     let vertexBuffer: MTLBuffer
     let mesh: MTKMesh
     let pipelineState: MTLRenderPipelineState
-    //let debugBoundingBox: DebugBoundingBox
+    let debugBoundingBox: DebugBoundingBox
     
     
     
@@ -75,7 +75,7 @@ class Primitive : Node {
         
         
         pipelineState = Primitive.buildPipelineState(vertexDescriptor: mdlMesh.vertexDescriptor)
-        //debugBoundingBox = DebugBoundingBox(boundingBox: mdlMesh.boundingBox)
+        debugBoundingBox = DebugBoundingBox(boundingBox: mdlMesh.boundingBox)
         
         super.init()
         self.name = name
@@ -116,7 +116,9 @@ extension Primitive : Renderable {
         for submesh in mesh.submeshes{
             renderEncoder.drawIndexedPrimitives(type: .triangle, indexCount: submesh.indexCount, indexType: submesh.indexType, indexBuffer: submesh.indexBuffer.buffer, indexBufferOffset: submesh.indexBuffer.offset)
         }
-        
+        if debugRenderBoundingBox {
+          debugBoundingBox.render(renderEncoder: renderEncoder, uniforms: uniforms)
+        }
     }
     
     
