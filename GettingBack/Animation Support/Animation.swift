@@ -72,7 +72,7 @@ struct Animation {
       (nextKey.time - previousKey.time)
     return simd_mix(previousKey.value,
                     nextKey.value,
-                    float3(repeating: interpolant)) 
+                    float3(repeating: interpolant))
   }
   
   func getRotation(at time: Float) -> simd_quatf? {

@@ -15,7 +15,7 @@ import OSLog
 let debugRenderBoundingBox = true
 
 class TestScene: Scene {
-    var currentTime = Float(0)
+    
     
     var commandBuffer : MTLCommandBuffer!
     var computePipelineState: MTLComputePipelineState!
@@ -53,7 +53,7 @@ class TestScene: Scene {
         sphere.material.ambientOcclusion = [0,0,0]
         sphere.material.gradient = radial
         sphere.name = "sun"
-        
+        add(node: sphere)
         
         
         box.position = [1,0,0]
@@ -66,40 +66,45 @@ class TestScene: Scene {
         box.material.specularColor = [0,1.0,0.0]
         box.material.ambientOcclusion = [1.0,1.0,1.0]
         box.name = "cube"
-        
-//        let wagon = Model(name: "wheelbarrow.usdz")
-//        wagon.position = [0,0,0]
-//        wagon.scale = [0.01,0.01,0.01]
-//        wagon.name = "Wagon"
+        add(node: box)
+                
+        let wagon = Model(name: "wheelbarrow.usdz")
+        wagon.position = [0,0,0]
+        wagon.scale = [0.01,0.01,0.01]
+        wagon.name = "Wagon"
+        add(node: wagon)
         
         let train = Model(name: "train.obj")
         train.name = "train"
         train.position = [0, -1, 4]
         train.rotation = [0, Float(45).degreesToRadians, 0]
+        add(node: train)
         
-        let beachball = Model(name: "beachball.usda")
-        beachball.position = [1,1,0]
-        beachball.scale = [2.1,2.1,2.1]
-        beachball.name = "beachball"
-        beachball.runAnimation(name: "bounce")
+//        let beachball = Model(name: "beachball.usda")
+//        beachball.position = [1,1,0]
+//        beachball.scale = [2.1,2.1,2.1]
+//        beachball.name = "beachball"
+//        beachball.animationPaused = false
+        //add(node: beachball)
+        
 //        let toyCar = Model(name: "toy_car.usdz")
 //
 //        toyCar.position = [0,2,4]
 //        toyCar.scale = [0.1,0.1,0.1]
 //        toyCar.name = "toyCar"
 //        add(node: toyCar)
-        let drummer = Model(name:"toy_drummer.usdz")
-        drummer.scale = [0.1,0.1,0.1]
-        drummer.name = "drummer"
+//        let drummer = Model(name:"toy_drummer.usdz")
+//        drummer.scale = [0.1,0.1,0.1]
+//        drummer.name = "drummer"
+//        drummer.animationPaused = false
+//        add(node: drummer)
+        
+       
         
         
-        add(node: train)
+       
         
-        add(node: box)
-        add(node: sphere)
-       add(node: drummer)
-      //  add(node: wagon)
-        add(node: beachball)
+        
         
         
         

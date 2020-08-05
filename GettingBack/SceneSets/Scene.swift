@@ -38,7 +38,7 @@ import MetalKit
 class Scene {
 //  let inputController = InputController()
 //  let physicsController = PhysicsController()
-  
+    var currentTime = Float(0)
     var touchPlane : Plane!
   var sceneSize: CGSize
   var cameras = [ArcballCamera(), Camera()]

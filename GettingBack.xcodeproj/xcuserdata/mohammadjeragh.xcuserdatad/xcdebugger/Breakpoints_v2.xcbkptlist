@@ -78,8 +78,8 @@
             filePath = "GettingBack/SceneSets/TestScene.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
             landmarkName = "updateScene(deltaTime:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -87,15 +87,63 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B7CE8300-EBBE-455A-A5FF-F97F05B85C87"
+            uuid = "857A9E34-DE09-43A5-B349-2FCBAA692E9A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GettingBack/SceneSets/Scene.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
+            landmarkName = "update(nodes:deltaTime:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "857A9E34-DE09-43A5-B349-2FCBAA692E9A - e9f645b8f79d7bb9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "GettingBack.Scene.(update in _DAB0E8D7133DCCEB4762511E2BB4A2F8)(nodes: Swift.Array&lt;GettingBack.Node&gt;, deltaTime: Swift.Float) -&gt; ()"
+                  moduleName = "GettingBack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mohammadjeragh/Dropbox/Source/Xcode/XCodeProjects/GettingBack/GettingBack/SceneSets/Scene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "100"
+                  endingLineNumber = "100"
+                  offsetFromSymbolStart = "52">
+               </Location>
+               <Location
+                  uuid = "857A9E34-DE09-43A5-B349-2FCBAA692E9A - e20f260dc345e575"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (GettingBack.Node) -&gt; () in GettingBack.Scene.(update in _DAB0E8D7133DCCEB4762511E2BB4A2F8)(nodes: Swift.Array&lt;GettingBack.Node&gt;, deltaTime: Swift.Float) -&gt; ()"
+                  moduleName = "GettingBack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mohammadjeragh/Dropbox/Source/Xcode/XCodeProjects/GettingBack/GettingBack/SceneSets/Scene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "101"
+                  endingLineNumber = "101"
+                  offsetFromSymbolStart = "40">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "00D3ADB1-5D35-482E-9928-FBF9E761D47A"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GettingBack/Renderer/Model.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
             landmarkName = "update(deltaTime:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -103,15 +151,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "AA2E8BD4-DE3A-4E7F-8DF4-6F2185C76E2B"
+            uuid = "DBCD370B-6BA8-4BDB-B97F-C1227C76CBE8"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GettingBack/Renderer/Model.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
             landmarkName = "update(deltaTime:)"
             landmarkType = "7">
          </BreakpointContent>
