@@ -99,6 +99,7 @@ extension MDLVertexDescriptor {
      
 
     vertexDescriptor.layouts[0] = MDLVertexBufferLayout(stride: offset)
+    //these two layout are for the bittangent
     vertexDescriptor.layouts[1] =
       MDLVertexBufferLayout(stride: MemoryLayout<float3>.stride)
     vertexDescriptor.layouts[2] =

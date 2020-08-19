@@ -23,6 +23,9 @@
 		B2236EAC241D62710079C1A0 /* MathLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2236EAB241D62710079C1A0 /* MathLibrary.swift */; };
 		B26619BE24D89977003B75BB /* simpleMaterial.usda in Resources */ = {isa = PBXBuildFile; fileRef = B26619BD24D89977003B75BB /* simpleMaterial.usda */; };
 		B26619C024D8A10E003B75BB /* beachball.usda in Resources */ = {isa = PBXBuildFile; fileRef = B26619BF24D8A10E003B75BB /* beachball.usda */; };
+		B27FD9DB24E0952400666042 /* blender.usda in Resources */ = {isa = PBXBuildFile; fileRef = B27FD9DA24E0952400666042 /* blender.usda */; };
+		B27FD9DD24E0991700666042 /* sphere.usda in Resources */ = {isa = PBXBuildFile; fileRef = B27FD9DC24E0991700666042 /* sphere.usda */; };
+		B27FD9E124E09C0E00666042 /* hw.usda in Resources */ = {isa = PBXBuildFile; fileRef = B27FD9E024E09C0E00666042 /* hw.usda */; };
 		B2A878AF24D8BB5D00AFC5E8 /* skeleton.usda in Resources */ = {isa = PBXBuildFile; fileRef = B2A878AE24D8BB5D00AFC5E8 /* skeleton.usda */; };
 		B2A878B124D8BD9D00AFC5E8 /* toy_drummer.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B2A878B024D8BD9D00AFC5E8 /* toy_drummer.usdz */; };
 		B2D9DE1624CCD17C00D9EDFD /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D9DE1524CCD17C00D9EDFD /* Plane.swift */; };
@@ -77,6 +80,9 @@
 		B2236EAB241D62710079C1A0 /* MathLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathLibrary.swift; sourceTree = "<group>"; };
 		B26619BD24D89977003B75BB /* simpleMaterial.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = simpleMaterial.usda; sourceTree = "<group>"; };
 		B26619BF24D8A10E003B75BB /* beachball.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = beachball.usda; sourceTree = "<group>"; };
+		B27FD9DA24E0952400666042 /* blender.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = blender.usda; sourceTree = "<group>"; };
+		B27FD9DC24E0991700666042 /* sphere.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.usda; sourceTree = "<group>"; };
+		B27FD9E024E09C0E00666042 /* hw.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = hw.usda; sourceTree = "<group>"; };
 		B2A878AE24D8BB5D00AFC5E8 /* skeleton.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = skeleton.usda; sourceTree = "<group>"; };
 		B2A878B024D8BD9D00AFC5E8 /* toy_drummer.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = toy_drummer.usdz; sourceTree = "<group>"; };
 		B2D9DE1524CCD17C00D9EDFD /* Plane.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
@@ -214,6 +220,9 @@
 		B2F7514024D222D8003EA0AD /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B27FD9E024E09C0E00666042 /* hw.usda */,
+				B27FD9DC24E0991700666042 /* sphere.usda */,
+				B27FD9DA24E0952400666042 /* blender.usda */,
 				B2A878B024D8BD9D00AFC5E8 /* toy_drummer.usdz */,
 				B2A878AE24D8BB5D00AFC5E8 /* skeleton.usda */,
 				B26619BF24D8A10E003B75BB /* beachball.usda */,
@@ -310,16 +319,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				B26619C024D8A10E003B75BB /* beachball.usda in Resources */,
+				B27FD9E124E09C0E00666042 /* hw.usda in Resources */,
 				B2236EA4241AD3FB0079C1A0 /* LaunchScreen.storyboard in Resources */,
 				B2F7514524D2230C003EA0AD /* train-color.png in Resources */,
 				B2F7514624D2230C003EA0AD /* train.mtl in Resources */,
 				B2A878B124D8BD9D00AFC5E8 /* toy_drummer.usdz in Resources */,
 				B2EE235324D4AE0E003B6973 /* cube.obj in Resources */,
 				B2A878AF24D8BB5D00AFC5E8 /* skeleton.usda in Resources */,
+				B27FD9DD24E0991700666042 /* sphere.usda in Resources */,
 				B2236EA1241AD3FB0079C1A0 /* Assets.xcassets in Resources */,
 				B2F7513424D21BD5003EA0AD /* cup_saucer_set.usdz in Resources */,
 				B2EE235424D4AE0E003B6973 /* cube.mtl in Resources */,
 				B26619BE24D89977003B75BB /* simpleMaterial.usda in Resources */,
+				B27FD9DB24E0952400666042 /* blender.usda in Resources */,
 				B2ED6FE124AE74F30045E382 /* large-plane.mtl in Resources */,
 				B2236E9F241AD3F80079C1A0 /* Main.storyboard in Resources */,
 				B2ED6FE324AE74F30045E382 /* ground.obj in Resources */,

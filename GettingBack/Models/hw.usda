@@ -1,0 +1,28 @@
+#usda 1.0
+
+def Xform "hello"
+{
+    def Sphere "world"
+    {
+	float3[] extent = [(-2, -2, -2), (2, 2, 2)]
+        rel material:binding = </_materials/Material>
+	double radius = 2
+    }
+}
+
+def "_materials"
+{
+    def Material "Material"
+    {
+        token outputs:surface.connect = </_materials/Material/previewShader.outputs:surface>
+
+        def Shader "previewShader"
+        {
+            uniform token info:id = "UsdPreviewSurface"
+            color3f inputs:diffuseColor = (0.0, 0.0, 1.0)
+            float inputs:metallic = 0
+            float inputs:roughness = 0.4
+            token outputs:surface
+        }
+    }
+}
