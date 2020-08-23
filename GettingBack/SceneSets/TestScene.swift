@@ -95,7 +95,7 @@ class TestScene: Scene {
 //        add(node: toyCar)
         
         let drummer = Model(name:"skeleton.usda")
-        //drummer.scale = [100,100,100]
+        drummer.scale = [100,100,100]
         drummer.rotation = [.pi / 2, .pi, 0]
         drummer.name = "drummer"
         drummer.runAnimation(name: "wave")
@@ -130,7 +130,7 @@ class TestScene: Scene {
         
     }
     override func updateScene(deltaTime: Float) {
-     currentTime += deltaTime
+//     currentTime += deltaTime
 
     }
     
