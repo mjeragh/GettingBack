@@ -26,6 +26,7 @@
 		B27FD9DB24E0952400666042 /* blender.usda in Resources */ = {isa = PBXBuildFile; fileRef = B27FD9DA24E0952400666042 /* blender.usda */; };
 		B27FD9DD24E0991700666042 /* sphere.usda in Resources */ = {isa = PBXBuildFile; fileRef = B27FD9DC24E0991700666042 /* sphere.usda */; };
 		B27FD9E124E09C0E00666042 /* hw.usda in Resources */ = {isa = PBXBuildFile; fileRef = B27FD9E024E09C0E00666042 /* hw.usda */; };
+		B2A68DAA24F306A3003B76BE /* skeletonWave.usda in Resources */ = {isa = PBXBuildFile; fileRef = B2A68DA924F306A3003B76BE /* skeletonWave.usda */; };
 		B2A878AF24D8BB5D00AFC5E8 /* skeleton.usda in Resources */ = {isa = PBXBuildFile; fileRef = B2A878AE24D8BB5D00AFC5E8 /* skeleton.usda */; };
 		B2A878B124D8BD9D00AFC5E8 /* toy_drummer.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B2A878B024D8BD9D00AFC5E8 /* toy_drummer.usdz */; };
 		B2D9DE1624CCD17C00D9EDFD /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D9DE1524CCD17C00D9EDFD /* Plane.swift */; };
@@ -83,6 +84,7 @@
 		B27FD9DA24E0952400666042 /* blender.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = blender.usda; sourceTree = "<group>"; };
 		B27FD9DC24E0991700666042 /* sphere.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.usda; sourceTree = "<group>"; };
 		B27FD9E024E09C0E00666042 /* hw.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = hw.usda; sourceTree = "<group>"; };
+		B2A68DA924F306A3003B76BE /* skeletonWave.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = skeletonWave.usda; sourceTree = "<group>"; };
 		B2A878AE24D8BB5D00AFC5E8 /* skeleton.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = skeleton.usda; sourceTree = "<group>"; };
 		B2A878B024D8BD9D00AFC5E8 /* toy_drummer.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = toy_drummer.usdz; sourceTree = "<group>"; };
 		B2D9DE1524CCD17C00D9EDFD /* Plane.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 		B2F7514024D222D8003EA0AD /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B2A68DA924F306A3003B76BE /* skeletonWave.usda */,
 				B27FD9E024E09C0E00666042 /* hw.usda */,
 				B27FD9DC24E0991700666042 /* sphere.usda */,
 				B27FD9DA24E0952400666042 /* blender.usda */,
@@ -324,6 +327,7 @@
 				B2F7514524D2230C003EA0AD /* train-color.png in Resources */,
 				B2F7514624D2230C003EA0AD /* train.mtl in Resources */,
 				B2A878B124D8BD9D00AFC5E8 /* toy_drummer.usdz in Resources */,
+				B2A68DAA24F306A3003B76BE /* skeletonWave.usda in Resources */,
 				B2EE235324D4AE0E003B6973 /* cube.obj in Resources */,
 				B2A878AF24D8BB5D00AFC5E8 /* skeleton.usda in Resources */,
 				B27FD9DD24E0991700666042 /* sphere.usda in Resources */,
