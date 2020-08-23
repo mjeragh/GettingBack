@@ -88,6 +88,10 @@ class Model: Node {
     })
     self.animations = animations
 
+    for animation in animations{
+        print("Animation: ", animation.key)
+    }
+    
     debugBoundingBox = DebugBoundingBox(boundingBox: asset.boundingBox)
 
     super.init()

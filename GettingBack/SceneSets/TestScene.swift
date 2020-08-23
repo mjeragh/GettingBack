@@ -74,11 +74,11 @@ class TestScene: Scene {
 //        wagon.name = "Wagon"
 //        add(node: wagon)
         
-        let train = Model(name: "train.obj")
-        train.name = "train"
-        train.position = [0, -1, 4]
-        train.rotation = [0, Float(45).degreesToRadians, 0]
-        add(node: train)
+//        let train = Model(name: "train.obj")
+//        train.name = "train"
+//        train.position = [0, -1, 4]
+//        train.rotation = [0, Float(45).degreesToRadians, 0]
+//        add(node: train)
         
 //        let beachball = Model(name: "beachball.usda")
 //        beachball.position = [1,1,0]
@@ -87,18 +87,20 @@ class TestScene: Scene {
 //        beachball.animationPaused = true
 //        add(node: beachball)
         
-        let toyCar = Model(name: "toy_car.usdz")
-
-        toyCar.position = [0,2,4]
-        toyCar.scale = [0.1,0.1,0.1]
-        toyCar.name = "toyCar"
-        add(node: toyCar)
+//        let toyCar = Model(name: "toy_car.usdz")
+//
+//        toyCar.position = [0,2,4]
+//        toyCar.scale = [0.1,0.1,0.1]
+//        toyCar.name = "toyCar"
+//        add(node: toyCar)
         
-//        let drummer = Model(name:"sphere.usda")
-//     //   drummer.scale = [0.1,0.1,0.1]
-//        drummer.name = "drummer"
-//        drummer.animationPaused = false
-//        add(node: drummer)
+        let drummer = Model(name:"skeleton.usda")
+        drummer.scale = [100,100,100]
+        drummer.rotation = [.pi / 2, .pi, 0]
+        drummer.name = "drummer"
+        drummer.runAnimation(name: "wave")
+        drummer.animationPaused = false
+        add(node: drummer)
         
        
         
@@ -128,8 +130,8 @@ class TestScene: Scene {
         
     }
     override func updateScene(deltaTime: Float) {
-//        currentTime += deltaTime
-//        for 
+     currentTime += deltaTime
+
     }
     
     //the function name should change to build buffers
