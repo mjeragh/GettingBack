@@ -78,10 +78,24 @@ struct AnimationComponent {
         return Keyframe(time: Float(time),
                         value: array[jointIndex])
       }
+      
+      let scaleTimes = animation.scales.times
+      if let lastTime = scaleTimes.last,
+        duration < Float(lastTime) {
+        duration = Float(lastTime)
+      }
+      jointAnimation.scales = scaleTimes.enumerated().map {
+        (index, time) in
+        let startIndex = index * animation.jointPaths.count
+        let endIndex = startIndex + animation.jointPaths.count
+        
+        let array = Array(animation.scales.float3Array[startIndex..<endIndex])
+        return Keyframe(time: Float(time),
+                        value: array[jointIndex])
+      }
+      
       animationClip.jointAnimation[jointPath] = jointAnimation
     }
     return animationClip
   }
-  
-  
 }

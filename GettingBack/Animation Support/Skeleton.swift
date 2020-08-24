@@ -81,7 +81,7 @@ struct Skeleton {
         animationClip.getPose(at: time * animationClip.speed,
                               jointPath: jointPath)
           ?? restTransforms[jointIndex]
-
+      
       let parentPose: float4x4
       if let parentIndex = parentIndices[jointIndex] {
         parentPose = poses[parentIndex]

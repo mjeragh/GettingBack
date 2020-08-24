@@ -31,7 +31,6 @@
 
 import MetalKit
 
-
 class Model: Node {
   
   let meshes: [Mesh]
@@ -95,10 +94,10 @@ class Model: Node {
     debugBoundingBox = DebugBoundingBox(boundingBox: asset.boundingBox)
 
     super.init()
-    let tmp = asset.boundingBox(atTime: 0)
-    self.nodeGPU.boundingBox.minBounds  = tmp.minBounds
-    self.nodeGPU.boundingBox.maxBounds  = tmp.maxBounds
-
+   // self.boundingBox = asset.boundingBox
+    let tmp = asset.boundingBox
+        self.nodeGPU.boundingBox.minBounds  = tmp.minBounds
+        self.nodeGPU.boundingBox.maxBounds  = tmp.maxBounds
     self.name = name
   }
   
