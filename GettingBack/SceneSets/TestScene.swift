@@ -98,7 +98,8 @@ class TestScene: Scene {
         drummer.scale = [100,100,100]
         drummer.rotation = [.pi / 2, .pi, 0]
         drummer.name = "drummer"
-        drummer.runAnimation(name: "wave")
+        drummer.runAnimation(name: "walk")
+        drummer.currentAnimation?.speed = 2.0
         drummer.animationPaused = false
         add(node: drummer)
         

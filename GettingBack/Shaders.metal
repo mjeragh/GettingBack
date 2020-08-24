@@ -18,6 +18,7 @@ using namespace metal;
 
 constant bool hasColorTexture [[function_constant(0)]];
 constant bool hasNormalTexture [[function_constant(1)]];
+constant bool hasSkeleton [[function_constant(5)]];
 
 
 struct VertexIn {
@@ -26,6 +27,8 @@ struct VertexIn {
   float2 uv [[attribute(UV)]];
   float3 tangent [[attribute(Tangent)]];
   float3 bitangent [[attribute(Bitangent)]];
+    ushort4 joints [[attribute(Joints)]];
+    float4 weights [[attribute(Weights)]];
 };
 
 
@@ -41,8 +44,39 @@ struct VertexOut {
 
 
 [[vertex]] VertexOut vertex_main(const VertexIn vertexIn [[stage_in]],
+                                 constant float4x4 *jointMatrices [[buffer(22), function_constant(hasSkeleton)]],
                              constant Uniforms &uniforms [[buffer(BufferIndexUniforms)]])
 {
+    float4 position = vertexIn.position;
+    float4 normal = float4(vertexIn.normal,0);
+    float4 tangent = float4(vertexIn.tangent,0);
+    float4 bitangent = float4(vertexIn.bitangent,0);
+    
+    if (hasSkeleton){
+        float4 weights = vertexIn.weights;
+        ushort4 joints = vertexIn.joints;
+        position=
+            weights.x * (jointMatrices[joints.x] * position) +
+            weights.y * (jointMatrices[joints.y] * position) +
+            weights.z * (jointMatrices[joints.z] * position) +
+            weights.w * (jointMatrices[joints.w] * position);
+        normal=
+            weights.x * (jointMatrices[joints.x] * normal) +
+            weights.y * (jointMatrices[joints.y] * normal) +
+            weights.z * (jointMatrices[joints.z] * normal) +
+            weights.w * (jointMatrices[joints.w] * normal);
+        tangent=
+            weights.x * (jointMatrices[joints.x] * tangent) +
+            weights.y * (jointMatrices[joints.y] * tangent) +
+            weights.z * (jointMatrices[joints.z] * tangent) +
+            weights.w * (jointMatrices[joints.w] * tangent);
+        bitangent=
+            weights.x * (jointMatrices[joints.x] * bitangent) +
+            weights.y * (jointMatrices[joints.y] * bitangent) +
+            weights.z * (jointMatrices[joints.z] * bitangent) +
+            weights.w * (jointMatrices[joints.w] * bitangent);
+    }
+    
   VertexOut out {
     .position = uniforms.projectionMatrix * uniforms.viewMatrix
     * uniforms.modelMatrix * vertexIn.position,
