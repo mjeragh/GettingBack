@@ -12,7 +12,7 @@ import MetalPerformanceShaders
 import MetalKit
 import OSLog
 
-let debugRenderBoundingBox = true
+let debugRenderBoundingBox = false
 
 class TestScene: Scene {
     
@@ -94,17 +94,24 @@ class TestScene: Scene {
 //        toyCar.name = "toyCar"
 //        add(node: toyCar)
         
-        let drummer = Model(name:"skeleton.usda")
-        drummer.scale = [100,100,100]
-        drummer.rotation = [.pi / 2, .pi, 0]
-        drummer.name = "drummer"
-        drummer.runAnimation(name: "walk")
-        drummer.currentAnimation?.speed = 2.0
-        drummer.animationPaused = false
-        add(node: drummer)
+//        let drummer = Model(name:"toy_drummer.usdz")
+//        //drummer.scale = [100,100,100]
+//        drummer.rotation = [0, .pi, 0]
+//        drummer.name = "drummer"
+//        drummer.runAnimation(name: "wave")
+//        drummer.currentAnimation?.speed = 2.0
+//        drummer.animationPaused = false
+//        add(node: drummer)
         
        
-        
+        let skeleton = Model(name:"skeleton.usda")
+       // skeleton.scale = [100,100,100]
+        skeleton.rotation = [0, .pi, 0]
+        skeleton.name = "skeleton"
+        skeleton.runAnimation(name: "walk")
+        skeleton.currentAnimation?.speed = 1.0
+        skeleton.animationPaused = false
+        add(node: skeleton)
         
        
         
