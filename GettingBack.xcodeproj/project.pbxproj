@@ -23,6 +23,7 @@
 		B2236EAC241D62710079C1A0 /* MathLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2236EAB241D62710079C1A0 /* MathLibrary.swift */; };
 		B26619BE24D89977003B75BB /* simpleMaterial.usda in Resources */ = {isa = PBXBuildFile; fileRef = B26619BD24D89977003B75BB /* simpleMaterial.usda */; };
 		B26619C024D8A10E003B75BB /* beachball.usda in Resources */ = {isa = PBXBuildFile; fileRef = B26619BF24D8A10E003B75BB /* beachball.usda */; };
+		B274B02624FC39EF007BA3C5 /* Sea_Slug.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B274B02524FC39EF007BA3C5 /* Sea_Slug.usdz */; };
 		B27FD9DB24E0952400666042 /* blender.usda in Resources */ = {isa = PBXBuildFile; fileRef = B27FD9DA24E0952400666042 /* blender.usda */; };
 		B27FD9DD24E0991700666042 /* sphere.usda in Resources */ = {isa = PBXBuildFile; fileRef = B27FD9DC24E0991700666042 /* sphere.usda */; };
 		B27FD9E124E09C0E00666042 /* hw.usda in Resources */ = {isa = PBXBuildFile; fileRef = B27FD9E024E09C0E00666042 /* hw.usda */; };
@@ -81,6 +82,7 @@
 		B2236EAB241D62710079C1A0 /* MathLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathLibrary.swift; sourceTree = "<group>"; };
 		B26619BD24D89977003B75BB /* simpleMaterial.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = simpleMaterial.usda; sourceTree = "<group>"; };
 		B26619BF24D8A10E003B75BB /* beachball.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = beachball.usda; sourceTree = "<group>"; };
+		B274B02524FC39EF007BA3C5 /* Sea_Slug.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Sea_Slug.usdz; sourceTree = "<group>"; };
 		B27FD9DA24E0952400666042 /* blender.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = blender.usda; sourceTree = "<group>"; };
 		B27FD9DC24E0991700666042 /* sphere.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.usda; sourceTree = "<group>"; };
 		B27FD9E024E09C0E00666042 /* hw.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = hw.usda; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 		B2F7514024D222D8003EA0AD /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B274B02524FC39EF007BA3C5 /* Sea_Slug.usdz */,
 				B2A68DA924F306A3003B76BE /* skeletonWave.usda */,
 				B27FD9E024E09C0E00666042 /* hw.usda */,
 				B27FD9DC24E0991700666042 /* sphere.usda */,
@@ -341,6 +344,7 @@
 				B2ED6FE324AE74F30045E382 /* ground.obj in Resources */,
 				B2F7514424D2230C003EA0AD /* train.obj in Resources */,
 				B2ED6FE224AE74F30045E382 /* ground.mtl in Resources */,
+				B274B02624FC39EF007BA3C5 /* Sea_Slug.usdz in Resources */,
 				B2F7513224D21901003EA0AD /* wheelbarrow.usdz in Resources */,
 				B2ED6FE424AE74F30045E382 /* large-plane.obj in Resources */,
 				B2EE236924D4B635003B6973 /* toy_car.usdz in Resources */,

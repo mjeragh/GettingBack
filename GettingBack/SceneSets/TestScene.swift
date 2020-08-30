@@ -104,17 +104,23 @@ class TestScene: Scene {
 //        add(node: drummer)
         
        
-        let skeleton = Model(name:"skeleton.usda")
-       // skeleton.scale = [100,100,100]
-        skeleton.rotation = [0, .pi, 0]
-        skeleton.name = "skeleton"
-        skeleton.runAnimation(name: "walk")
-        skeleton.currentAnimation?.speed = 1.0
-        skeleton.animationPaused = false
-        add(node: skeleton)
+//        let skeleton = Model(name:"skeleton.usda")
+//       // skeleton.scale = [100,100,100]
+//        skeleton.rotation = [0, .pi, 0]
+//        skeleton.name = "skeleton"
+//        skeleton.runAnimation(name: "walk")
+//        skeleton.currentAnimation?.speed = 1.0
+//        skeleton.animationPaused = false
+//        add(node: skeleton)
         
        
-        
+        let seaSlug = Model(name: "Sea_Slug.usdz")
+        //seaSlug.rotation = [0, .pi, 0]
+        seaSlug.name = "seaSlug"
+        seaSlug.runAnimation(name: "CINEMA_4D_Main")
+        seaSlug.currentAnimation?.speed = 1.0
+        seaSlug.animationPaused = false
+        add(node: seaSlug)
         
         
         

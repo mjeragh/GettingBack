@@ -29,10 +29,10 @@ class GameViewController: UIViewController {
 
         
         renderer = Renderer(metalView: mtkView)
-        #if !DEBUG
+      
         scene = TestScene(sceneSize: mtkView.bounds.size)
         renderer.scene = scene
-        #endif
+        
     }
 }
 
