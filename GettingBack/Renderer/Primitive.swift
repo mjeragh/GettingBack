@@ -132,14 +132,15 @@ extension Primitive : Renderable {
             
             functionConstants.setConstantValue(&property, type: .bool, index: 3)
             functionConstants.setConstantValue(&property, type: .bool, index: 4)
-            
+            functionConstants.setConstantValue(&property, type: .bool, index: 5)
             return functionConstants
     }
     
     private static func buildPipelineState(vertexDescriptor: MDLVertexDescriptor) -> MTLRenderPipelineState {
         let functionConstants = makeFunctionConstants()
         let library = Renderer.library
-        let vertexFunction = library?.makeFunction(name: "vertex_main")
+        
+        let vertexFunction = try! library?.makeFunction(name: "vertex_main", constantValues: functionConstants)
         let fragmentFunction: MTLFunction?
         do {
             fragmentFunction = try library?.makeFunction(name: "fragment_main",

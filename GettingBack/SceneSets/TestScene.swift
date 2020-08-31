@@ -38,22 +38,22 @@ class TestScene: Scene {
     }
     
     override func setupScene() {
-//        let box, sphere : Primitive
-//        sphere = Primitive(shape: .sphere, size: 1.0)
-//        box = Primitive(shape: .cube, size: 1.0)
+        let box, sphere : Primitive
+        sphere = Primitive(shape: .sphere, size: 1.0)
+        box = Primitive(shape: .cube, size: 1.0)
 //        
-//        sphere.position = [1,0,10]
-//        //sphere.pivotPosition = [1,2,0]
-//        sphere.material.baseColor = [1.0, 0, 0]
-//        sphere.material.metallic = 0.0
-//        sphere.material.roughness = 0
-//        sphere.material.shininess = 0.4
-//        sphere.material.specularColor = [0,0,0]
-//        sphere.material.secondColor = [0.0,0,1.0]
-//        sphere.material.ambientOcclusion = [0,0,0]
-//        sphere.material.gradient = radial
-//        sphere.name = "sun"
-//        add(node: sphere)
+        sphere.position = [1,0,10]
+        //sphere.pivotPosition = [1,2,0]
+        sphere.material.baseColor = [1.0, 0, 0]
+        sphere.material.metallic = 0.0
+        sphere.material.roughness = 0
+        sphere.material.shininess = 0.4
+        sphere.material.specularColor = [0,0,0]
+        sphere.material.secondColor = [0.0,0,1.0]
+        sphere.material.ambientOcclusion = [0,0,0]
+        sphere.material.gradient = radial
+        sphere.name = "sun"
+        add(node: sphere)
 //        
 //        
 //        box.position = [1,0,0]
@@ -114,14 +114,14 @@ class TestScene: Scene {
 //        add(node: skeleton)
         
        
-        let seaSlug = Model(name: "Sea_Slug.usdz")
-        //seaSlug.rotation = [0, .pi, 0]
-        seaSlug.name = "seaSlug"
-        seaSlug.runAnimation(name: "CINEMA_4D_Main")
-        seaSlug.currentAnimation?.speed = 1.0
-        seaSlug.animationPaused = false
-        add(node: seaSlug)
-        
+//        let seaSlug = Model(name: "Sea_Slug.usdz")
+//        //seaSlug.rotation = [0, .pi, 0]
+//        seaSlug.name = "seaSlug"
+//        seaSlug.runAnimation(name: "CINEMA_4D_Main")
+//        seaSlug.currentAnimation?.speed = 1.0
+//        seaSlug.animationPaused = false
+//        add(node: seaSlug)
+//
         
         
         
