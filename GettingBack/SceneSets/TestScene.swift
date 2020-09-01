@@ -12,7 +12,7 @@ import MetalPerformanceShaders
 import MetalKit
 import OSLog
 
-let debugRenderBoundingBox = false
+let debugRenderBoundingBox = true
 
 class TestScene: Scene {
     
@@ -103,7 +103,7 @@ class TestScene: Scene {
 //        drummer.animationPaused = false
 //        add(node: drummer)
         
-       
+//
 //        let skeleton = Model(name:"skeleton.usda")
 //       // skeleton.scale = [100,100,100]
 //        skeleton.rotation = [0, .pi, 0]
@@ -114,13 +114,14 @@ class TestScene: Scene {
 //        add(node: skeleton)
         
        
-//        let seaSlug = Model(name: "Sea_Slug.usdz")
-//        //seaSlug.rotation = [0, .pi, 0]
-//        seaSlug.name = "seaSlug"
-//        seaSlug.runAnimation(name: "CINEMA_4D_Main")
-//        seaSlug.currentAnimation?.speed = 1.0
-//        seaSlug.animationPaused = false
-//        add(node: seaSlug)
+        let seaSlug = Model(name: "Sea_Slug.usdz")
+        //seaSlug.rotation = [0, .pi, 0]
+        //seaSlug.scale = [0.5, 0.5, 0.5]
+        seaSlug.name = "seaSlug"
+        seaSlug.runAnimation(name: "CINEMA_4D_Main")
+        seaSlug.currentAnimation?.speed = 1.0
+        seaSlug.animationPaused = false
+        add(node: seaSlug)
 //
         
         

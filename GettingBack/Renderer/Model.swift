@@ -90,14 +90,15 @@ class Model: Node {
     for animation in animations{
         print("Animation: ", animation.key)
     }
+    var tmp = asset.boundingBox
+    tmp.minBounds = tmp.minBounds / 30.0
+    tmp.maxBounds /= 30.0
+    debugBoundingBox = DebugBoundingBox(boundingBox: tmp)
     
-    debugBoundingBox = DebugBoundingBox(boundingBox: asset.boundingBox)
-
     super.init()
-   // self.boundingBox = asset.boundingBox
-    let tmp = asset.boundingBox
-        self.nodeGPU.boundingBox.minBounds  = tmp.minBounds
-        self.nodeGPU.boundingBox.maxBounds  = tmp.maxBounds
+  
+    nodeGPU.boundingBox.minBounds  = tmp.minBounds
+    nodeGPU.boundingBox.maxBounds  = tmp.maxBounds
     self.name = name
   }
   
