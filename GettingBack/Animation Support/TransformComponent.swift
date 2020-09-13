@@ -55,7 +55,7 @@ class TransformComponent {
       currentTransform = .identity()
       return
     }
-    let frame = Int(fmod(time, duration) * Float(Renderer.fps))
+    let frame = Int(fmod(time, duration) * Float(Renderer.fps)) //page 233 explained V2
     if frame < keyTransforms.count {
       currentTransform = keyTransforms[frame]
     } else {

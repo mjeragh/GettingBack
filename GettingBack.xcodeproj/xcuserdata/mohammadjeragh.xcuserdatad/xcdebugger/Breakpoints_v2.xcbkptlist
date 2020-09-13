@@ -14,25 +14,9 @@
             filePath = "GettingBack/SceneSets/Scene.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
             landmarkName = "update(nodes:deltaTime:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4F6E8BAB-FC94-4D11-AF25-CC3BD33B3289"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GettingBack/Animation Support/TransformComponent.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
-            landmarkName = "setCurrentTransform(at:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -71,22 +55,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "41C8A291-82C3-44E3-8B70-3DC3368D8701"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GettingBack/Animation Support/TransformComponent.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
-            landmarkName = "init(transform:object:startTime:endTime:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "2CBFA77A-CD06-48DA-AAD5-BAFCF06AFE13"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -110,8 +78,8 @@
             filePath = "GettingBack/SceneSets/TestScene.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "252"
-            endingLineNumber = "252"
+            startingLineNumber = "254"
+            endingLineNumber = "254"
             landmarkName = "unproject(at:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -126,8 +94,8 @@
             filePath = "GettingBack/SceneSets/TestScene.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
             landmarkName = "setupScene()"
             landmarkType = "7">
          </BreakpointContent>

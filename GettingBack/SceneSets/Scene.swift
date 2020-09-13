@@ -34,6 +34,7 @@ import Foundation
 import CoreGraphics
 import MetalPerformanceShaders
 import MetalKit
+import GameplayKit.GKStateMachine
 
 class Scene {
 //  let inputController = InputController()
@@ -52,6 +53,8 @@ class Scene {
     setupScene()
     sceneSizeWillChange(to: sceneSize)
   }
+    
+    
   
   let rootNode = Node()
   var renderables: [Renderable] = []

@@ -11,6 +11,8 @@ import CoreGraphics
 import MetalPerformanceShaders
 import MetalKit
 import OSLog
+import GameplayKit.GKStateMachine
+
 
 let debugRenderBoundingBox = true
 
@@ -114,7 +116,7 @@ class TestScene: Scene {
 //        add(node: skeleton)
         
        
-        let seaSlug = Model(name: "Sea_Slug.usdz")
+        let seaSlug = Model(name: "SS.usdz")
         //seaSlug.rotation = [0, .pi, 0]
         //seaSlug.scale = [0.5, 0.5, 0.5]
         seaSlug.name = "seaSlug"

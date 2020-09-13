@@ -35,6 +35,7 @@
 		B2D1C90624F436D4003EE313 /* AnimationComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D1C90124F436D4003EE313 /* AnimationComponent.swift */; };
 		B2D1C90724F436D4003EE313 /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D1C90224F436D4003EE313 /* Animation.swift */; };
 		B2D9DE1624CCD17C00D9EDFD /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D9DE1524CCD17C00D9EDFD /* Plane.swift */; };
+		B2E5B07B250EA9EC001CA46B /* ActionStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E5B07A250EA9EC001CA46B /* ActionStateMachine.swift */; };
 		B2ED6FCF24AE57DE0045E382 /* Mesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2ED6FCE24AE57DE0045E382 /* Mesh.swift */; };
 		B2ED6FD124AE58130045E382 /* Submesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2ED6FD024AE58130045E382 /* Submesh.swift */; };
 		B2ED6FD324AE582D0045E382 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2ED6FD224AE582D0045E382 /* Model.swift */; };
@@ -49,7 +50,7 @@
 		B2EE235424D4AE0E003B6973 /* cube.mtl in Resources */ = {isa = PBXBuildFile; fileRef = B2EE235224D4AE0E003B6973 /* cube.mtl */; };
 		B2EE236924D4B635003B6973 /* toy_car.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B2EE236824D4B635003B6973 /* toy_car.usdz */; };
 		B2F1D87A24FDAB29003CB5C1 /* Sea_Slug.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B2F1D87924FDAB29003CB5C1 /* Sea_Slug.usdz */; };
-		B2F1D87C24FEE8ED003CB5C1 /* SS.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B2F1D87B24FEE8ED003CB5C1 /* SS.usdz */; };
+		B2F1D88024FEE9DB003CB5C1 /* SS.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B2F1D87F24FEE9DB003CB5C1 /* SS.usdz */; };
 		B2F7513024D21845003EA0AD /* PBR.metal in Sources */ = {isa = PBXBuildFile; fileRef = B2F7512F24D21845003EA0AD /* PBR.metal */; };
 		B2F7513224D21901003EA0AD /* wheelbarrow.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B2F7513124D21901003EA0AD /* wheelbarrow.usdz */; };
 		B2F7513424D21BD5003EA0AD /* cup_saucer_set.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B2F7513324D21BD5003EA0AD /* cup_saucer_set.usdz */; };
@@ -95,6 +96,7 @@
 		B2D1C90124F436D4003EE313 /* AnimationComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationComponent.swift; sourceTree = "<group>"; };
 		B2D1C90224F436D4003EE313 /* Animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
 		B2D9DE1524CCD17C00D9EDFD /* Plane.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
+		B2E5B07A250EA9EC001CA46B /* ActionStateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionStateMachine.swift; sourceTree = "<group>"; };
 		B2ED6FCE24AE57DE0045E382 /* Mesh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mesh.swift; path = "../../../../../../RayWenderlich/Metal_by_Tutorials_v2/07-maps-and-materials/projects/final/Materials/Materials/Mesh.swift"; sourceTree = "<group>"; };
 		B2ED6FD024AE58130045E382 /* Submesh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Submesh.swift; sourceTree = "<group>"; };
 		B2ED6FD224AE582D0045E382 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
@@ -109,7 +111,7 @@
 		B2EE235224D4AE0E003B6973 /* cube.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.mtl; sourceTree = "<group>"; };
 		B2EE236824D4B635003B6973 /* toy_car.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = toy_car.usdz; sourceTree = "<group>"; };
 		B2F1D87924FDAB29003CB5C1 /* Sea_Slug.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Sea_Slug.usdz; sourceTree = "<group>"; };
-		B2F1D87B24FEE8ED003CB5C1 /* SS.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = SS.usdz; sourceTree = "<group>"; };
+		B2F1D87F24FEE9DB003CB5C1 /* SS.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = SS.usdz; sourceTree = "<group>"; };
 		B2F7512F24D21845003EA0AD /* PBR.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = PBR.metal; sourceTree = "<group>"; };
 		B2F7513124D21901003EA0AD /* wheelbarrow.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = wheelbarrow.usdz; sourceTree = "<group>"; };
 		B2F7513324D21BD5003EA0AD /* cup_saucer_set.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = cup_saucer_set.usdz; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 		B2236E88241AD3F80079C1A0 = {
 			isa = PBXGroup;
 			children = (
+				B2E5B07A250EA9EC001CA46B /* ActionStateMachine.swift */,
 				B2236E93241AD3F80079C1A0 /* GettingBack */,
 				B2236E92241AD3F80079C1A0 /* Products */,
 			);
@@ -226,7 +229,7 @@
 		B2F7514024D222D8003EA0AD /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B2F1D87B24FEE8ED003CB5C1 /* SS.usdz */,
+				B2F1D87F24FEE9DB003CB5C1 /* SS.usdz */,
 				B2F1D87924FDAB29003CB5C1 /* Sea_Slug.usdz */,
 				B2A68DA924F306A3003B76BE /* skeletonWave.usda */,
 				B27FD9E024E09C0E00666042 /* hw.usda */,
@@ -350,7 +353,7 @@
 				B2F1D87A24FDAB29003CB5C1 /* Sea_Slug.usdz in Resources */,
 				B2F7513224D21901003EA0AD /* wheelbarrow.usdz in Resources */,
 				B2ED6FE424AE74F30045E382 /* large-plane.obj in Resources */,
-				B2F1D87C24FEE8ED003CB5C1 /* SS.usdz in Resources */,
+				B2F1D88024FEE9DB003CB5C1 /* SS.usdz in Resources */,
 				B2EE236924D4B635003B6973 /* toy_car.usdz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -365,6 +368,7 @@
 				B2FAF0AB242BBCFA00A1D890 /* VertexDescriptor.swift in Sources */,
 				B206E87F242538620019832E /* Camera.swift in Sources */,
 				B2D1C90324F436D4003EE313 /* TransformComponent.swift in Sources */,
+				B2E5B07B250EA9EC001CA46B /* ActionStateMachine.swift in Sources */,
 				B2236E9C241AD3F80079C1A0 /* Shaders.metal in Sources */,
 				B2ED6FD524AE59910045E382 /* Renderable.swift in Sources */,
 				B2ED6FD924AE6C3B0045E382 /* Scene.swift in Sources */,

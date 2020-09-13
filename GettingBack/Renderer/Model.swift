@@ -90,9 +90,9 @@ class Model: Node {
     for animation in animations{
         print("Animation: ", animation.key)
     }
-    var tmp = asset.boundingBox
-    tmp.minBounds = tmp.minBounds / 30.0
-    tmp.maxBounds /= 30.0
+    let tmp = asset.boundingBox
+//    tmp.minBounds = tmp.minBounds / 30.0
+//    tmp.maxBounds /= 30.0
     debugBoundingBox = DebugBoundingBox(boundingBox: tmp)
     
     super.init()
