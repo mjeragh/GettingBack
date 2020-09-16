@@ -10,7 +10,8 @@ import Foundation
 import CoreGraphics
 import MetalPerformanceShaders
 import MetalKit
-import OSLog
+import os.log
+import os.signpost
 import GameplayKit.GKStateMachine
 
 
@@ -43,7 +44,7 @@ class TestScene: Scene {
         let box, sphere : Primitive
         sphere = Primitive(shape: .sphere, size: 1.0)
         box = Primitive(shape: .cube, size: 1.0)
-//        
+//
         sphere.position = [1,0,10]
         //sphere.pivotPosition = [1,2,0]
         sphere.material.baseColor = [1.0, 0, 0]
@@ -56,7 +57,7 @@ class TestScene: Scene {
         sphere.material.gradient = radial
         sphere.name = "sun"
         add(node: sphere)
-//        
+//
 //        
 //        box.position = [1,0,0]
 //        box.rotation = [0, Float(45).degreesToRadians, 0]
@@ -110,9 +111,9 @@ class TestScene: Scene {
 //       // skeleton.scale = [100,100,100]
 //        skeleton.rotation = [0, .pi, 0]
 //        skeleton.name = "skeleton"
-//        skeleton.runAnimation(name: "walk")
+//        skeleton.runAnimation(name: "idle")
 //        skeleton.currentAnimation?.speed = 1.0
-//        skeleton.animationPaused = false
+//       // skeleton.animationPaused = false
 //        add(node: skeleton)
         
        

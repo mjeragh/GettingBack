@@ -27,8 +27,8 @@
 		B27FD9DD24E0991700666042 /* sphere.usda in Resources */ = {isa = PBXBuildFile; fileRef = B27FD9DC24E0991700666042 /* sphere.usda */; };
 		B27FD9E124E09C0E00666042 /* hw.usda in Resources */ = {isa = PBXBuildFile; fileRef = B27FD9E024E09C0E00666042 /* hw.usda */; };
 		B2A68DAA24F306A3003B76BE /* skeletonWave.usda in Resources */ = {isa = PBXBuildFile; fileRef = B2A68DA924F306A3003B76BE /* skeletonWave.usda */; };
-		B2A878AF24D8BB5D00AFC5E8 /* skeleton.usda in Resources */ = {isa = PBXBuildFile; fileRef = B2A878AE24D8BB5D00AFC5E8 /* skeleton.usda */; };
 		B2A878B124D8BD9D00AFC5E8 /* toy_drummer.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B2A878B024D8BD9D00AFC5E8 /* toy_drummer.usdz */; };
+		B2B0834B25101985009FF931 /* Ray.metal in Sources */ = {isa = PBXBuildFile; fileRef = B2FE359824BB84B4001E6254 /* Ray.metal */; };
 		B2D1C90324F436D4003EE313 /* TransformComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D1C8FE24F436D4003EE313 /* TransformComponent.swift */; };
 		B2D1C90424F436D4003EE313 /* Skeleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D1C8FF24F436D4003EE313 /* Skeleton.swift */; };
 		B2D1C90524F436D4003EE313 /* AnimationClip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D1C90024F436D4003EE313 /* AnimationClip.swift */; };
@@ -36,6 +36,7 @@
 		B2D1C90724F436D4003EE313 /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D1C90224F436D4003EE313 /* Animation.swift */; };
 		B2D9DE1624CCD17C00D9EDFD /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D9DE1524CCD17C00D9EDFD /* Plane.swift */; };
 		B2E5B07B250EA9EC001CA46B /* ActionStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E5B07A250EA9EC001CA46B /* ActionStateMachine.swift */; };
+		B2E5B07F250F5A70001CA46B /* skeleton.usda in Resources */ = {isa = PBXBuildFile; fileRef = B2E5B07E250F5A70001CA46B /* skeleton.usda */; };
 		B2ED6FCF24AE57DE0045E382 /* Mesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2ED6FCE24AE57DE0045E382 /* Mesh.swift */; };
 		B2ED6FD124AE58130045E382 /* Submesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2ED6FD024AE58130045E382 /* Submesh.swift */; };
 		B2ED6FD324AE582D0045E382 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2ED6FD224AE582D0045E382 /* Model.swift */; };
@@ -61,7 +62,6 @@
 		B2F7515624D22C16003EA0AD /* DebugBoundingBox.metal in Sources */ = {isa = PBXBuildFile; fileRef = B2F7515424D22C16003EA0AD /* DebugBoundingBox.metal */; };
 		B2F7515C24D348E0003EA0AD /* Texturable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F7515B24D348E0003EA0AD /* Texturable.swift */; };
 		B2FAF0AB242BBCFA00A1D890 /* VertexDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FAF0AA242BBCFA00A1D890 /* VertexDescriptor.swift */; };
-		B2FE359924BB84B4001E6254 /* Ray.metal in Sources */ = {isa = PBXBuildFile; fileRef = B2FE359824BB84B4001E6254 /* Ray.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,7 +88,6 @@
 		B27FD9DC24E0991700666042 /* sphere.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.usda; sourceTree = "<group>"; };
 		B27FD9E024E09C0E00666042 /* hw.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = hw.usda; sourceTree = "<group>"; };
 		B2A68DA924F306A3003B76BE /* skeletonWave.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = skeletonWave.usda; sourceTree = "<group>"; };
-		B2A878AE24D8BB5D00AFC5E8 /* skeleton.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = skeleton.usda; sourceTree = "<group>"; };
 		B2A878B024D8BD9D00AFC5E8 /* toy_drummer.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = toy_drummer.usdz; sourceTree = "<group>"; };
 		B2D1C8FE24F436D4003EE313 /* TransformComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformComponent.swift; sourceTree = "<group>"; };
 		B2D1C8FF24F436D4003EE313 /* Skeleton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Skeleton.swift; sourceTree = "<group>"; };
@@ -97,6 +96,7 @@
 		B2D1C90224F436D4003EE313 /* Animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
 		B2D9DE1524CCD17C00D9EDFD /* Plane.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
 		B2E5B07A250EA9EC001CA46B /* ActionStateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionStateMachine.swift; sourceTree = "<group>"; };
+		B2E5B07E250F5A70001CA46B /* skeleton.usda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = skeleton.usda; sourceTree = "<group>"; };
 		B2ED6FCE24AE57DE0045E382 /* Mesh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mesh.swift; path = "../../../../../../RayWenderlich/Metal_by_Tutorials_v2/07-maps-and-materials/projects/final/Materials/Materials/Mesh.swift"; sourceTree = "<group>"; };
 		B2ED6FD024AE58130045E382 /* Submesh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Submesh.swift; sourceTree = "<group>"; };
 		B2ED6FD224AE582D0045E382 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
@@ -232,11 +232,11 @@
 				B2F1D87F24FEE9DB003CB5C1 /* SS.usdz */,
 				B2F1D87924FDAB29003CB5C1 /* Sea_Slug.usdz */,
 				B2A68DA924F306A3003B76BE /* skeletonWave.usda */,
+				B2E5B07E250F5A70001CA46B /* skeleton.usda */,
 				B27FD9E024E09C0E00666042 /* hw.usda */,
 				B27FD9DC24E0991700666042 /* sphere.usda */,
 				B27FD9DA24E0952400666042 /* blender.usda */,
 				B2A878B024D8BD9D00AFC5E8 /* toy_drummer.usdz */,
-				B2A878AE24D8BB5D00AFC5E8 /* skeleton.usda */,
 				B26619BF24D8A10E003B75BB /* beachball.usda */,
 				B26619BD24D89977003B75BB /* simpleMaterial.usda */,
 				B2ED6FDC24AE74F30045E382 /* Ground */,
@@ -338,7 +338,6 @@
 				B2A878B124D8BD9D00AFC5E8 /* toy_drummer.usdz in Resources */,
 				B2A68DAA24F306A3003B76BE /* skeletonWave.usda in Resources */,
 				B2EE235324D4AE0E003B6973 /* cube.obj in Resources */,
-				B2A878AF24D8BB5D00AFC5E8 /* skeleton.usda in Resources */,
 				B27FD9DD24E0991700666042 /* sphere.usda in Resources */,
 				B2236EA1241AD3FB0079C1A0 /* Assets.xcassets in Resources */,
 				B2F7513424D21BD5003EA0AD /* cup_saucer_set.usdz in Resources */,
@@ -350,6 +349,7 @@
 				B2ED6FE324AE74F30045E382 /* ground.obj in Resources */,
 				B2F7514424D2230C003EA0AD /* train.obj in Resources */,
 				B2ED6FE224AE74F30045E382 /* ground.mtl in Resources */,
+				B2E5B07F250F5A70001CA46B /* skeleton.usda in Resources */,
 				B2F1D87A24FDAB29003CB5C1 /* Sea_Slug.usdz in Resources */,
 				B2F7513224D21901003EA0AD /* wheelbarrow.usdz in Resources */,
 				B2ED6FE424AE74F30045E382 /* large-plane.obj in Resources */,
@@ -365,6 +365,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2B0834B25101985009FF931 /* Ray.metal in Sources */,
 				B2FAF0AB242BBCFA00A1D890 /* VertexDescriptor.swift in Sources */,
 				B206E87F242538620019832E /* Camera.swift in Sources */,
 				B2D1C90324F436D4003EE313 /* TransformComponent.swift in Sources */,
@@ -377,7 +378,6 @@
 				B2F7515C24D348E0003EA0AD /* Texturable.swift in Sources */,
 				B2236E9A241AD3F80079C1A0 /* GameViewController.swift in Sources */,
 				B206E87D242412870019832E /* Primitive.swift in Sources */,
-				B2FE359924BB84B4001E6254 /* Ray.metal in Sources */,
 				B2D1C90424F436D4003EE313 /* Skeleton.swift in Sources */,
 				B2ED6FCF24AE57DE0045E382 /* Mesh.swift in Sources */,
 				B2ED6FD324AE582D0045E382 /* Model.swift in Sources */,
