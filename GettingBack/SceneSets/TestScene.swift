@@ -24,8 +24,8 @@ class TestScene: Scene {
     var computePipelineState: MTLComputePipelineState!
     var computeEncoder: MTLComputeCommandEncoder!
     var nodeGPUBuffer : MTLBuffer!
-    let width : Float
-    let height : Float
+    var width : Float
+    var height : Float
     
     
     override init(sceneSize: CGSize) {
@@ -163,7 +163,8 @@ class TestScene: Scene {
     
     override func sceneSizeWillChange(to size: CGSize) {
         super.sceneSizeWillChange(to: size)
-        
+        width = Float(sceneSize.width)
+        height = Float(sceneSize.height)
         
     }
     

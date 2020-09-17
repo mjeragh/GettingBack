@@ -152,7 +152,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "3DEFB920-B553-422C-B22A-BD8D73FD24EE"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GettingBack/Renderer/Renderer.swift"
@@ -161,6 +161,22 @@
             startingLineNumber = "54"
             endingLineNumber = "54"
             landmarkName = "mtkView(_:drawableSizeWillChange:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A1476671-A03F-4ABF-BE00-5B571FFE268D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GettingBack/SceneSets/TestScene.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
+            landmarkName = "sceneSizeWillChange(to:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
